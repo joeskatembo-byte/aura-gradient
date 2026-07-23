@@ -38,13 +38,13 @@ export function Header() {
           <MegaNav
             icon={Info} label="À propos"
             items={aboutItems} open={open === "about"}
-            onEnter={() => setOpen("about")} onLeave={() => setOpen(null as any)}
+            onEnter={() => setOpen("about")} onLeave={() => setOpen(null)}
           />
           <NavIcon icon={HeartHandshake} label="Don" href="/don" />
           <MegaNav
             icon={Mail} label="Contact"
             items={contactItems} open={open === "contact"}
-            onEnter={() => setOpen("contact")} onLeave={() => setOpen(null as any)}
+            onEnter={() => setOpen("contact")} onLeave={() => setOpen(null)}
           />
           <NavIcon icon={UserPlus} label="Inscription" href="/inscription" highlight />
         </nav>
