@@ -20,7 +20,7 @@ const contactItems: MegaItem[] = [
 ];
 
 export function Header() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
