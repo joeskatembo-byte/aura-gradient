@@ -1,24 +1,40 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/home/Header";
+import { HeroBento } from "@/components/home/HeroBento";
+import { NewsStories } from "@/components/home/NewsStories";
+import { TieredCards } from "@/components/home/TieredCards";
+import { TestimoniesStack } from "@/components/home/TestimoniesStack";
+import { MediaNetflix } from "@/components/home/MediaNetflix";
+import { FaqAccordion } from "@/components/home/FaqAccordion";
+import { Footer } from "@/components/home/Footer";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Église Nouvelle Vie — Une maison de foi au cœur de la RDC" },
+      { name: "description", content: "Bienvenue à la maison. Cultes, séminaires, intercession, médias et communauté au service d'une foi vivante en République Démocratique du Congo." },
+      { property: "og:title", content: "Église Nouvelle Vie — Une maison de foi au cœur de la RDC" },
+      { property: "og:description", content: "Une seule église, plusieurs nations. Rejoignez notre communauté à Kinshasa et vivez la foi en action." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background text-foreground">
+      <Header />
+      <main>
+        <HeroBento />
+        <NewsStories />
+        <TieredCards />
+        <TestimoniesStack />
+        <MediaNetflix />
+        <FaqAccordion />
+      </main>
+      <Footer />
     </div>
   );
 }
