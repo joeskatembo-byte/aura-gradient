@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
+import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
 const AProposRoute = AProposRouteImport.update({
   id: '/a-propos',
@@ -28,28 +29,36 @@ const AProposIndexRoute = AProposIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AProposRoute,
 } as any)
+const AProposDepartementsRoute = AProposDepartementsRouteImport.update({
+  id: '/departements',
+  path: '/departements',
+  getParentRoute: () => AProposRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/': typeof AProposIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos': typeof AProposIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/': typeof AProposIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/a-propos' | '/a-propos/'
+  fullPaths: '/' | '/a-propos' | '/a-propos/departements' | '/a-propos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/a-propos'
-  id: '__root__' | '/' | '/a-propos' | '/a-propos/'
+  to: '/' | '/a-propos/departements' | '/a-propos'
+  id: '__root__' | '/' | '/a-propos' | '/a-propos/departements' | '/a-propos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,14 +89,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AProposIndexRouteImport
       parentRoute: typeof AProposRoute
     }
+    '/a-propos/departements': {
+      id: '/a-propos/departements'
+      path: '/departements'
+      fullPath: '/a-propos/departements'
+      preLoaderRoute: typeof AProposDepartementsRouteImport
+      parentRoute: typeof AProposRoute
+    }
   }
 }
 
 interface AProposRouteChildren {
+  AProposDepartementsRoute: typeof AProposDepartementsRoute
   AProposIndexRoute: typeof AProposIndexRoute
 }
 
 const AProposRouteChildren: AProposRouteChildren = {
+  AProposDepartementsRoute: AProposDepartementsRoute,
   AProposIndexRoute: AProposIndexRoute,
 }
 
