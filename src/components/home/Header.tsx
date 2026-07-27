@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Home, Info, HeartHandshake, Mail, UserPlus, Menu, X,
   ChevronDown, BookOpen, Users, CalendarDays, HandHelping, CalendarCheck, MessageCircle,
 } from "lucide-react";
 
-type MegaItem = { icon: React.ComponentType<{ className?: string }>; title: string; desc: string };
+type MegaItem = { icon: React.ComponentType<{ className?: string }>; title: string; desc: string; href?: string };
 
 const aboutItems: MegaItem[] = [
-  { icon: BookOpen, title: "Historique", desc: "Nos racines, notre mission, notre vision." },
-  { icon: Users, title: "Départements", desc: "Ministères, chorale, jeunesse, intercession." },
-  { icon: CalendarDays, title: "Programmes", desc: "Cultes, séminaires, camps et retraites." },
+  { icon: BookOpen, title: "Historique", desc: "Nos racines, notre mission, notre vision.", href: "/a-propos" },
+  { icon: Users, title: "Départements", desc: "Ministères, chorale, jeunesse, intercession.", href: "/a-propos/departements" },
+  { icon: CalendarDays, title: "Programmes", desc: "Cultes, séminaires, camps et retraites.", href: "/a-propos/programmes" },
 ];
 
 const contactItems: MegaItem[] = [
@@ -20,6 +20,7 @@ const contactItems: MegaItem[] = [
 ];
 
 export function Header() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -34,9 +35,9 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
-          <NavIcon icon={Home} label="Accueil" href="/" />
+          <NavIcon icon={Home} label="Accueil" href="/" active={pathname === "/"} />
           <MegaNav
-            icon={Info} label="À propos"
+            icon={Info} label="À propos" active={pathname.startsWith("/a-propos")}
             items={aboutItems} open={open === "about"}
             onEnter={() => setOpen("about")} onLeave={() => setOpen(null)}
           />
@@ -68,7 +69,7 @@ export function Header() {
           </div>
           <div className="flex flex-1 flex-col gap-2 p-4">
             <MobileLink icon={Home} label="Accueil" href="/" onClick={() => setMobileOpen(false)} />
-            <MobileGroup icon={Info} label="À propos" items={aboutItems} />
+            <MobileGroup icon={Info} label="À propos" items={aboutItems} active={pathname.startsWith("/a-propos")} onNavigate={() => setMobileOpen(false)} />
             <MobileLink icon={HeartHandshake} label="Don" href="/don" onClick={() => setMobileOpen(false)} />
             <MobileGroup icon={Mail} label="Contact" items={contactItems} />
             <MobileLink icon={UserPlus} label="Inscription" href="/inscription" onClick={() => setMobileOpen(false)} highlight />
@@ -79,12 +80,12 @@ export function Header() {
   );
 }
 
-function NavIcon({ icon: Icon, label, href, highlight }: { icon: any; label: string; href: string; highlight?: boolean }) {
+function NavIcon({ icon: Icon, label, href, highlight, active }: { icon: any; label: string; href: string; highlight?: boolean; active?: boolean }) {
   return (
     <Link
       to={href}
       className={`group flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all hover:bg-muted ${
-        highlight ? "instagram-animated text-white hover:opacity-90" : ""
+        highlight ? "instagram-animated text-white hover:opacity-90" : active ? "bg-muted text-foreground" : ""
       }`}
     >
       <Icon className="h-4 w-4" />
@@ -94,14 +95,21 @@ function NavIcon({ icon: Icon, label, href, highlight }: { icon: any; label: str
 }
 
 function MegaNav({
-  icon: Icon, label, items, open, onEnter, onLeave,
-}: { icon: any; label: string; items: MegaItem[]; open: boolean; onEnter: () => void; onLeave: () => void }) {
+  icon: Icon, label, items, open, onEnter, onLeave, active,
+}: { icon: any; label: string; items: MegaItem[]; open: boolean; onEnter: () => void; onLeave: () => void; active?: boolean }) {
   return (
     <div className="relative" onMouseEnter={onEnter} onMouseLeave={onLeave}>
-      <button className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all hover:bg-muted">
-        <Icon className="h-4 w-4" />
+      <button
+        onClick={open ? onLeave : onEnter}
+        aria-expanded={open}
+        className={`relative flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all hover:bg-muted ${active ? "bg-muted text-foreground" : ""}`}
+      >
+        <span className={`grid h-6 w-6 place-items-center rounded-lg transition-all ${active ? "instagram-animated text-white" : ""}`}>
+          <Icon className="h-4 w-4" />
+        </span>
         <span>{label}</span>
         <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+        {active && <span aria-hidden className="absolute inset-x-3 -bottom-[9px] h-0.5 rounded-full instagram-animated" />}
       </button>
       {open && (
         <div className="absolute left-1/2 top-full z-50 mt-2 w-[380px] -translate-x-1/2 animate-fade-in">
@@ -110,17 +118,27 @@ function MegaNav({
               {label} — accès rapide
             </div>
             <div className="grid gap-1">
-              {items.map((it) => (
-                <button key={it.title} className="flex items-start gap-3 rounded-xl p-3 text-left transition-all hover:bg-muted">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg instagram-animated text-white">
-                    <it.icon className="h-4 w-4" />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold">{it.title}</span>
-                    <span className="block text-xs text-muted-foreground">{it.desc}</span>
-                  </span>
-                </button>
-              ))}
+              {items.map((it) => {
+                const inner = (
+                  <>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg instagram-animated text-white transition-transform group-hover/item:scale-110">
+                      <it.icon className="h-4 w-4" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold">{it.title}</span>
+                      <span className="block text-xs text-muted-foreground">{it.desc}</span>
+                    </span>
+                  </>
+                );
+                const cls = "group/item flex items-start gap-3 rounded-xl p-3 text-left transition-all hover:translate-x-0.5 hover:bg-muted";
+                return it.href ? (
+                  <Link key={it.title} to={it.href} onClick={onLeave} className={cls}>
+                    {inner}
+                  </Link>
+                ) : (
+                  <button key={it.title} className={cls}>{inner}</button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -139,10 +157,10 @@ function MobileLink({ icon: Icon, label, href, onClick, highlight }: any) {
   );
 }
 
-function MobileGroup({ icon: Icon, label, items }: { icon: any; label: string; items: MegaItem[] }) {
+function MobileGroup({ icon: Icon, label, items, active, onNavigate }: { icon: any; label: string; items: MegaItem[]; active?: boolean; onNavigate?: () => void }) {
   const [o, setO] = useState(false);
   return (
-    <div className="rounded-xl border border-border bg-card">
+    <div className={`rounded-xl border bg-card ${active ? "border-primary/50 ring-1 ring-primary/30" : "border-border"}`}>
       <button onClick={() => setO(!o)} className="flex w-full items-center gap-3 px-4 py-3 text-base font-medium">
         <Icon className="h-5 w-5" />
         <span className="flex-1 text-left">{label}</span>
@@ -150,8 +168,8 @@ function MobileGroup({ icon: Icon, label, items }: { icon: any; label: string; i
       </button>
       {o && (
         <div className="grid gap-1 border-t border-border p-2">
-          {items.map((it) => (
-            <div key={it.title} className="flex items-start gap-3 rounded-lg p-3 hover:bg-muted">
+          {items.map((it) => {
+            const inner = (<>
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md instagram-animated text-white">
                 <it.icon className="h-4 w-4" />
               </span>
@@ -159,8 +177,14 @@ function MobileGroup({ icon: Icon, label, items }: { icon: any; label: string; i
                 <span className="block text-sm font-semibold">{it.title}</span>
                 <span className="block text-xs text-muted-foreground">{it.desc}</span>
               </span>
-            </div>
-          ))}
+            </>);
+            const cls = "flex items-start gap-3 rounded-lg p-3 hover:bg-muted";
+            return it.href ? (
+              <Link key={it.title} to={it.href} onClick={onNavigate} className={cls}>{inner}</Link>
+            ) : (
+              <div key={it.title} className={cls}>{inner}</div>
+            );
+          })}
         </div>
       )}
     </div>

@@ -9,38 +9,92 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
+import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
+import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
+const AProposRoute = AProposRouteImport.update({
+  id: '/a-propos',
+  path: '/a-propos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AProposIndexRoute = AProposIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AProposRoute,
+} as any)
+const AProposProgrammesRoute = AProposProgrammesRouteImport.update({
+  id: '/programmes',
+  path: '/programmes',
+  getParentRoute: () => AProposRoute,
+} as any)
+const AProposDepartementsRoute = AProposDepartementsRouteImport.update({
+  id: '/departements',
+  path: '/departements',
+  getParentRoute: () => AProposRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRouteWithChildren
+  '/a-propos/departements': typeof AProposDepartementsRoute
+  '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/a-propos/': typeof AProposIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a-propos/departements': typeof AProposDepartementsRoute
+  '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/a-propos': typeof AProposIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRouteWithChildren
+  '/a-propos/departements': typeof AProposDepartementsRoute
+  '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/a-propos/': typeof AProposIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/a-propos'
+    | '/a-propos/departements'
+    | '/a-propos/programmes'
+    | '/a-propos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/a-propos/departements' | '/a-propos/programmes' | '/a-propos'
+  id:
+    | '__root__'
+    | '/'
+    | '/a-propos'
+    | '/a-propos/departements'
+    | '/a-propos/programmes'
+    | '/a-propos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AProposRoute: typeof AProposRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/a-propos': {
+      id: '/a-propos'
+      path: '/a-propos'
+      fullPath: '/a-propos'
+      preLoaderRoute: typeof AProposRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +102,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/a-propos/': {
+      id: '/a-propos/'
+      path: '/'
+      fullPath: '/a-propos/'
+      preLoaderRoute: typeof AProposIndexRouteImport
+      parentRoute: typeof AProposRoute
+    }
+    '/a-propos/programmes': {
+      id: '/a-propos/programmes'
+      path: '/programmes'
+      fullPath: '/a-propos/programmes'
+      preLoaderRoute: typeof AProposProgrammesRouteImport
+      parentRoute: typeof AProposRoute
+    }
+    '/a-propos/departements': {
+      id: '/a-propos/departements'
+      path: '/departements'
+      fullPath: '/a-propos/departements'
+      preLoaderRoute: typeof AProposDepartementsRouteImport
+      parentRoute: typeof AProposRoute
+    }
   }
 }
 
+interface AProposRouteChildren {
+  AProposDepartementsRoute: typeof AProposDepartementsRoute
+  AProposProgrammesRoute: typeof AProposProgrammesRoute
+  AProposIndexRoute: typeof AProposIndexRoute
+}
+
+const AProposRouteChildren: AProposRouteChildren = {
+  AProposDepartementsRoute: AProposDepartementsRoute,
+  AProposProgrammesRoute: AProposProgrammesRoute,
+  AProposIndexRoute: AProposIndexRoute,
+}
+
+const AProposRouteWithChildren =
+  AProposRoute._addFileChildren(AProposRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AProposRoute: AProposRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
