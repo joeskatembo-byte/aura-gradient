@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
+import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
 import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
 const AProposRoute = AProposRouteImport.update({
@@ -29,6 +30,11 @@ const AProposIndexRoute = AProposIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AProposRoute,
 } as any)
+const AProposProgrammesRoute = AProposProgrammesRouteImport.update({
+  id: '/programmes',
+  path: '/programmes',
+  getParentRoute: () => AProposRoute,
+} as any)
 const AProposDepartementsRoute = AProposDepartementsRouteImport.update({
   id: '/departements',
   path: '/departements',
@@ -39,11 +45,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
   '/a-propos/departements': typeof AProposDepartementsRoute
+  '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
+  '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos': typeof AProposIndexRoute
 }
 export interface FileRoutesById {
@@ -51,14 +59,26 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
   '/a-propos/departements': typeof AProposDepartementsRoute
+  '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/a-propos' | '/a-propos/departements' | '/a-propos/'
+  fullPaths:
+    | '/'
+    | '/a-propos'
+    | '/a-propos/departements'
+    | '/a-propos/programmes'
+    | '/a-propos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/a-propos/departements' | '/a-propos'
-  id: '__root__' | '/' | '/a-propos' | '/a-propos/departements' | '/a-propos/'
+  to: '/' | '/a-propos/departements' | '/a-propos/programmes' | '/a-propos'
+  id:
+    | '__root__'
+    | '/'
+    | '/a-propos'
+    | '/a-propos/departements'
+    | '/a-propos/programmes'
+    | '/a-propos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -89,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AProposIndexRouteImport
       parentRoute: typeof AProposRoute
     }
+    '/a-propos/programmes': {
+      id: '/a-propos/programmes'
+      path: '/programmes'
+      fullPath: '/a-propos/programmes'
+      preLoaderRoute: typeof AProposProgrammesRouteImport
+      parentRoute: typeof AProposRoute
+    }
     '/a-propos/departements': {
       id: '/a-propos/departements'
       path: '/departements'
@@ -101,11 +128,13 @@ declare module '@tanstack/react-router' {
 
 interface AProposRouteChildren {
   AProposDepartementsRoute: typeof AProposDepartementsRoute
+  AProposProgrammesRoute: typeof AProposProgrammesRoute
   AProposIndexRoute: typeof AProposIndexRoute
 }
 
 const AProposRouteChildren: AProposRouteChildren = {
   AProposDepartementsRoute: AProposDepartementsRoute,
+  AProposProgrammesRoute: AProposProgrammesRoute,
   AProposIndexRoute: AProposIndexRoute,
 }
 
