@@ -421,8 +421,12 @@ export type Database = {
           department_id: string | null
           emergency_contact: string | null
           first_name: string
+          first_slug: string | null
           id: string
           last_name: string
+          last_slug: string | null
+          login_email: string | null
+          login_slug: string | null
           marital_status: string | null
           parcelle: string | null
           phone: string | null
@@ -438,8 +442,12 @@ export type Database = {
           department_id?: string | null
           emergency_contact?: string | null
           first_name?: string
+          first_slug?: string | null
           id: string
           last_name?: string
+          last_slug?: string | null
+          login_email?: string | null
+          login_slug?: string | null
           marital_status?: string | null
           parcelle?: string | null
           phone?: string | null
@@ -455,8 +463,12 @@ export type Database = {
           department_id?: string | null
           emergency_contact?: string | null
           first_name?: string
+          first_slug?: string | null
           id?: string
           last_name?: string
+          last_slug?: string | null
+          login_email?: string | null
+          login_slug?: string | null
           marital_status?: string | null
           parcelle?: string | null
           phone?: string | null
@@ -658,6 +670,7 @@ export type Database = {
       }
       is_admin: { Args: never; Returns: boolean }
       leads_department: { Args: { _dept: string }; Returns: boolean }
+      resolve_login: { Args: { _name: string }; Returns: string }
     }
     Enums: {
       app_role: "berger" | "chef_departement" | "fidele"
