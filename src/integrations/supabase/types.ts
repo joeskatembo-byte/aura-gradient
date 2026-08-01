@@ -14,16 +14,654 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      announcements: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          created_by: string | null
+          department_id: string | null
+          id: string
+          letter: string
+          published_at: string
+          title: string
+        }
+        Insert: {
+          category?: string
+          content: string
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          id?: string
+          letter?: string
+          published_at?: string
+          title: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          id?: string
+          letter?: string
+          published_at?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "announcements_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      appointments: {
+        Row: {
+          anonymous: boolean
+          created_at: string
+          details: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          preferred_date: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          subject: string
+        }
+        Insert: {
+          anonymous?: boolean
+          created_at?: string
+          details?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          preferred_date?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          subject: string
+        }
+        Update: {
+          anonymous?: boolean
+          created_at?: string
+          details?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          preferred_date?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          subject?: string
+        }
+        Relationships: []
+      }
+      contact_messages: {
+        Row: {
+          anonymous: boolean
+          created_at: string
+          full_name: string | null
+          id: string
+          message: string
+          phone: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          subject: string
+        }
+        Insert: {
+          anonymous?: boolean
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          message: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          subject: string
+        }
+        Update: {
+          anonymous?: boolean
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          message?: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          subject?: string
+        }
+        Relationships: []
+      }
+      departments: {
+        Row: {
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          letter: string
+          mission: string | null
+          name: string
+          slug: string
+          updated_at: string
+          urgent_schedule: string | null
+          usual_schedule: string | null
+          vision: string | null
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          letter?: string
+          mission?: string | null
+          name: string
+          slug: string
+          updated_at?: string
+          urgent_schedule?: string | null
+          usual_schedule?: string | null
+          vision?: string | null
+        }
+        Update: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          letter?: string
+          mission?: string | null
+          name?: string
+          slug?: string
+          updated_at?: string
+          urgent_schedule?: string | null
+          usual_schedule?: string | null
+          vision?: string | null
+        }
+        Relationships: []
+      }
+      donations: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          donor_name: string | null
+          id: string
+          message: string | null
+          method: string
+          project_id: string | null
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          donor_name?: string | null
+          id?: string
+          message?: string | null
+          method?: string
+          project_id?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          donor_name?: string | null
+          id?: string
+          message?: string | null
+          method?: string
+          project_id?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "finance_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      finance_projects: {
+        Row: {
+          budget_raised: number
+          budget_total: number
+          created_at: string
+          description: string
+          id: string
+          image_url: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          budget_raised?: number
+          budget_total?: number
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          budget_raised?: number
+          budget_total?: number
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      media_items: {
+        Row: {
+          category: string
+          created_at: string
+          created_by: string | null
+          department_id: string | null
+          description: string | null
+          id: string
+          likes_count: number
+          media_url: string | null
+          story: string | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          description?: string | null
+          id?: string
+          likes_count?: number
+          media_url?: string | null
+          story?: string | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          description?: string | null
+          id?: string
+          likes_count?: number
+          media_url?: string | null
+          story?: string | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_items_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      media_likes: {
+        Row: {
+          created_at: string
+          id: string
+          media_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          media_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          media_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_likes_media_id_fkey"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      participation_rates: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          department_id: string
+          id: string
+          note: string | null
+          period: string
+          rate: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          department_id: string
+          id?: string
+          note?: string | null
+          period: string
+          rate: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          department_id?: string
+          id?: string
+          note?: string | null
+          period?: string
+          rate?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "participation_rates_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prayer_requests: {
+        Row: {
+          anonymous: boolean
+          answered_at: string | null
+          created_at: string
+          details: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          subject: string
+        }
+        Insert: {
+          anonymous?: boolean
+          answered_at?: string | null
+          created_at?: string
+          details?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          subject: string
+        }
+        Update: {
+          anonymous?: boolean
+          answered_at?: string | null
+          created_at?: string
+          details?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          subject?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avenue: string | null
+          birth_date: string | null
+          children_count: number
+          commune: string | null
+          created_at: string
+          department_id: string | null
+          emergency_contact: string | null
+          first_name: string
+          id: string
+          last_name: string
+          marital_status: string | null
+          parcelle: string | null
+          phone: string | null
+          photo_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          avenue?: string | null
+          birth_date?: string | null
+          children_count?: number
+          commune?: string | null
+          created_at?: string
+          department_id?: string | null
+          emergency_contact?: string | null
+          first_name?: string
+          id: string
+          last_name?: string
+          marital_status?: string | null
+          parcelle?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avenue?: string | null
+          birth_date?: string | null
+          children_count?: number
+          commune?: string | null
+          created_at?: string
+          department_id?: string | null
+          emergency_contact?: string | null
+          first_name?: string
+          id?: string
+          last_name?: string
+          marital_status?: string | null
+          parcelle?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      programs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          day_of_week: number | null
+          department_id: string | null
+          description: string | null
+          event_date: string | null
+          id: string
+          scope: string
+          start_time: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          day_of_week?: number | null
+          department_id?: string | null
+          description?: string | null
+          event_date?: string | null
+          id?: string
+          scope?: string
+          start_time?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          day_of_week?: number | null
+          department_id?: string | null
+          description?: string | null
+          event_date?: string | null
+          id?: string
+          scope?: string
+          start_time?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "programs_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      testimonies: {
+        Row: {
+          content: string
+          created_at: string
+          display_name: string
+          id: string
+          likes_count: number
+          photo_url: string | null
+          published: boolean
+          user_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          display_name: string
+          id?: string
+          likes_count?: number
+          photo_url?: string | null
+          published?: boolean
+          user_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          likes_count?: number
+          photo_url?: string | null
+          published?: boolean
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      testimony_likes: {
+        Row: {
+          created_at: string
+          id: string
+          testimony_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          testimony_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          testimony_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "testimony_likes_testimony_id_fkey"
+            columns: ["testimony_id"]
+            isOneToOne: false
+            referencedRelation: "testimonies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timeline_entries: {
+        Row: {
+          created_at: string
+          id: string
+          position: number
+          text: string
+          title: string
+          year: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          position?: number
+          text: string
+          title: string
+          year: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          position?: number
+          text?: string
+          title?: string
+          year?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          department_id: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          department_id?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          department_id?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: never; Returns: boolean }
+      leads_department: { Args: { _dept: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "berger" | "chef_departement" | "fidele"
+      request_status: "nouveau" | "en_cours" | "traite" | "rejete"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +788,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["berger", "chef_departement", "fidele"],
+      request_status: ["nouveau", "en_cours", "traite", "rejete"],
+    },
   },
 } as const
