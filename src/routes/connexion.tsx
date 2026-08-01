@@ -31,7 +31,7 @@ function ConnexionPage() {
     const loginSlug = `${slugify(form.last)}.${slugify(form.first)}`;
 
     let email = loginEmailFromSlug(loginSlug);
-    const { data: resolved } = await supabase.rpc("resolve_login", { _login: loginSlug });
+    const { data: resolved } = await supabase.rpc("resolve_login", { _name: loginSlug });
     if (typeof resolved === "string" && resolved.includes("@")) email = resolved;
 
     const { error } = await supabase.auth.signInWithPassword({ email, password: form.password });

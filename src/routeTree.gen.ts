@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as InscriptionRouteImport } from './routes/inscription'
 import { Route as DonRouteImport } from './routes/don'
+import { Route as ConnexionRouteImport } from './routes/connexion'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
@@ -25,6 +26,11 @@ const InscriptionRoute = InscriptionRouteImport.update({
 const DonRoute = DonRouteImport.update({
   id: '/don',
   path: '/don',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConnexionRoute = ConnexionRouteImport.update({
+  id: '/connexion',
+  path: '/connexion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AProposRoute = AProposRouteImport.update({
@@ -56,6 +62,7 @@ const AProposDepartementsRoute = AProposDepartementsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/connexion': typeof ConnexionRoute
   '/don': typeof DonRoute
   '/inscription': typeof InscriptionRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/connexion': typeof ConnexionRoute
   '/don': typeof DonRoute
   '/inscription': typeof InscriptionRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/connexion': typeof ConnexionRoute
   '/don': typeof DonRoute
   '/inscription': typeof InscriptionRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/a-propos'
+    | '/connexion'
     | '/don'
     | '/inscription'
     | '/a-propos/departements'
@@ -93,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/connexion'
     | '/don'
     | '/inscription'
     | '/a-propos/departements'
@@ -102,6 +113,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/a-propos'
+    | '/connexion'
     | '/don'
     | '/inscription'
     | '/a-propos/departements'
@@ -112,6 +124,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRouteWithChildren
+  ConnexionRoute: typeof ConnexionRoute
   DonRoute: typeof DonRoute
   InscriptionRoute: typeof InscriptionRoute
 }
@@ -130,6 +143,13 @@ declare module '@tanstack/react-router' {
       path: '/don'
       fullPath: '/don'
       preLoaderRoute: typeof DonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/connexion': {
+      id: '/connexion'
+      path: '/connexion'
+      fullPath: '/connexion'
+      preLoaderRoute: typeof ConnexionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/a-propos': {
@@ -188,6 +208,7 @@ const AProposRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRouteWithChildren,
+  ConnexionRoute: ConnexionRoute,
   DonRoute: DonRoute,
   InscriptionRoute: InscriptionRoute,
 }
