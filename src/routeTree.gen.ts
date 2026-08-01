@@ -9,12 +9,42 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as InscriptionRouteImport } from './routes/inscription'
+import { Route as DonRouteImport } from './routes/don'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ConnexionRouteImport } from './routes/connexion'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
 import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InscriptionRoute = InscriptionRouteImport.update({
+  id: '/inscription',
+  path: '/inscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonRoute = DonRouteImport.update({
+  id: '/don',
+  path: '/don',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConnexionRoute = ConnexionRouteImport.update({
+  id: '/connexion',
+  path: '/connexion',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AProposRoute = AProposRouteImport.update({
   id: '/a-propos',
   path: '/a-propos',
@@ -44,12 +74,22 @@ const AProposDepartementsRoute = AProposDepartementsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/connexion': typeof ConnexionRoute
+  '/contact': typeof ContactRoute
+  '/don': typeof DonRoute
+  '/inscription': typeof InscriptionRoute
+  '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/connexion': typeof ConnexionRoute
+  '/contact': typeof ContactRoute
+  '/don': typeof DonRoute
+  '/inscription': typeof InscriptionRoute
+  '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos': typeof AProposIndexRoute
@@ -58,6 +98,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/connexion': typeof ConnexionRoute
+  '/contact': typeof ContactRoute
+  '/don': typeof DonRoute
+  '/inscription': typeof InscriptionRoute
+  '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
@@ -67,15 +112,34 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/a-propos'
+    | '/connexion'
+    | '/contact'
+    | '/don'
+    | '/inscription'
+    | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
     | '/a-propos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/a-propos/departements' | '/a-propos/programmes' | '/a-propos'
+  to:
+    | '/'
+    | '/connexion'
+    | '/contact'
+    | '/don'
+    | '/inscription'
+    | '/profil'
+    | '/a-propos/departements'
+    | '/a-propos/programmes'
+    | '/a-propos'
   id:
     | '__root__'
     | '/'
     | '/a-propos'
+    | '/connexion'
+    | '/contact'
+    | '/don'
+    | '/inscription'
+    | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
     | '/a-propos/'
@@ -84,10 +148,50 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRouteWithChildren
+  ConnexionRoute: typeof ConnexionRoute
+  ContactRoute: typeof ContactRoute
+  DonRoute: typeof DonRoute
+  InscriptionRoute: typeof InscriptionRoute
+  ProfilRoute: typeof ProfilRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inscription': {
+      id: '/inscription'
+      path: '/inscription'
+      fullPath: '/inscription'
+      preLoaderRoute: typeof InscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/don': {
+      id: '/don'
+      path: '/don'
+      fullPath: '/don'
+      preLoaderRoute: typeof DonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/connexion': {
+      id: '/connexion'
+      path: '/connexion'
+      fullPath: '/connexion'
+      preLoaderRoute: typeof ConnexionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/a-propos': {
       id: '/a-propos'
       path: '/a-propos'
@@ -144,6 +248,11 @@ const AProposRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRouteWithChildren,
+  ConnexionRoute: ConnexionRoute,
+  ContactRoute: ContactRoute,
+  DonRoute: DonRoute,
+  InscriptionRoute: InscriptionRoute,
+  ProfilRoute: ProfilRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
