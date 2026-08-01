@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DonRouteImport } from './routes/don'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
 import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
+const DonRoute = DonRouteImport.update({
+  id: '/don',
+  path: '/don',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AProposRoute = AProposRouteImport.update({
   id: '/a-propos',
   path: '/a-propos',
@@ -44,12 +50,14 @@ const AProposDepartementsRoute = AProposDepartementsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/don': typeof DonRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/don': typeof DonRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos': typeof AProposIndexRoute
@@ -58,6 +66,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/don': typeof DonRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
@@ -67,15 +76,22 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/a-propos'
+    | '/don'
     | '/a-propos/departements'
     | '/a-propos/programmes'
     | '/a-propos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/a-propos/departements' | '/a-propos/programmes' | '/a-propos'
+  to:
+    | '/'
+    | '/don'
+    | '/a-propos/departements'
+    | '/a-propos/programmes'
+    | '/a-propos'
   id:
     | '__root__'
     | '/'
     | '/a-propos'
+    | '/don'
     | '/a-propos/departements'
     | '/a-propos/programmes'
     | '/a-propos/'
@@ -84,10 +100,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRouteWithChildren
+  DonRoute: typeof DonRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/don': {
+      id: '/don'
+      path: '/don'
+      fullPath: '/don'
+      preLoaderRoute: typeof DonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/a-propos': {
       id: '/a-propos'
       path: '/a-propos'
@@ -144,6 +168,7 @@ const AProposRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRouteWithChildren,
+  DonRoute: DonRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
