@@ -14,9 +14,15 @@ import { Route as InscriptionRouteImport } from './routes/inscription'
 import { Route as DonRouteImport } from './routes/don'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConnexionRouteImport } from './routes/connexion'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
+import { Route as AdminProgrammesRouteImport } from './routes/admin.programmes'
+import { Route as AdminMediathequeRouteImport } from './routes/admin.mediatheque'
+import { Route as AdminFinancesRouteImport } from './routes/admin.finances'
+import { Route as AdminDepartementsRouteImport } from './routes/admin.departements'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
 import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
@@ -45,6 +51,11 @@ const ConnexionRoute = ConnexionRouteImport.update({
   path: '/connexion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AProposRoute = AProposRouteImport.update({
   id: '/a-propos',
   path: '/a-propos',
@@ -55,10 +66,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AProposIndexRoute = AProposIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AProposRoute,
+} as any)
+const AdminProgrammesRoute = AdminProgrammesRouteImport.update({
+  id: '/programmes',
+  path: '/programmes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMediathequeRoute = AdminMediathequeRouteImport.update({
+  id: '/mediatheque',
+  path: '/mediatheque',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFinancesRoute = AdminFinancesRouteImport.update({
+  id: '/finances',
+  path: '/finances',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDepartementsRoute = AdminDepartementsRouteImport.update({
+  id: '/departements',
+  path: '/departements',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AProposProgrammesRoute = AProposProgrammesRouteImport.update({
   id: '/programmes',
@@ -74,6 +110,7 @@ const AProposDepartementsRoute = AProposDepartementsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/admin': typeof AdminRouteWithChildren
   '/connexion': typeof ConnexionRoute
   '/contact': typeof ContactRoute
   '/don': typeof DonRoute
@@ -81,7 +118,12 @@ export interface FileRoutesByFullPath {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/departements': typeof AdminDepartementsRoute
+  '/admin/finances': typeof AdminFinancesRoute
+  '/admin/mediatheque': typeof AdminMediathequeRoute
+  '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -92,12 +134,18 @@ export interface FileRoutesByTo {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/departements': typeof AdminDepartementsRoute
+  '/admin/finances': typeof AdminFinancesRoute
+  '/admin/mediatheque': typeof AdminMediathequeRoute
+  '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos': typeof AProposIndexRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
+  '/admin': typeof AdminRouteWithChildren
   '/connexion': typeof ConnexionRoute
   '/contact': typeof ContactRoute
   '/don': typeof DonRoute
@@ -105,13 +153,19 @@ export interface FileRoutesById {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/departements': typeof AdminDepartementsRoute
+  '/admin/finances': typeof AdminFinancesRoute
+  '/admin/mediatheque': typeof AdminMediathequeRoute
+  '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/a-propos'
+    | '/admin'
     | '/connexion'
     | '/contact'
     | '/don'
@@ -119,7 +173,12 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/departements'
+    | '/admin/finances'
+    | '/admin/mediatheque'
+    | '/admin/programmes'
     | '/a-propos/'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -130,11 +189,17 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/departements'
+    | '/admin/finances'
+    | '/admin/mediatheque'
+    | '/admin/programmes'
     | '/a-propos'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/a-propos'
+    | '/admin'
     | '/connexion'
     | '/contact'
     | '/don'
@@ -142,12 +207,18 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/departements'
+    | '/admin/finances'
+    | '/admin/mediatheque'
+    | '/admin/programmes'
     | '/a-propos/'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRouteWithChildren
+  AdminRoute: typeof AdminRouteWithChildren
   ConnexionRoute: typeof ConnexionRoute
   ContactRoute: typeof ContactRoute
   DonRoute: typeof DonRoute
@@ -192,6 +263,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConnexionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/a-propos': {
       id: '/a-propos'
       path: '/a-propos'
@@ -206,12 +284,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/a-propos/': {
       id: '/a-propos/'
       path: '/'
       fullPath: '/a-propos/'
       preLoaderRoute: typeof AProposIndexRouteImport
       parentRoute: typeof AProposRoute
+    }
+    '/admin/programmes': {
+      id: '/admin/programmes'
+      path: '/programmes'
+      fullPath: '/admin/programmes'
+      preLoaderRoute: typeof AdminProgrammesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/mediatheque': {
+      id: '/admin/mediatheque'
+      path: '/mediatheque'
+      fullPath: '/admin/mediatheque'
+      preLoaderRoute: typeof AdminMediathequeRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/finances': {
+      id: '/admin/finances'
+      path: '/finances'
+      fullPath: '/admin/finances'
+      preLoaderRoute: typeof AdminFinancesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/departements': {
+      id: '/admin/departements'
+      path: '/departements'
+      fullPath: '/admin/departements'
+      preLoaderRoute: typeof AdminDepartementsRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/a-propos/programmes': {
       id: '/a-propos/programmes'
@@ -245,9 +358,28 @@ const AProposRouteChildren: AProposRouteChildren = {
 const AProposRouteWithChildren =
   AProposRoute._addFileChildren(AProposRouteChildren)
 
+interface AdminRouteChildren {
+  AdminDepartementsRoute: typeof AdminDepartementsRoute
+  AdminFinancesRoute: typeof AdminFinancesRoute
+  AdminMediathequeRoute: typeof AdminMediathequeRoute
+  AdminProgrammesRoute: typeof AdminProgrammesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminDepartementsRoute: AdminDepartementsRoute,
+  AdminFinancesRoute: AdminFinancesRoute,
+  AdminMediathequeRoute: AdminMediathequeRoute,
+  AdminProgrammesRoute: AdminProgrammesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRouteWithChildren,
+  AdminRoute: AdminRouteWithChildren,
   ConnexionRoute: ConnexionRoute,
   ContactRoute: ContactRoute,
   DonRoute: DonRoute,

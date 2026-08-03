@@ -97,6 +97,9 @@ function ProfilPage() {
                 <ShieldCheck className="h-4 w-4" /> {isAdmin ? "Berger" : "Chef de département"}
               </span>
               <p className="mt-2 text-sm text-muted-foreground">Vous disposez de droits de gestion sur la plateforme.</p>
+              <Link to="/admin" className="mt-4 inline-flex rounded-full instagram-animated px-6 py-3 text-sm font-bold text-white shadow-lg">
+                Ouvrir le tableau de bord
+              </Link>
             </div>
           )}
 
