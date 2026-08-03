@@ -149,7 +149,7 @@ function TestimonyModal({ onClose }: { onClose: () => void }) {
   });
 
   return (
-    <Modal title="Partager mon témoignage" onClose={onClose}>
+    <Modal open title="Partager mon témoignage" onClose={onClose}>
       {done ? (
         <p className="text-sm text-muted-foreground">
           Merci ! Votre témoignage a été transmis au secrétariat. Il sera publié après validation.
