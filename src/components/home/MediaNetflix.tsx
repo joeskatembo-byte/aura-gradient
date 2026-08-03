@@ -1,10 +1,44 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Heart, Share2, Download, Play } from "lucide-react";
-import { media } from "@/data/mock";
+import { supabase } from "@/integrations/supabase/client";
+import { media as mockMedia } from "@/data/mock";
 
-type Item = { id: string; title: string; img: string; desc: string };
+type Item = { id: string; title: string; img: string; desc: string; url?: string | null };
+
+const CATEGORIES = ["Affiches", "Photos", "Podcasts", "Vidéos"] as const;
 
 export function MediaNetflix() {
+  const { data } = useQuery({
+    queryKey: ["public", "media_items"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("media_items")
+        .select("id, title, description, category, media_url, thumbnail_url")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const grouped = useMemo(() => {
+    const base: Record<string, Item[]> = {};
+    for (const cat of CATEGORIES) {
+      const fallback = (mockMedia as Record<string, Item[]>)[cat] ?? [];
+      const rows = (data ?? []).filter((m) => m.category === cat);
+      base[cat] = rows.length
+        ? rows.map((m, i) => ({
+            id: m.id,
+            title: m.title,
+            desc: m.description ?? "",
+            img: m.thumbnail_url || fallback[i % Math.max(fallback.length, 1)]?.img || "",
+            url: m.media_url,
+          }))
+        : fallback;
+    }
+    return base;
+  }, [data]);
+
   return (
     <section id="mediatheque" className="bg-black text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-20">
@@ -16,9 +50,9 @@ export function MediaNetflix() {
           <span className="shrink-0 text-sm text-white/60">Affiches · Photos · Podcasts · Vidéos</span>
         </div>
 
-        {(Object.keys(media) as (keyof typeof media)[]).map((cat) => (
-          <Row key={cat} title={cat} items={media[cat]} />
-        ))}
+        {CATEGORIES.map((cat) =>
+          grouped[cat]?.length ? <Row key={cat} title={cat} items={grouped[cat]} /> : null,
+        )}
       </div>
     </section>
   );
@@ -41,15 +75,25 @@ function MediaCard({ it }: { it: Item }) {
   const [liked, setLiked] = useState(false);
   return (
     <div className="group relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-white/5 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl">
-      <img src={it.img} alt={it.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      {it.img ? (
+        <img src={it.img} alt={it.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      ) : (
+        <div className="h-full w-full instagram-animated opacity-70" />
+      )}
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90" />
       <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
         <div className="font-display text-base font-bold sm:text-lg">{it.title}</div>
         <div className="mt-1 text-xs text-white/70 line-clamp-2 sm:text-sm">{it.desc}</div>
         <div className="mt-4 flex items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <button aria-label="Lire" className="grid h-9 w-9 shrink-0 place-items-center rounded-full instagram-animated">
+          <a
+            href={it.url || undefined}
+            target={it.url ? "_blank" : undefined}
+            rel="noreferrer"
+            aria-label="Lire"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full instagram-animated"
+          >
             <Play className="h-4 w-4 fill-current" />
-          </button>
+          </a>
           <button
             aria-label="Aimer"
             onClick={() => setLiked((v) => !v)}
