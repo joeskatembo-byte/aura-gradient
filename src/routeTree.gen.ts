@@ -19,6 +19,7 @@ import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
+import { Route as AdminDepartementsRouteImport } from './routes/admin.departements'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
 import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
@@ -72,6 +73,11 @@ const AProposIndexRoute = AProposIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AProposRoute,
 } as any)
+const AdminDepartementsRoute = AdminDepartementsRouteImport.update({
+  id: '/departements',
+  path: '/departements',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AProposProgrammesRoute = AProposProgrammesRouteImport.update({
   id: '/programmes',
   path: '/programmes',
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/departements': typeof AdminDepartementsRoute
   '/a-propos/': typeof AProposIndexRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/departements': typeof AdminDepartementsRoute
   '/a-propos': typeof AProposIndexRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/departements': typeof AdminDepartementsRoute
   '/a-propos/': typeof AProposIndexRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/departements'
     | '/a-propos/'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/departements'
     | '/a-propos'
     | '/admin'
   id:
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/departements'
     | '/a-propos/'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -250,6 +262,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AProposIndexRouteImport
       parentRoute: typeof AProposRoute
     }
+    '/admin/departements': {
+      id: '/admin/departements'
+      path: '/departements'
+      fullPath: '/admin/departements'
+      preLoaderRoute: typeof AdminDepartementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/a-propos/programmes': {
       id: '/a-propos/programmes'
       path: '/programmes'
@@ -283,10 +302,12 @@ const AProposRouteWithChildren =
   AProposRoute._addFileChildren(AProposRouteChildren)
 
 interface AdminRouteChildren {
+  AdminDepartementsRoute: typeof AdminDepartementsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminDepartementsRoute: AdminDepartementsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
