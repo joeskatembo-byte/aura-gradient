@@ -17,6 +17,7 @@ import { Route as ConnexionRouteImport } from './routes/connexion'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
 import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
@@ -61,6 +62,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AProposIndexRoute = AProposIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -80,7 +86,7 @@ const AProposDepartementsRoute = AProposDepartementsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/connexion': typeof ConnexionRoute
   '/contact': typeof ContactRoute
   '/don': typeof DonRoute
@@ -89,10 +95,10 @@ export interface FileRoutesByFullPath {
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/connexion': typeof ConnexionRoute
   '/contact': typeof ContactRoute
   '/don': typeof DonRoute
@@ -101,12 +107,13 @@ export interface FileRoutesByTo {
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos': typeof AProposIndexRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRouteWithChildren
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/connexion': typeof ConnexionRoute
   '/contact': typeof ContactRoute
   '/don': typeof DonRoute
@@ -115,6 +122,7 @@ export interface FileRoutesById {
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -130,10 +138,10 @@ export interface FileRouteTypes {
     | '/a-propos/departements'
     | '/a-propos/programmes'
     | '/a-propos/'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/connexion'
     | '/contact'
     | '/don'
@@ -142,6 +150,7 @@ export interface FileRouteTypes {
     | '/a-propos/departements'
     | '/a-propos/programmes'
     | '/a-propos'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -155,12 +164,13 @@ export interface FileRouteTypes {
     | '/a-propos/departements'
     | '/a-propos/programmes'
     | '/a-propos/'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRouteWithChildren
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ConnexionRoute: typeof ConnexionRoute
   ContactRoute: typeof ContactRoute
   DonRoute: typeof DonRoute
@@ -226,6 +236,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/a-propos/': {
       id: '/a-propos/'
       path: '/'
@@ -265,10 +282,20 @@ const AProposRouteChildren: AProposRouteChildren = {
 const AProposRouteWithChildren =
   AProposRoute._addFileChildren(AProposRouteChildren)
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRouteWithChildren,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   ConnexionRoute: ConnexionRoute,
   ContactRoute: ContactRoute,
   DonRoute: DonRoute,
