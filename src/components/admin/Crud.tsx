@@ -262,8 +262,15 @@ export function RecordForm({
                   options={f.options ?? []}
                   ariaLabel={f.label}
                 />
+              ) : f.type === "media" ? (
+                <MediaPicker
+                  value={String(values[f.name] ?? "")}
+                  onChange={(v) => set(f.name, v)}
+                  accept={f.accept ?? "image/*"}
+                />
               ) : f.type === "checkbox" ? (
                 <input type="checkbox" checked={!!values[f.name]} onChange={(e) => set(f.name, e.target.checked)} className="h-5 w-5 accent-[color:var(--color-ig-purple)]" />
+
               ) : (
                 <input
                   type={f.type === "number" ? "number" : f.type === "date" ? "date" : "text"}
