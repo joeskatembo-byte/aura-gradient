@@ -130,25 +130,29 @@ function MembersAdmin() {
                       <td className="px-3 py-3">{p.phone ?? "—"}</td>
                       <td className="max-w-[200px] truncate px-3 py-3">{[p.commune, p.avenue, p.parcelle].filter(Boolean).join(" · ") || "—"}</td>
                       <td className="px-3 py-3">
-                        <select
+                        <FancySelect
+                          size="sm"
+                          className="min-w-[9rem]"
+                          ariaLabel="Département"
+                          placeholder="Aucun"
                           value={p.department_id ?? ""}
-                          onChange={(e) => setDepartment.mutate({ id: p.id, departmentId: e.target.value || null })}
-                          className="rounded-full border border-border bg-background px-3 py-1.5 text-xs"
-                        >
-                          <option value="">Aucun</option>
-                          {departments.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
-                        </select>
+                          options={departments}
+                          onChange={(v) => setDepartment.mutate({ id: p.id, departmentId: v || null })}
+                        />
                       </td>
                       <td className="px-3 py-3">
-                        <select
-                          value={role}
+                        <FancySelect
+                          size="sm"
+                          className="min-w-[9rem]"
+                          ariaLabel="Rôle"
+                          placeholder=""
                           disabled={!isAdmin}
-                          onChange={(e) => setRole.mutate({ userId: p.id, role: e.target.value as RoleValue, departmentId: p.department_id })}
-                          className="rounded-full border border-border bg-background px-3 py-1.5 text-xs disabled:opacity-60"
-                        >
-                          {(Object.keys(roleLabels) as RoleValue[]).map((r) => <option key={r} value={r}>{roleLabels[r]}</option>)}
-                        </select>
+                          value={role}
+                          options={(Object.keys(roleLabels) as RoleValue[]).map((r) => ({ value: r, label: roleLabels[r] }))}
+                          onChange={(v) => setRole.mutate({ userId: p.id, role: v as RoleValue, departmentId: p.department_id })}
+                        />
                       </td>
+
                       <td className="rounded-r-2xl px-3 py-3 text-muted-foreground">{formatDate(p.created_at)}</td>
                     </tr>
                   );
