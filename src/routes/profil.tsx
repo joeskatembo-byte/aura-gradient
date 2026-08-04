@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { LogOut, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { LogOut, Pencil, ShieldCheck, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/shared/PageShell";
+import { StepForm, type FormValues } from "@/components/shared/StepForm";
 import { useAuth } from "@/hooks/useAuth";
 import { formatDate } from "@/lib/slug";
+
 
 export const Route = createFileRoute("/profil")({
   head: () => ({
