@@ -66,6 +66,12 @@ export function useAuth() {
     isAdmin,
     isLeader,
     leadDepartmentId,
-    signOut: () => supabase.auth.signOut(),
+    signOut: async () => {
+      await qc.cancelQueries();
+      qc.clear();
+      await supabase.auth.signOut();
+      navigate({ to: "/", replace: true });
+    },
+
   };
 }
