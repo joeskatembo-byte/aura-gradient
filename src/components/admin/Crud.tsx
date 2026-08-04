@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { FancySelect } from "@/components/shared/FancySelect";
 
 /** Accès générique aux tables (le typage strict est assuré par les policies RLS côté base). */
 const db = supabase as unknown as SupabaseClient;
@@ -167,6 +168,8 @@ export function CrudSection({
   );
 }
 
+const STEP_SIZE = 3;
+
 export function RecordForm({
   fields, initial, onSubmit, onCancel, pending, error, submitLabel = "Enregistrer",
 }: {
@@ -183,57 +186,86 @@ export function RecordForm({
     for (const f of fields) base[f.name] = initial[f.name] ?? (f.type === "checkbox" ? false : "");
     return base;
   });
+  const [step, setStep] = useState(0);
+  const [localError, setLocalError] = useState<string | null>(null);
 
+  const steps = useMemo(() => {
+    const chunks: Field[][] = [];
+    for (let i = 0; i < fields.length; i += STEP_SIZE) chunks.push(fields.slice(i, i + STEP_SIZE));
+    return chunks.length ? chunks : [[]];
+  }, [fields]);
+
+  const current = steps[Math.min(step, steps.length - 1)];
+  const isLast = step >= steps.length - 1;
   const set = (name: string, v: unknown) => setValues((s) => ({ ...s, [name]: v }));
+
+  const validate = () => {
+    for (const f of current) {
+      if (f.required && f.type !== "checkbox" && !String(values[f.name] ?? "").trim()) {
+        setLocalError(`Le champ « ${f.label} » est obligatoire.`);
+        return false;
+      }
+    }
+    setLocalError(null);
+    return true;
+  };
+
+  const submit = () => {
+    const payload: Record<string, unknown> = {};
+    for (const f of fields) {
+      const raw = values[f.name];
+      if (f.type === "number") payload[f.name] = raw === "" || raw === null ? 0 : Number(raw);
+      else if (f.type === "checkbox") payload[f.name] = !!raw;
+      else payload[f.name] = raw === "" ? null : raw;
+    }
+    onSubmit(payload);
+  };
 
   return (
     <div className="fixed inset-0 z-[60] grid place-items-center bg-black/60 p-4 backdrop-blur-sm">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const payload: Record<string, unknown> = {};
-          for (const f of fields) {
-            const raw = values[f.name];
-            if (f.type === "number") payload[f.name] = raw === "" || raw === null ? 0 : Number(raw);
-            else if (f.type === "checkbox") payload[f.name] = !!raw;
-            else payload[f.name] = raw === "" ? null : raw;
-          }
-          onSubmit(payload);
-        }}
-        className="max-h-[85vh] w-full max-w-xl overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl sm:p-8"
-      >
+      <div className="w-full max-w-xl overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-2xl sm:p-8">
         <div className="mb-5 flex items-center justify-between gap-4">
-          <h3 className="font-display text-lg font-black">{initial.id ? "Modifier" : "Nouvel enregistrement"}</h3>
+          <div>
+            <h3 className="font-display text-lg font-black">{initial.id ? "Modifier" : "Nouvel enregistrement"}</h3>
+            <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Étape {step + 1} / {steps.length}
+            </p>
+          </div>
           <button type="button" onClick={onCancel} aria-label="Fermer" className="grid h-9 w-9 place-items-center rounded-full border border-border hover:bg-muted">
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="grid gap-4">
-          {fields.map((f) => (
+        <div className="mb-6 flex items-center gap-2">
+          {steps.map((s, i) => (
+            <div key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${i <= step ? "instagram-animated" : "bg-muted"}`} />
+          ))}
+        </div>
+
+        <div key={step} className="grid animate-fade-in gap-4">
+          {current.map((f) => (
             <label key={f.name} className="grid gap-1.5 text-sm">
-              <span className="font-semibold">{f.label}</span>
+              <span className="font-semibold">{f.label}{f.required && <span className="instagram-text"> *</span>}</span>
               {f.type === "textarea" ? (
                 <textarea
                   value={String(values[f.name] ?? "")} onChange={(e) => set(f.name, e.target.value)}
-                  required={f.required} rows={3} placeholder={f.placeholder}
+                  rows={3} placeholder={f.placeholder}
                   className="rounded-2xl border border-border bg-background px-4 py-2.5 outline-none focus:ring-2 focus:ring-[color:var(--color-ig-purple)]"
                 />
               ) : f.type === "select" ? (
-                <select
-                  value={String(values[f.name] ?? "")} onChange={(e) => set(f.name, e.target.value)} required={f.required}
-                  className="rounded-2xl border border-border bg-background px-4 py-2.5 outline-none focus:ring-2 focus:ring-[color:var(--color-ig-purple)]"
-                >
-                  <option value="">—</option>
-                  {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </select>
+                <FancySelect
+                  value={String(values[f.name] ?? "")}
+                  onChange={(v) => set(f.name, v)}
+                  options={f.options ?? []}
+                  ariaLabel={f.label}
+                />
               ) : f.type === "checkbox" ? (
                 <input type="checkbox" checked={!!values[f.name]} onChange={(e) => set(f.name, e.target.checked)} className="h-5 w-5 accent-[color:var(--color-ig-purple)]" />
               ) : (
                 <input
                   type={f.type === "number" ? "number" : f.type === "date" ? "date" : "text"}
                   value={String(values[f.name] ?? "")} onChange={(e) => set(f.name, e.target.value)}
-                  required={f.required} placeholder={f.placeholder}
+                  placeholder={f.placeholder}
                   className="rounded-2xl border border-border bg-background px-4 py-2.5 outline-none focus:ring-2 focus:ring-[color:var(--color-ig-purple)]"
                 />
               )}
@@ -241,15 +273,39 @@ export function RecordForm({
           ))}
         </div>
 
-        {error && <p className="mt-4 text-sm font-semibold text-[color:var(--color-ig-red)]">{error}</p>}
+        {(localError || error) && (
+          <p className="mt-4 text-sm font-semibold text-[color:var(--color-ig-red)]">{localError ?? error}</p>
+        )}
 
-        <div className="mt-6 flex justify-end gap-3">
-          <button type="button" onClick={onCancel} className="rounded-full border border-border px-5 py-2.5 text-sm font-semibold hover:bg-muted">Annuler</button>
-          <button disabled={pending} className="inline-flex items-center gap-2 rounded-full instagram-animated px-6 py-2.5 text-sm font-bold text-white shadow-lg disabled:opacity-60">
-            {pending && <Loader2 className="h-4 w-4 animate-spin" />} {submitLabel}
+        <div className="mt-6 flex items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => { setLocalError(null); step === 0 ? onCancel() : setStep((s) => s - 1); }}
+            className="inline-flex items-center gap-1.5 rounded-full border border-border px-5 py-2.5 text-sm font-semibold hover:bg-muted"
+          >
+            <ChevronLeft className="h-4 w-4" /> {step === 0 ? "Annuler" : "Retour"}
           </button>
+
+          {isLast ? (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={() => validate() && submit()}
+              className="inline-flex items-center gap-2 rounded-full instagram-animated px-6 py-2.5 text-sm font-bold text-white shadow-lg disabled:opacity-60"
+            >
+              {pending && <Loader2 className="h-4 w-4 animate-spin" />} {submitLabel}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => validate() && setStep((s) => s + 1)}
+              className="inline-flex items-center gap-1.5 rounded-full instagram-animated px-6 py-2.5 text-sm font-bold text-white shadow-lg"
+            >
+              Continuer <ChevronRight className="h-4 w-4" />
+            </button>
+          )}
         </div>
-      </form>
+      </div>
     </div>
   );
 }

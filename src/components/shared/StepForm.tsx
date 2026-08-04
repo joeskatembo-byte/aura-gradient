@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Check, ChevronLeft, ChevronRight, Loader2, X } from "lucide-react";
+import { FancySelect } from "@/components/shared/FancySelect";
 
 export type StepField = {
   name: string;
@@ -166,14 +167,13 @@ function Field({
           className={base}
         />
       ) : field.type === "select" ? (
-        <select value={String(value ?? "")} onChange={(e) => onChange(e.target.value)} className={base}>
-          <option value="">— Choisir —</option>
-          {field.options?.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
+        <FancySelect
+          value={String(value ?? "")}
+          onChange={(v) => onChange(v)}
+          options={field.options ?? []}
+          ariaLabel={field.label}
+          className="[&>button]:rounded-xl [&>button]:py-3"
+        />
       ) : (
         <input
           type={field.type ?? "text"}
