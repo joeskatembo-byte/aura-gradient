@@ -25,6 +25,9 @@ export const Route = createFileRoute("/profil")({
 
 function ProfilPage() {
   const { profile, userId, loading, isAdmin, isLeader, signOut } = useAuth();
+  const qc = useQueryClient();
+  const [editing, setEditing] = useState(false);
+  const [values, setValues] = useState<FormValues>({});
 
   const { data: department } = useQuery({
     queryKey: ["department", profile?.department_id],
@@ -35,6 +38,48 @@ function ProfilPage() {
       return data;
     },
   });
+
+  const save = useMutation({
+    mutationFn: async () => {
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          first_name: String(values["first_name"] ?? ""),
+          last_name: String(values["last_name"] ?? ""),
+          phone: String(values["phone"] ?? "") || null,
+          emergency_contact: String(values["emergency_contact"] ?? "") || null,
+          commune: String(values["commune"] ?? "") || null,
+          avenue: String(values["avenue"] ?? "") || null,
+          parcelle: String(values["parcelle"] ?? "") || null,
+          marital_status: String(values["marital_status"] ?? "") || null,
+          children_count: Number(values["children_count"] ?? 0) || 0,
+          photo_url: String(values["photo_url"] ?? "") || null,
+        })
+        .eq("id", userId!);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["me"] });
+      setEditing(false);
+    },
+  });
+
+  const openEditor = () => {
+    setValues({
+      first_name: profile?.first_name ?? "",
+      last_name: profile?.last_name ?? "",
+      phone: profile?.phone ?? "",
+      emergency_contact: profile?.emergency_contact ?? "",
+      commune: profile?.commune ?? "",
+      avenue: profile?.avenue ?? "",
+      parcelle: profile?.parcelle ?? "",
+      marital_status: profile?.marital_status ?? "",
+      children_count: String(profile?.children_count ?? 0),
+      photo_url: profile?.photo_url ?? "",
+    });
+    setEditing(true);
+  };
+
 
   if (!loading && !userId) {
     return (
