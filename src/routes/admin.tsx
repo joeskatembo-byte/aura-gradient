@@ -29,7 +29,7 @@ const tabs = [
 
 function AdminLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { loading, userId, isAdmin, isLeader, profile } = useAuth();
+  const { loading, userId, isAdmin, isLeader, profile, signOut } = useAuth();
   const allowed = isAdmin || isLeader;
 
   return (
