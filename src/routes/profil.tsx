@@ -105,7 +105,16 @@ function ProfilPage() {
     >
       <section className="mx-auto grid max-w-5xl gap-6 px-4 py-14 sm:px-6 sm:py-20 md:grid-cols-2">
         <div className="rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8">
-          <h2 className="font-display text-xl font-black">Mes informations</h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="font-display text-xl font-black">Mes informations</h2>
+            <button
+              onClick={openEditor}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold hover:bg-muted"
+            >
+              <Pencil className="h-3.5 w-3.5" /> Modifier
+            </button>
+          </div>
+
           <dl className="mt-5 grid gap-3 text-sm">
             {[
               ["Nom complet", `${profile?.last_name ?? ""} ${profile?.first_name ?? ""}`.trim()],
