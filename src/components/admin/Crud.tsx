@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { FancySelect } from "@/components/shared/FancySelect";
 
 /** Accès générique aux tables (le typage strict est assuré par les policies RLS côté base). */
 const db = supabase as unknown as SupabaseClient;
