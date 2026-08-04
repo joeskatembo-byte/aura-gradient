@@ -168,6 +168,58 @@ function ProfilPage() {
           </button>
         </div>
       </section>
+
+      {editing && (
+        <div className="fixed inset-0 z-[200] grid place-items-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="no-scrollbar max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl sm:p-8">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h3 className="font-display text-lg font-black">Modifier mes informations</h3>
+              <button aria-label="Fermer" onClick={() => setEditing(false)} className="grid h-9 w-9 place-items-center rounded-full border border-border hover:bg-muted">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <StepForm
+              values={values}
+              onChange={setValues}
+              onSubmit={() => save.mutate()}
+              submitting={save.isPending}
+              submitLabel="Enregistrer"
+              steps={[
+                {
+                  title: "Identité",
+                  fields: [
+                    { name: "last_name", label: "Nom", required: true },
+                    { name: "first_name", label: "Prénom", required: true },
+                    { name: "photo_url", label: "Photo de profil", type: "media", accept: "image/*" },
+                  ],
+                },
+                {
+                  title: "Contact",
+                  fields: [
+                    { name: "phone", label: "Téléphone", type: "tel" },
+                    { name: "emergency_contact", label: "Contact d'urgence" },
+                  ],
+                },
+                {
+                  title: "Adresse & famille",
+                  fields: [
+                    { name: "commune", label: "Commune" },
+                    { name: "avenue", label: "Avenue" },
+                    { name: "parcelle", label: "Parcelle" },
+                    { name: "marital_status", label: "État civil", type: "select", options: [
+                      { value: "Célibataire", label: "Célibataire" },
+                      { value: "Marié(e)", label: "Marié(e)" },
+                      { value: "Veuf(ve)", label: "Veuf(ve)" },
+                    ] },
+                    { name: "children_count", label: "Nombre d'enfants", type: "number" },
+                  ],
+                },
+              ]}
+            />
+          </div>
+        </div>
+      )}
     </PageShell>
   );
+
 }
