@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Check, ChevronLeft, ChevronRight, Loader2, X } from "lucide-react";
+import { FancySelect } from "@/components/shared/FancySelect";
 
 export type StepField = {
   name: string;
