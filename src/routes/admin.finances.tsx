@@ -49,7 +49,7 @@ function FinanceAdmin() {
             { value: "a_venir", label: "À venir" },
           ] },
           { name: "description", label: "Description", type: "textarea", hideInTable: true },
-          { name: "image_url", label: "Image (URL)", hideInTable: true },
+          { name: "image_url", label: "Image du projet", type: "media", accept: "image/*", hideInTable: true },
         ]}
       />
 

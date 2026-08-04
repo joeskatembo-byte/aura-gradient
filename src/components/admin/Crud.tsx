@@ -4,11 +4,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { FancySelect } from "@/components/shared/FancySelect";
+import { MediaPicker } from "@/components/shared/MediaPicker";
 
 /** Accès générique aux tables (le typage strict est assuré par les policies RLS côté base). */
 const db = supabase as unknown as SupabaseClient;
 
-export type FieldType = "text" | "textarea" | "number" | "date" | "select" | "checkbox";
+export type FieldType = "text" | "textarea" | "number" | "date" | "select" | "checkbox" | "media";
 
 export type Field = {
   name: string;
@@ -18,8 +19,10 @@ export type Field = {
   placeholder?: string;
   required?: boolean;
   hideInTable?: boolean;
+  accept?: string;
   render?: (row: Row) => string;
 };
+
 
 export type Row = Record<string, unknown> & { id: string };
 
@@ -259,8 +262,15 @@ export function RecordForm({
                   options={f.options ?? []}
                   ariaLabel={f.label}
                 />
+              ) : f.type === "media" ? (
+                <MediaPicker
+                  value={String(values[f.name] ?? "")}
+                  onChange={(v) => set(f.name, v)}
+                  accept={f.accept ?? "image/*"}
+                />
               ) : f.type === "checkbox" ? (
                 <input type="checkbox" checked={!!values[f.name]} onChange={(e) => set(f.name, e.target.checked)} className="h-5 w-5 accent-[color:var(--color-ig-purple)]" />
+
               ) : (
                 <input
                   type={f.type === "number" ? "number" : f.type === "date" ? "date" : "text"}

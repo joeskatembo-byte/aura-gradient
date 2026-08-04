@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { BarChart3, CalendarDays, Film, Users, Wallet, ShieldAlert } from "lucide-react";
+import { BarChart3, CalendarDays, Film, LogOut, Users, Wallet, ShieldAlert } from "lucide-react";
 import { Header } from "@/components/home/Header";
 import { Footer } from "@/components/home/Footer";
 import { useAuth } from "@/hooks/useAuth";
@@ -29,7 +29,7 @@ const tabs = [
 
 function AdminLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { loading, userId, isAdmin, isLeader, profile } = useAuth();
+  const { loading, userId, isAdmin, isLeader, profile, signOut } = useAuth();
   const allowed = isAdmin || isLeader;
 
   return (
@@ -42,7 +42,17 @@ function AdminLayout() {
           <div className="absolute -right-16 top-6 h-64 w-64 rounded-full instagram-animated opacity-20 blur-3xl" />
         </div>
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">Administration</p>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">Administration</p>
+            {userId && (
+              <button
+                onClick={() => void signOut()}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-5 py-2.5 text-sm font-semibold backdrop-blur transition-colors hover:bg-muted"
+              >
+                <LogOut className="h-4 w-4" /> Se déconnecter
+              </button>
+            )}
+          </div>
           <h1 className="mt-3 max-w-3xl text-3xl font-black leading-[1.05] sm:text-5xl">
             Le poste de <span className="instagram-text">pilotage</span> de la maison.
           </h1>
@@ -50,6 +60,7 @@ function AdminLayout() {
             {profile ? `Connecté en tant que ${profile.first_name} ${profile.last_name}.` : "Espace réservé aux responsables."} Gérez les fidèles, les départements, les programmes, la médiathèque et les finances.
           </p>
         </div>
+
       </section>
 
       {allowed && (

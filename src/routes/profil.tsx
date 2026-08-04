@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { LogOut, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { LogOut, Pencil, ShieldCheck, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/shared/PageShell";
+import { StepForm, type FormValues } from "@/components/shared/StepForm";
 import { useAuth } from "@/hooks/useAuth";
 import { formatDate } from "@/lib/slug";
+
 
 export const Route = createFileRoute("/profil")({
   head: () => ({
@@ -22,6 +25,9 @@ export const Route = createFileRoute("/profil")({
 
 function ProfilPage() {
   const { profile, userId, loading, isAdmin, isLeader, signOut } = useAuth();
+  const qc = useQueryClient();
+  const [editing, setEditing] = useState(false);
+  const [values, setValues] = useState<FormValues>({});
 
   const { data: department } = useQuery({
     queryKey: ["department", profile?.department_id],
@@ -32,6 +38,48 @@ function ProfilPage() {
       return data;
     },
   });
+
+  const save = useMutation({
+    mutationFn: async () => {
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          first_name: String(values["first_name"] ?? ""),
+          last_name: String(values["last_name"] ?? ""),
+          phone: String(values["phone"] ?? "") || null,
+          emergency_contact: String(values["emergency_contact"] ?? "") || null,
+          commune: String(values["commune"] ?? "") || null,
+          avenue: String(values["avenue"] ?? "") || null,
+          parcelle: String(values["parcelle"] ?? "") || null,
+          marital_status: String(values["marital_status"] ?? "") || null,
+          children_count: Number(values["children_count"] ?? 0) || 0,
+          photo_url: String(values["photo_url"] ?? "") || null,
+        })
+        .eq("id", userId!);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["me"] });
+      setEditing(false);
+    },
+  });
+
+  const openEditor = () => {
+    setValues({
+      first_name: profile?.first_name ?? "",
+      last_name: profile?.last_name ?? "",
+      phone: profile?.phone ?? "",
+      emergency_contact: profile?.emergency_contact ?? "",
+      commune: profile?.commune ?? "",
+      avenue: profile?.avenue ?? "",
+      parcelle: profile?.parcelle ?? "",
+      marital_status: profile?.marital_status ?? "",
+      children_count: String(profile?.children_count ?? 0),
+      photo_url: profile?.photo_url ?? "",
+    });
+    setEditing(true);
+  };
+
 
   if (!loading && !userId) {
     return (
@@ -57,7 +105,16 @@ function ProfilPage() {
     >
       <section className="mx-auto grid max-w-5xl gap-6 px-4 py-14 sm:px-6 sm:py-20 md:grid-cols-2">
         <div className="rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8">
-          <h2 className="font-display text-xl font-black">Mes informations</h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="font-display text-xl font-black">Mes informations</h2>
+            <button
+              onClick={openEditor}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold hover:bg-muted"
+            >
+              <Pencil className="h-3.5 w-3.5" /> Modifier
+            </button>
+          </div>
+
           <dl className="mt-5 grid gap-3 text-sm">
             {[
               ["Nom complet", `${profile?.last_name ?? ""} ${profile?.first_name ?? ""}`.trim()],
@@ -111,6 +168,58 @@ function ProfilPage() {
           </button>
         </div>
       </section>
+
+      {editing && (
+        <div className="fixed inset-0 z-[200] grid place-items-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="no-scrollbar max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl sm:p-8">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h3 className="font-display text-lg font-black">Modifier mes informations</h3>
+              <button aria-label="Fermer" onClick={() => setEditing(false)} className="grid h-9 w-9 place-items-center rounded-full border border-border hover:bg-muted">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <StepForm
+              values={values}
+              onChange={setValues}
+              onSubmit={() => save.mutate()}
+              submitting={save.isPending}
+              submitLabel="Enregistrer"
+              steps={[
+                {
+                  title: "Identité",
+                  fields: [
+                    { name: "last_name", label: "Nom", required: true },
+                    { name: "first_name", label: "Prénom", required: true },
+                    { name: "photo_url", label: "Photo de profil", type: "media", accept: "image/*" },
+                  ],
+                },
+                {
+                  title: "Contact",
+                  fields: [
+                    { name: "phone", label: "Téléphone", type: "tel" },
+                    { name: "emergency_contact", label: "Contact d'urgence" },
+                  ],
+                },
+                {
+                  title: "Adresse & famille",
+                  fields: [
+                    { name: "commune", label: "Commune" },
+                    { name: "avenue", label: "Avenue" },
+                    { name: "parcelle", label: "Parcelle" },
+                    { name: "marital_status", label: "État civil", type: "select", options: [
+                      { value: "Célibataire", label: "Célibataire" },
+                      { value: "Marié(e)", label: "Marié(e)" },
+                      { value: "Veuf(ve)", label: "Veuf(ve)" },
+                    ] },
+                    { name: "children_count", label: "Nombre d'enfants", type: "number" },
+                  ],
+                },
+              ]}
+            />
+          </div>
+        </div>
+      )}
     </PageShell>
   );
+
 }

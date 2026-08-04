@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+
 
 export type AppRole = "berger" | "chef_departement" | "fidele";
 
@@ -9,6 +11,8 @@ export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const qc = useQueryClient();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
@@ -62,6 +66,12 @@ export function useAuth() {
     isAdmin,
     isLeader,
     leadDepartmentId,
-    signOut: () => supabase.auth.signOut(),
+    signOut: async () => {
+      await qc.cancelQueries();
+      qc.clear();
+      await supabase.auth.signOut();
+      navigate({ to: "/", replace: true });
+    },
+
   };
 }
