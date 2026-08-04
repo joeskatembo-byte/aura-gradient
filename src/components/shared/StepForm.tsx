@@ -177,7 +177,14 @@ function Field({
           ariaLabel={field.label}
           className="[&>button]:rounded-xl [&>button]:py-3"
         />
+      ) : field.type === "media" ? (
+        <MediaPicker
+          value={String(value ?? "")}
+          onChange={(v) => onChange(v)}
+          accept={field.accept ?? "image/*"}
+        />
       ) : (
+
         <input
           type={field.type ?? "text"}
           value={String(value ?? "")}
