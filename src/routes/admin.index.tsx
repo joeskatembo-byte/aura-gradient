@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Panel, useDepartmentOptions } from "@/components/admin/Crud";
+import { FancySelect } from "@/components/shared/FancySelect";
 import { useAuth } from "@/hooks/useAuth";
 import { formatDate } from "@/lib/slug";
 
