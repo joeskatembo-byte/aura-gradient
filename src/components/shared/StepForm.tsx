@@ -166,14 +166,13 @@ function Field({
           className={base}
         />
       ) : field.type === "select" ? (
-        <select value={String(value ?? "")} onChange={(e) => onChange(e.target.value)} className={base}>
-          <option value="">— Choisir —</option>
-          {field.options?.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
+        <FancySelect
+          value={String(value ?? "")}
+          onChange={(v) => onChange(v)}
+          options={field.options ?? []}
+          ariaLabel={field.label}
+          className="[&>button]:rounded-xl [&>button]:py-3"
+        />
       ) : (
         <input
           type={field.type ?? "text"}
