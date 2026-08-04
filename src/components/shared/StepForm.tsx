@@ -1,17 +1,20 @@
 import { useState, type ReactNode } from "react";
 import { Check, ChevronLeft, ChevronRight, Loader2, X } from "lucide-react";
 import { FancySelect } from "@/components/shared/FancySelect";
+import { MediaPicker } from "@/components/shared/MediaPicker";
 
 export type StepField = {
   name: string;
   label: string;
-  type?: "text" | "tel" | "textarea" | "date" | "select" | "number" | "password" | "checkbox" | "url";
+  type?: "text" | "tel" | "textarea" | "date" | "select" | "number" | "password" | "checkbox" | "url" | "media";
   options?: { value: string; label: string }[];
   required?: boolean;
   placeholder?: string;
   hint?: string;
+  accept?: string;
   hidden?: (values: FormValues) => boolean;
 };
+
 
 export type FormStep = { title: string; subtitle?: string; fields: StepField[] };
 export type FormValues = Record<string, string | boolean>;
