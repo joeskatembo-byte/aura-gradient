@@ -4,11 +4,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { FancySelect } from "@/components/shared/FancySelect";
+import { MediaPicker } from "@/components/shared/MediaPicker";
 
 /** Accès générique aux tables (le typage strict est assuré par les policies RLS côté base). */
 const db = supabase as unknown as SupabaseClient;
 
-export type FieldType = "text" | "textarea" | "number" | "date" | "select" | "checkbox";
+export type FieldType = "text" | "textarea" | "number" | "date" | "select" | "checkbox" | "media";
 
 export type Field = {
   name: string;
@@ -18,8 +19,10 @@ export type Field = {
   placeholder?: string;
   required?: boolean;
   hideInTable?: boolean;
+  accept?: string;
   render?: (row: Row) => string;
 };
+
 
 export type Row = Record<string, unknown> & { id: string };
 
