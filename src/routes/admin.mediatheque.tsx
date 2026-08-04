@@ -23,8 +23,8 @@ function MediaAdmin() {
             { value: "Vidéos", label: "Vidéos" },
           ] },
           { name: "description", label: "Description courte" },
-          { name: "thumbnail_url", label: "Image (URL)", placeholder: "https://…" },
-          { name: "media_url", label: "Fichier / lien média (URL)", hideInTable: true },
+          { name: "thumbnail_url", label: "Image de couverture", type: "media", accept: "image/*" },
+          { name: "media_url", label: "Fichier média (photo, vidéo ou audio)", type: "media", accept: "image/*,video/*,audio/*", hideInTable: true },
           { name: "story", label: "Histoire liée au média", type: "textarea", hideInTable: true },
           { name: "department_id", label: "Département", type: "select", options: departments, hideInTable: true },
         ]}
@@ -38,7 +38,7 @@ function MediaAdmin() {
           { name: "display_name", label: "Nom affiché", required: true },
           { name: "content", label: "Témoignage", type: "textarea", required: true },
           { name: "published", label: "Publié", type: "checkbox", render: (r) => (r["published"] ? "Oui" : "Non") },
-          { name: "photo_url", label: "Photo (URL)", hideInTable: true },
+          { name: "photo_url", label: "Photo", type: "media", accept: "image/*", hideInTable: true },
         ]}
       />
     </div>
