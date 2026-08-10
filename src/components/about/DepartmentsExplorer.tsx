@@ -2,9 +2,9 @@ import { useState } from "react";
 import { departments, type Department } from "@/data/about";
 import { useReveal } from "@/hooks/useReveal";
 import {
-import { Typed } from "@/components/shared/Typed";
   Music, Users, HandHeart, Megaphone, Heart, Star, Clock, Phone, AlertTriangle, CalendarDays, Target, Compass,
 } from "lucide-react";
+import { Typed } from "@/components/shared/Typed";
 
 const icons = { music: Music, users: Users, hands: HandHeart, megaphone: Megaphone, heart: Heart, star: Star };
 
