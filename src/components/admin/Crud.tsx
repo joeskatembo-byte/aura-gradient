@@ -175,6 +175,19 @@ export function CrudSection({
           onSubmit={(values) => save.mutate(editing ? { ...values, id: editing.id } : values)}
         />
       )}
+
+      <ConfirmDeleteDialog
+        open={!!pendingDelete}
+        pending={remove.isPending}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={() => pendingDelete && remove.mutate(pendingDelete)}
+      />
+      <SuccessDialog
+        open={deleted}
+        title="Suppression effectuée"
+        description="L'élément a bien été supprimé de la base."
+        onClose={() => setDeleted(false)}
+      />
     </Panel>
   );
 }
