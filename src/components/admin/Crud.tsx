@@ -95,8 +95,13 @@ export function CrudSection({
       const { error } = await db.from(table).delete().eq("id", id);
       if (error) throw error;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", table] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", table] });
+      setPendingDelete(null);
+      setDeleted(true);
+    },
   });
+
 
   const columns = useMemo(() => fields.filter((f) => !f.hideInTable).slice(0, 4), [fields]);
   const open = creating || !!editing;
