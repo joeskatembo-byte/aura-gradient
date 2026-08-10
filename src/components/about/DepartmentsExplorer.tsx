@@ -2,6 +2,7 @@ import { useState } from "react";
 import { departments, type Department } from "@/data/about";
 import { useReveal } from "@/hooks/useReveal";
 import {
+import { Typed } from "@/components/shared/Typed";
   Music, Users, HandHeart, Megaphone, Heart, Star, Clock, Phone, AlertTriangle, CalendarDays, Target, Compass,
 } from "lucide-react";
 
@@ -22,8 +23,12 @@ export function DepartmentsExplorer() {
           <h2 className="mt-4 text-3xl font-black sm:text-4xl md:text-5xl">
             Quatorze équipes, <span className="instagram-text">une seule maison</span>
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Choisissez un département pour voir sa vision, ses horaires, ses responsables et ses actualités.
+          <p className="mt-3 min-h-[3rem] text-muted-foreground">
+            <Typed items={[
+              "Choisissez un département pour voir sa vision, ses horaires, ses responsables et ses actualités.",
+              "Quatorze équipes, une seule mission : servir.",
+              "Trouvez le service où votre don portera du fruit.",
+            ]} />
           </p>
         </header>
 

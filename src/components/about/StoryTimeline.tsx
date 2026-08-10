@@ -2,6 +2,7 @@ import { useState } from "react";
 import { timeline } from "@/data/about";
 import { useReveal } from "@/hooks/useReveal";
 import { Sparkles } from "lucide-react";
+import { Typed } from "@/components/shared/Typed";
 
 export function StoryTimeline() {
   const [active, setActive] = useState(0);
@@ -36,8 +37,12 @@ export function StoryTimeline() {
           <h2 className="mt-4 text-3xl font-black sm:text-4xl md:text-5xl">
             Un <span className="instagram-text">voyage</span> de foi, année après année
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Survolez ou touchez une date : l'archive correspondante se révèle en fond.
+          <p className="mt-3 min-h-[3rem] text-muted-foreground">
+            <Typed items={[
+              "Survolez ou touchez une date : l'archive correspondante se révèle en fond.",
+              "De la première cellule de prière à une communauté de 9 200 fidèles.",
+              "Une histoire écrite par la fidélité de Dieu.",
+            ]} />
           </p>
         </header>
 
