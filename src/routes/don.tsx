@@ -123,8 +123,8 @@ function DonPage() {
             { icon: Landmark, title: "Virement bancaire", desc: "Compte USD 00012-3456789-01 · Rawbank Kinshasa, intitulé « ENV Projets »." },
             { icon: Sparkles, title: "Sur place", desc: "Remettez votre offrande au secrétariat, contre reçu numéroté, chaque dimanche." },
           ].map((m) => (
-            <div key={m.title} className="rounded-3xl border border-border bg-card/70 p-6 backdrop-blur-xl">
-              <span className="grid h-11 w-11 place-items-center rounded-2xl instagram-animated text-white">
+            <div key={m.title} className="card-lift group rounded-3xl border border-border bg-card/70 p-6 backdrop-blur-xl">
+              <span className="grid h-11 w-11 place-items-center rounded-2xl instagram-animated text-white transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
                 <m.icon className="h-5 w-5" />
               </span>
               <h3 className="mt-4 font-display text-lg font-bold">{m.title}</h3>
@@ -171,7 +171,7 @@ function ProjectCarousel({ projects, onDonate }: { projects: Project[]; onDonate
         ))}
       </div>
 
-      <div key={p.id} className="animate-fade-in grid gap-6 rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8 md:grid-cols-[minmax(0,1fr)_320px]">
+      <div key={p.id} className="card-lift animate-fade-in group grid gap-6 rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8 md:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
           <h3 className="font-display text-2xl font-black sm:text-3xl">{p.title}</h3>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{p.description}</p>
@@ -212,7 +212,7 @@ function ProjectCarousel({ projects, onDonate }: { projects: Project[]; onDonate
 
         <div className="relative min-h-[200px] overflow-hidden rounded-2xl instagram-animated">
           {p.image_url ? (
-            <img src={p.image_url} alt={p.title} loading="lazy" className="h-full w-full object-cover" />
+            <img src={p.image_url} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
           ) : (
             <div className="grid h-full w-full place-items-center p-6 text-center text-white">
               <div>

@@ -198,3 +198,31 @@
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Curseur "typed" clignotant */
+@keyframes typed-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.typed-cursor {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: currentColor;
+  opacity: 1;
+}
+.typed-cursor--blink { animation: typed-blink 0.9s infinite; }
+
+/* Survol : carte qui se soulève avec liseré dégradé */
+@utility card-lift {
+  transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease, border-color .4s ease;
+  &:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 24px 48px -20px rgba(131, 58, 180, .45);
+    border-color: rgba(193, 53, 132, .45);
+  }
+}
+

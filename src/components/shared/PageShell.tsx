@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import { Header } from "@/components/home/Header";
 import { Footer } from "@/components/home/Footer";
+import { Typed } from "@/components/shared/Typed";
 
 export function PageShell({
   eyebrow,
   title,
   intro,
+  introItems,
   stats,
   children,
   aside,
@@ -13,6 +15,8 @@ export function PageShell({
   eyebrow: string;
   title: ReactNode;
   intro?: string;
+  /** Phrases supplémentaires écrites en boucle façon "typed". */
+  introItems?: string[];
   stats?: { k: string; v: string }[];
   children: ReactNode;
   aside?: ReactNode;
@@ -38,18 +42,23 @@ export function PageShell({
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
           <p className="animate-fade-in text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">{eyebrow}</p>
           <h1 className="animate-fade-in mt-4 max-w-4xl text-4xl font-black leading-[1.05] sm:text-5xl md:text-6xl">{title}</h1>
-          {intro && <p className="animate-fade-in mt-5 max-w-2xl text-base text-muted-foreground sm:text-lg">{intro}</p>}
+          {intro && (
+            <p className="animate-fade-in mt-5 min-h-[3.5rem] max-w-2xl text-base text-muted-foreground sm:text-lg">
+              <Typed items={introItems && introItems.length ? [intro, ...introItems] : [intro]} />
+            </p>
+          )}
 
           {stats && (
             <div className="mt-8 flex flex-wrap gap-3">
               {stats.map((s) => (
-                <div key={s.v} className="rounded-2xl border border-border bg-card/60 px-4 py-3 backdrop-blur-xl">
+                <div key={s.v} className="card-lift rounded-2xl border border-border bg-card/60 px-4 py-3 backdrop-blur-xl">
                   <p className="font-display text-xl font-black instagram-text">{s.k}</p>
                   <p className="text-xs uppercase tracking-widest text-muted-foreground">{s.v}</p>
                 </div>
               ))}
             </div>
           )}
+
 
           {aside}
         </div>

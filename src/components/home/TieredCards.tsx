@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { LifeBuoy, BookOpenText, CalendarClock, ArrowRight } from "lucide-react";
 import { meditation } from "@/data/mock";
+import { Typed } from "@/components/shared/Typed";
 
 export function TieredCards() {
   return (
@@ -8,8 +9,12 @@ export function TieredCards() {
       <div className="mb-8 text-center">
         <div className="text-xs font-semibold uppercase tracking-wider instagram-text">L'appel de Christ</div>
         <h2 className="mt-2 font-display text-3xl font-bold sm:text-4xl">Un pas vers Lui, aujourd'hui.</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-          Vous n'êtes pas seul. Peu importe où vous en êtes, il y a toujours une main tendue et une Parole vivante pour vous relever.
+        <p className="mx-auto mt-3 min-h-[3.5rem] max-w-2xl text-muted-foreground">
+          <Typed items={[
+            "Vous n'êtes pas seul. Peu importe où vous en êtes, il y a toujours une main tendue et une Parole vivante pour vous relever.",
+            "Une prière, un conseil, une famille : tout commence par un pas.",
+            "Venez tel que vous êtes, repartez transformé.",
+          ]} />
         </p>
       </div>
 
@@ -65,7 +70,7 @@ function Card({
       className={`group relative overflow-hidden rounded-3xl border p-6 transition-all duration-300 sm:p-8
         ${featured
           ? "border-transparent instagram-gradient-soft md:-translate-y-4 md:scale-[1.03] shadow-2xl shadow-primary/10 ring-1 ring-primary/20"
-          : "border-border bg-card hover:-translate-y-1 hover:shadow-xl"}`}
+          : "border-border bg-card card-lift"}`}
     >
       {featured && <div className="absolute inset-x-0 top-0 h-1 instagram-animated" />}
       {top}

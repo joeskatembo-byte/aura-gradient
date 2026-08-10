@@ -35,7 +35,7 @@ export function HeroBento() {
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
         <div className="grid grid-cols-6 gap-3 sm:gap-4">
           {/* Main title tile */}
-          <div className="col-span-6 md:col-span-4 md:row-span-2 rounded-3xl border border-border bg-card p-6 sm:p-10 relative overflow-hidden">
+          <div className="col-span-6 md:col-span-4 md:row-span-2 card-lift rounded-3xl border border-border bg-card p-6 sm:p-10 relative overflow-hidden">
             <span className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
               <Sparkles className="h-3 w-3" /> Église Nouvelle Vie · Kinshasa, RDC
             </span>
@@ -57,7 +57,7 @@ export function HeroBento() {
           </div>
 
           {/* Verse tile */}
-          <div className="col-span-6 md:col-span-2 rounded-3xl border border-border bg-card p-6 relative overflow-hidden min-h-[180px]">
+          <div className="col-span-6 md:col-span-2 card-lift rounded-3xl border border-border bg-card p-6 relative overflow-hidden min-h-[180px]">
             <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Verset du jour</div>
             <div key={idx} className="mt-3 animate-fade-in">
               <p className="font-display text-lg font-semibold leading-snug">« {v.text} »</p>
@@ -81,14 +81,14 @@ export function HeroBento() {
           </div>
 
           {/* Counter */}
-          <div className="col-span-3 md:col-span-2 rounded-3xl border border-border p-6 instagram-gradient-soft">
+          <div className="col-span-3 md:col-span-2 card-lift rounded-3xl border border-border p-6 instagram-gradient-soft">
             <Users className="h-5 w-5 instagram-text" />
             <div className="mt-3 font-display text-3xl font-black sm:text-4xl">{count.toLocaleString("fr-FR")}<span className="instagram-text">+</span></div>
             <div className="mt-1 text-sm text-muted-foreground">Membres actifs dans la famille</div>
           </div>
 
           {/* Next event */}
-          <div className="col-span-3 md:col-span-2 rounded-3xl border border-border bg-card p-6">
+          <div className="col-span-3 md:col-span-2 card-lift rounded-3xl border border-border bg-card p-6">
             <Calendar className="h-5 w-5 text-primary" />
             <div className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Prochain grand rendez-vous</div>
             <div className="mt-1 font-display text-lg font-bold">Nuit d'intercession nationale</div>

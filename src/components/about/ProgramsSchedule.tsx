@@ -2,6 +2,7 @@ import { useState } from "react";
 import { weekProgram, upcomingWeeks } from "@/data/about";
 import { useReveal } from "@/hooks/useReveal";
 import { Clock, MapPin, CalendarRange, Sparkles } from "lucide-react";
+import { Typed } from "@/components/shared/Typed";
 
 const todayIndex = () => {
   const js = new Date().getDay(); // 0 = dimanche
@@ -22,8 +23,12 @@ export function ProgramsSchedule() {
           <h2 className="mt-4 text-3xl font-black sm:text-4xl md:text-5xl">
             Chaque jour a <span className="instagram-text">son rendez-vous</span>
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Horaires des cultes et des départements, jour par jour, plus les semaines à venir.
+          <p className="mt-3 min-h-[3rem] text-muted-foreground">
+            <Typed items={[
+              "Horaires des cultes et des départements, jour par jour, plus les semaines à venir.",
+              "Un rendez-vous pour chaque jour de la semaine.",
+              "Répétitions, intercession, école du dimanche et veillées.",
+            ]} />
           </p>
         </header>
 
@@ -109,7 +114,7 @@ function UpcomingWeeks() {
           <article
             key={w.title}
             style={{ transitionDelay: `${i * 80}ms` }}
-            className={`relative overflow-hidden rounded-3xl border border-border/60 bg-card/60 p-5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
+            className={`card-lift relative overflow-hidden rounded-3xl border border-border/60 bg-card/60 p-5 backdrop-blur-xl transition-all duration-500 ${
               visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
           >
