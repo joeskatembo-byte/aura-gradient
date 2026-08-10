@@ -98,7 +98,7 @@ function LeaderCard({ leader, index, onOpen }: { leader: Leader; index: number; 
       ref={ref}
       onClick={onOpen}
       style={{ transitionDelay: `${index * 70}ms` }}
-      className={`group relative overflow-hidden rounded-3xl border border-border/60 bg-card/50 p-6 text-left backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
+      className={`card-lift group relative overflow-hidden rounded-3xl border border-border/60 bg-card/50 p-6 text-left backdrop-blur-xl transition-all duration-500 ${
         visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
       }`}
     >

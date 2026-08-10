@@ -114,7 +114,7 @@ function UpcomingWeeks() {
           <article
             key={w.title}
             style={{ transitionDelay: `${i * 80}ms` }}
-            className={`relative overflow-hidden rounded-3xl border border-border/60 bg-card/60 p-5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
+            className={`card-lift relative overflow-hidden rounded-3xl border border-border/60 bg-card/60 p-5 backdrop-blur-xl transition-all duration-500 ${
               visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
           >
