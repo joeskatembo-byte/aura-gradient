@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Loader2, Pencil, Plus, Trash2, X } from "luc
 import { supabase } from "@/integrations/supabase/client";
 import { FancySelect } from "@/components/shared/FancySelect";
 import { MediaPicker } from "@/components/shared/MediaPicker";
+import { ConfirmDeleteDialog, SuccessDialog } from "@/components/shared/Dialogs";
 
 /** Accès générique aux tables (le typage strict est assuré par les policies RLS côté base). */
 const db = supabase as unknown as SupabaseClient;
