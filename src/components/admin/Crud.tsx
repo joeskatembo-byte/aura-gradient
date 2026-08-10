@@ -64,6 +64,8 @@ export function CrudSection({
   const qc = useQueryClient();
   const [editing, setEditing] = useState<Row | null>(null);
   const [creating, setCreating] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
+  const [deleted, setDeleted] = useState(false);
 
   const { data: rows = [], isLoading } = useQuery({
     queryKey: ["admin", table],
