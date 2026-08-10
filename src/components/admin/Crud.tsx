@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Loader2, Pencil, Plus, Trash2, X } from "luc
 import { supabase } from "@/integrations/supabase/client";
 import { FancySelect } from "@/components/shared/FancySelect";
 import { MediaPicker } from "@/components/shared/MediaPicker";
+import { ConfirmDeleteDialog, SuccessDialog } from "@/components/shared/Dialogs";
 
 /** Accès générique aux tables (le typage strict est assuré par les policies RLS côté base). */
 const db = supabase as unknown as SupabaseClient;
@@ -63,6 +64,8 @@ export function CrudSection({
   const qc = useQueryClient();
   const [editing, setEditing] = useState<Row | null>(null);
   const [creating, setCreating] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
+  const [deleted, setDeleted] = useState(false);
 
   const { data: rows = [], isLoading } = useQuery({
     queryKey: ["admin", table],
@@ -92,8 +95,13 @@ export function CrudSection({
       const { error } = await db.from(table).delete().eq("id", id);
       if (error) throw error;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", table] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", table] });
+      setPendingDelete(null);
+      setDeleted(true);
+    },
   });
+
 
   const columns = useMemo(() => fields.filter((f) => !f.hideInTable).slice(0, 4), [fields]);
   const open = creating || !!editing;
@@ -142,7 +150,7 @@ export function CrudSection({
                         </button>
                         <button
                           aria-label="Supprimer"
-                          onClick={() => { if (confirm("Supprimer cet élément ?")) remove.mutate(row.id); }}
+                          onClick={() => setPendingDelete(row.id)}
                           className="grid h-8 w-8 place-items-center rounded-full border border-border text-[color:var(--color-ig-pink)] hover:bg-background"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
@@ -167,6 +175,19 @@ export function CrudSection({
           onSubmit={(values) => save.mutate(editing ? { ...values, id: editing.id } : values)}
         />
       )}
+
+      <ConfirmDeleteDialog
+        open={!!pendingDelete}
+        pending={remove.isPending}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={() => pendingDelete && remove.mutate(pendingDelete)}
+      />
+      <SuccessDialog
+        open={deleted}
+        title="Suppression effectuée"
+        description="L'élément a bien été supprimé de la base."
+        onClose={() => setDeleted(false)}
+      />
     </Panel>
   );
 }
