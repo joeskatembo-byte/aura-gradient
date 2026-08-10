@@ -150,7 +150,7 @@ export function CrudSection({
                         </button>
                         <button
                           aria-label="Supprimer"
-                          onClick={() => { if (confirm("Supprimer cet élément ?")) remove.mutate(row.id); }}
+                          onClick={() => setPendingDelete(row.id)}
                           className="grid h-8 w-8 place-items-center rounded-full border border-border text-[color:var(--color-ig-pink)] hover:bg-background"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
