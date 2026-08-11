@@ -337,6 +337,48 @@ export type Database = {
           },
         ]
       }
+      meditations: {
+        Row: {
+          active: boolean
+          author: string
+          book: string
+          created_at: string
+          created_by: string | null
+          id: string
+          initial: string
+          message: string
+          published_at: string
+          reference: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          author?: string
+          book: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          initial?: string
+          message: string
+          published_at?: string
+          reference?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          author?: string
+          book?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          initial?: string
+          message?: string
+          published_at?: string
+          reference?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       participation_rates: {
         Row: {
           created_at: string
