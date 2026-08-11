@@ -25,6 +25,7 @@ const tabs = [
   { to: "/admin/programmes", label: "Programmes", icon: CalendarDays, exact: false },
   { to: "/admin/mediatheque", label: "Médiathèque", icon: Film, exact: false },
   { to: "/admin/meditations", label: "À méditer", icon: BookOpenText, exact: false },
+  { to: "/admin/messages", label: "Messages & requêtes", icon: Inbox, exact: false },
   { to: "/admin/finances", label: "Finances", icon: Wallet, exact: false },
 ] as const;
 
