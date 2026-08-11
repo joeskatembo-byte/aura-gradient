@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Loader2, LogIn } from "lucide-react";
+import { Loader2, LogIn, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/shared/PageShell";
 import { slugify, loginEmailFromSlug } from "@/lib/slug";
@@ -24,6 +24,7 @@ function ConnexionPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ last: "", first: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +72,17 @@ function ConnexionPage() {
             </label>
             <label className="block">
               <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Mot de passe</span>
-              <input required type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} className={input} />
+              <div className="relative">
+                <input required type={showPwd ? "text" : "password"} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} className={`${input} pr-12`} />
+                <button
+                  type="button"
+                  onClick={() => setShowPwd((v) => !v)}
+                  aria-label={showPwd ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                >
+                  {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </label>
           </div>
 
