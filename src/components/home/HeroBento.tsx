@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Users, Calendar, Sparkles, Play } from "lucide-react";
 import { verses, communityHero } from "@/data/mock";
+import { Typed } from "@/components/shared/Typed";
 
 export function HeroBento() {
   const [idx, setIdx] = useState(0);
@@ -43,8 +44,13 @@ export function HeroBento() {
               Bienvenue à<br />
               <span className="instagram-text">la Maison.</span>
             </h1>
-            <p className="mt-5 max-w-lg text-base text-muted-foreground sm:text-lg">
-              Une famille de foi. Une seule église, plusieurs nations. Venez tel que vous êtes — repartez transformé.
+            <p className="mt-5 min-h-[3.5rem] max-w-lg text-base text-muted-foreground sm:text-lg">
+              <Typed items={[
+                "Une famille de foi. Une seule église, plusieurs nations.",
+                "Venez tel que vous êtes — repartez transformé.",
+                "Une maison où chacun trouve sa place et sa destinée.",
+                "Adorer, grandir, servir : ensemble, au cœur de Kinshasa.",
+              ]} />
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="#actualites" className="inline-flex items-center gap-2 rounded-full instagram-animated px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-95">
