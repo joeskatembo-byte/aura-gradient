@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
 import { Route as AdminProgrammesRouteImport } from './routes/admin.programmes'
+import { Route as AdminMeditationsRouteImport } from './routes/admin.meditations'
 import { Route as AdminMediathequeRouteImport } from './routes/admin.mediatheque'
 import { Route as AdminFinancesRouteImport } from './routes/admin.finances'
 import { Route as AdminDepartementsRouteImport } from './routes/admin.departements'
@@ -81,6 +82,11 @@ const AdminProgrammesRoute = AdminProgrammesRouteImport.update({
   path: '/programmes',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMeditationsRoute = AdminMeditationsRouteImport.update({
+  id: '/meditations',
+  path: '/meditations',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMediathequeRoute = AdminMediathequeRouteImport.update({
   id: '/mediatheque',
   path: '/mediatheque',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
+  '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
   '/admin/': typeof AdminIndexRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
+  '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos': typeof AProposIndexRoute
   '/admin': typeof AdminIndexRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
+  '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
   '/admin/': typeof AdminIndexRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/admin/departements'
     | '/admin/finances'
     | '/admin/mediatheque'
+    | '/admin/meditations'
     | '/admin/programmes'
     | '/a-propos/'
     | '/admin/'
@@ -192,6 +202,7 @@ export interface FileRouteTypes {
     | '/admin/departements'
     | '/admin/finances'
     | '/admin/mediatheque'
+    | '/admin/meditations'
     | '/admin/programmes'
     | '/a-propos'
     | '/admin'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/admin/departements'
     | '/admin/finances'
     | '/admin/mediatheque'
+    | '/admin/meditations'
     | '/admin/programmes'
     | '/a-propos/'
     | '/admin/'
@@ -305,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProgrammesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/meditations': {
+      id: '/admin/meditations'
+      path: '/meditations'
+      fullPath: '/admin/meditations'
+      preLoaderRoute: typeof AdminMeditationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/mediatheque': {
       id: '/admin/mediatheque'
       path: '/mediatheque'
@@ -362,6 +381,7 @@ interface AdminRouteChildren {
   AdminDepartementsRoute: typeof AdminDepartementsRoute
   AdminFinancesRoute: typeof AdminFinancesRoute
   AdminMediathequeRoute: typeof AdminMediathequeRoute
+  AdminMeditationsRoute: typeof AdminMeditationsRoute
   AdminProgrammesRoute: typeof AdminProgrammesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -370,6 +390,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminDepartementsRoute: AdminDepartementsRoute,
   AdminFinancesRoute: AdminFinancesRoute,
   AdminMediathequeRoute: AdminMediathequeRoute,
+  AdminMeditationsRoute: AdminMeditationsRoute,
   AdminProgrammesRoute: AdminProgrammesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

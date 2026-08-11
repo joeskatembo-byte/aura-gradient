@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { BarChart3, CalendarDays, Film, LogOut, Users, Wallet, ShieldAlert } from "lucide-react";
+import { BarChart3, BookOpenText, CalendarDays, Film, LogOut, Users, Wallet, ShieldAlert } from "lucide-react";
 import { Header } from "@/components/home/Header";
 import { Footer } from "@/components/home/Footer";
 import { useAuth } from "@/hooks/useAuth";
@@ -24,6 +24,7 @@ const tabs = [
   { to: "/admin/departements", label: "Départements", icon: BarChart3, exact: false },
   { to: "/admin/programmes", label: "Programmes", icon: CalendarDays, exact: false },
   { to: "/admin/mediatheque", label: "Médiathèque", icon: Film, exact: false },
+  { to: "/admin/meditations", label: "À méditer", icon: BookOpenText, exact: false },
   { to: "/admin/finances", label: "Finances", icon: Wallet, exact: false },
 ] as const;
 

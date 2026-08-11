@@ -1,9 +1,36 @@
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { LifeBuoy, BookOpenText, CalendarClock, ArrowRight } from "lucide-react";
-import { meditation } from "@/data/mock";
+import { meditation as fallbackMeditation } from "@/data/mock";
+import { supabase } from "@/integrations/supabase/client";
 import { Typed } from "@/components/shared/Typed";
 
 export function TieredCards() {
+  const { data } = useQuery({
+    queryKey: ["meditation", "active"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("meditations")
+        .select("book, reference, message, author, initial")
+        .eq("active", true)
+        .order("published_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const meditation = data
+    ? {
+        book: data.book,
+        ref: data.reference,
+        message: data.message,
+        author: data.author,
+        initial: data.initial || data.author?.slice(0, 1) || "",
+      }
+    : fallbackMeditation;
+
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
       <div className="mb-8 text-center">
