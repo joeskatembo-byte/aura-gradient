@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
 import { Route as AdminProgrammesRouteImport } from './routes/admin.programmes'
+import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
 import { Route as AdminMeditationsRouteImport } from './routes/admin.meditations'
 import { Route as AdminMediathequeRouteImport } from './routes/admin.mediatheque'
 import { Route as AdminFinancesRouteImport } from './routes/admin.finances'
@@ -82,6 +83,11 @@ const AdminProgrammesRoute = AdminProgrammesRouteImport.update({
   path: '/programmes',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMeditationsRoute = AdminMeditationsRouteImport.update({
   id: '/meditations',
   path: '/meditations',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
+  '/admin/messages': typeof AdminMessagesRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
   '/admin/': typeof AdminIndexRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
+  '/admin/messages': typeof AdminMessagesRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos': typeof AProposIndexRoute
   '/admin': typeof AdminIndexRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
+  '/admin/messages': typeof AdminMessagesRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/a-propos/': typeof AProposIndexRoute
   '/admin/': typeof AdminIndexRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/admin/finances'
     | '/admin/mediatheque'
     | '/admin/meditations'
+    | '/admin/messages'
     | '/admin/programmes'
     | '/a-propos/'
     | '/admin/'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/admin/finances'
     | '/admin/mediatheque'
     | '/admin/meditations'
+    | '/admin/messages'
     | '/admin/programmes'
     | '/a-propos'
     | '/admin'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/admin/finances'
     | '/admin/mediatheque'
     | '/admin/meditations'
+    | '/admin/messages'
     | '/admin/programmes'
     | '/a-propos/'
     | '/admin/'
@@ -317,6 +329,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProgrammesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/messages': {
+      id: '/admin/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/meditations': {
       id: '/admin/meditations'
       path: '/meditations'
@@ -382,6 +401,7 @@ interface AdminRouteChildren {
   AdminFinancesRoute: typeof AdminFinancesRoute
   AdminMediathequeRoute: typeof AdminMediathequeRoute
   AdminMeditationsRoute: typeof AdminMeditationsRoute
+  AdminMessagesRoute: typeof AdminMessagesRoute
   AdminProgrammesRoute: typeof AdminProgrammesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -391,6 +411,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminFinancesRoute: AdminFinancesRoute,
   AdminMediathequeRoute: AdminMediathequeRoute,
   AdminMeditationsRoute: AdminMeditationsRoute,
+  AdminMessagesRoute: AdminMessagesRoute,
   AdminProgrammesRoute: AdminProgrammesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

@@ -215,7 +215,7 @@ export function Modal({
   return (
     <div className="fixed inset-0 z-[80] flex items-end justify-center p-0 sm:items-center sm:p-6">
       <div className="absolute inset-0 animate-fade-in bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative z-10 max-h-[92vh] w-full max-w-xl animate-scale-in overflow-y-auto rounded-t-3xl border border-border bg-card p-6 shadow-2xl sm:rounded-3xl sm:p-8">
+      <div className="no-scrollbar relative z-10 max-h-[92vh] w-full max-w-xl animate-scale-in overflow-y-auto rounded-t-3xl border border-border bg-card p-6 shadow-2xl sm:rounded-3xl sm:p-8">
         <div aria-hidden className="absolute inset-x-0 top-0 h-1.5 instagram-animated" />
         <div className="mb-6 flex items-start justify-between gap-4">
           <div className="min-w-0">
