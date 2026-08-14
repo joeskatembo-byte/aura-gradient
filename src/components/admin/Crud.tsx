@@ -126,7 +126,7 @@ export function CrudSection({
       ) : rows.length === 0 ? (
         <p className="py-10 text-sm text-muted-foreground">Aucun enregistrement pour l'instant.</p>
       ) : (
-        <div className="-mx-2 overflow-x-auto">
+        <div className="no-scrollbar -mx-2 overflow-x-auto">
           <table className="w-full min-w-[560px] border-separate border-spacing-y-2 px-2 text-sm">
             <thead>
               <tr className="text-left text-xs uppercase tracking-widest text-muted-foreground">
