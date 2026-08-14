@@ -67,22 +67,25 @@ function AdminLayout() {
 
       {allowed && (
         <nav className="sticky top-16 z-40 border-b border-border/60 bg-background/85 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 py-2 sm:px-6">
+          <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-1 px-3 py-2 sm:justify-start sm:px-6">
             {tabs.map((t) => {
               const active = t.exact ? pathname === t.to : pathname.startsWith(t.to);
               return (
                 <Link
                   key={t.to}
                   to={t.to}
-                  className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  title={t.label}
+                  className={`inline-flex min-w-0 items-center gap-1.5 rounded-full px-2.5 py-2 text-[13px] font-semibold transition-colors sm:gap-2 sm:px-4 sm:text-sm ${
                     active ? "instagram-animated text-white shadow-lg" : "hover:bg-muted"
                   }`}
                 >
-                  <t.icon className="h-4 w-4" /> {t.label}
+                  <t.icon className="h-4 w-4 shrink-0" />
+                  <span className="truncate">{t.label}</span>
                 </Link>
               );
             })}
           </div>
+
         </nav>
       )}
 
