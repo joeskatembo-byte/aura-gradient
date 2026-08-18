@@ -99,7 +99,7 @@ function TimelineRow({
   active,
   onActivate,
 }: {
-  entry: (typeof timeline)[number];
+  entry: TimelineEntry;
   index: number;
   active: boolean;
   onActivate: () => void;
