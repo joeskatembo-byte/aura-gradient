@@ -65,19 +65,20 @@ function AboutLayout() {
 
         {/* Sous-navigation */}
         <div className="sticky top-16 z-40 border-t border-border/60 bg-background/80 backdrop-blur-xl">
-          <div className="no-scrollbar mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-3 sm:px-6">
+          <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-2 px-4 py-3 sm:justify-start sm:px-6">
             {tabs.map((t) => {
               const active = t.exact ? pathname === t.to : pathname.startsWith(t.to);
               return (
                 <Link
                   key={t.to}
                   to={t.to}
-                  className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition-all sm:gap-2 sm:px-4 sm:text-sm ${
                     active
                       ? "instagram-animated text-white shadow-lg"
                       : "border border-border bg-card/50 hover:bg-muted"
                   }`}
                 >
+
                   <t.icon className="h-4 w-4" />
                   {t.label}
                 </Link>
