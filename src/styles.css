@@ -199,6 +199,11 @@
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Aucune barre de défilement horizontale sur tout le site */
+html, body { overflow-x: clip; max-width: 100%; }
+body ::-webkit-scrollbar:horizontal { height: 0; }
+
+
 /* Curseur "typed" clignotant */
 @keyframes typed-blink {
   0%, 45% { opacity: 1; }
