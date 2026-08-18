@@ -1,11 +1,41 @@
 import { useState } from "react";
-import { timeline } from "@/data/about";
+import { useQuery } from "@tanstack/react-query";
+import { timeline as fallbackTimeline, type TimelineEntry } from "@/data/about";
+import { supabase } from "@/integrations/supabase/client";
 import { useReveal } from "@/hooks/useReveal";
 import { Sparkles } from "lucide-react";
 import { Typed } from "@/components/shared/Typed";
 
+const TONES = [
+  "from-ig-blue via-ig-indigo to-ig-purple",
+  "from-ig-indigo via-ig-purple to-ig-magenta",
+  "from-ig-purple via-ig-magenta to-ig-pink",
+  "from-ig-pink via-ig-red to-ig-orange",
+  "from-ig-red via-ig-orange to-ig-gold",
+  "from-ig-orange via-ig-gold to-ig-yellow",
+];
+
 export function StoryTimeline() {
   const [active, setActive] = useState(0);
+
+  const { data: timeline = fallbackTimeline } = useQuery({
+    queryKey: ["timeline-entries"],
+    queryFn: async (): Promise<TimelineEntry[]> => {
+      const { data, error } = await supabase
+        .from("timeline_entries")
+        .select("year, title, text, position")
+        .order("position", { ascending: true });
+      if (error) throw error;
+      if (!data?.length) return fallbackTimeline;
+      return data.map((d, i) => ({
+        year: d.year,
+        title: d.title,
+        text: d.text,
+        tone: TONES[i % TONES.length],
+      }));
+    },
+  });
+
 
   return (
     <section id="histoire" className="relative overflow-hidden py-20 sm:py-28">
@@ -69,7 +99,7 @@ function TimelineRow({
   active,
   onActivate,
 }: {
-  entry: (typeof timeline)[number];
+  entry: TimelineEntry;
   index: number;
   active: boolean;
   onActivate: () => void;

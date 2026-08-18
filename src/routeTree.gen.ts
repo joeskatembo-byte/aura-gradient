@@ -23,6 +23,7 @@ import { Route as AdminProgrammesRouteImport } from './routes/admin.programmes'
 import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
 import { Route as AdminMeditationsRouteImport } from './routes/admin.meditations'
 import { Route as AdminMediathequeRouteImport } from './routes/admin.mediatheque'
+import { Route as AdminFriseRouteImport } from './routes/admin.frise'
 import { Route as AdminFinancesRouteImport } from './routes/admin.finances'
 import { Route as AdminDepartementsRouteImport } from './routes/admin.departements'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
@@ -98,6 +99,11 @@ const AdminMediathequeRoute = AdminMediathequeRouteImport.update({
   path: '/mediatheque',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFriseRoute = AdminFriseRouteImport.update({
+  id: '/frise',
+  path: '/frise',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminFinancesRoute = AdminFinancesRouteImport.update({
   id: '/finances',
   path: '/finances',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
+  '/admin/frise': typeof AdminFriseRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
+  '/admin/frise': typeof AdminFriseRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
+  '/admin/frise': typeof AdminFriseRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/a-propos/programmes'
     | '/admin/departements'
     | '/admin/finances'
+    | '/admin/frise'
     | '/admin/mediatheque'
     | '/admin/meditations'
     | '/admin/messages'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/a-propos/programmes'
     | '/admin/departements'
     | '/admin/finances'
+    | '/admin/frise'
     | '/admin/mediatheque'
     | '/admin/meditations'
     | '/admin/messages'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/a-propos/programmes'
     | '/admin/departements'
     | '/admin/finances'
+    | '/admin/frise'
     | '/admin/mediatheque'
     | '/admin/meditations'
     | '/admin/messages'
@@ -350,6 +362,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMediathequeRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/frise': {
+      id: '/admin/frise'
+      path: '/frise'
+      fullPath: '/admin/frise'
+      preLoaderRoute: typeof AdminFriseRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/finances': {
       id: '/admin/finances'
       path: '/finances'
@@ -399,6 +418,7 @@ const AProposRouteWithChildren =
 interface AdminRouteChildren {
   AdminDepartementsRoute: typeof AdminDepartementsRoute
   AdminFinancesRoute: typeof AdminFinancesRoute
+  AdminFriseRoute: typeof AdminFriseRoute
   AdminMediathequeRoute: typeof AdminMediathequeRoute
   AdminMeditationsRoute: typeof AdminMeditationsRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
@@ -409,6 +429,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminDepartementsRoute: AdminDepartementsRoute,
   AdminFinancesRoute: AdminFinancesRoute,
+  AdminFriseRoute: AdminFriseRoute,
   AdminMediathequeRoute: AdminMediathequeRoute,
   AdminMeditationsRoute: AdminMeditationsRoute,
   AdminMessagesRoute: AdminMessagesRoute,
