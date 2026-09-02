@@ -57,7 +57,24 @@ function FinanceAdmin() {
         {donations.length === 0 ? (
           <p className="py-10 text-sm text-muted-foreground">Aucun don annoncé pour l'instant.</p>
         ) : (
-          <div className="no-scrollbar -mx-2 overflow-x-auto">
+          <>
+          {/* Mobile : cartes empilées */}
+          <div className="grid gap-3 sm:hidden">
+            {donations.map((d) => (
+              <article key={d.id} className="rounded-2xl bg-muted/40 p-4">
+                <div className="flex min-w-0 items-baseline justify-between gap-3">
+                  <p className="min-w-0 truncate font-semibold">{d.donor_name ?? "Anonyme"}</p>
+                  <p className="shrink-0 font-display text-lg font-black instagram-text">{formatMoney(Number(d.amount), d.currency ?? "USD")}</p>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {d.method} · {d.status} · {formatDate(d.created_at)}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          {/* Tablette et desktop : tableau */}
+          <div className="no-scrollbar -mx-2 hidden overflow-x-auto sm:block">
             <table className="w-full min-w-[640px] border-separate border-spacing-y-2 px-2 text-sm">
               <thead>
                 <tr className="text-left text-xs uppercase tracking-widest text-muted-foreground">
@@ -81,6 +98,7 @@ function FinanceAdmin() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </Panel>
     </div>

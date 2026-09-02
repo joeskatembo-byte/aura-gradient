@@ -33,7 +33,7 @@ export function ProgramsSchedule() {
         </header>
 
         {/* Day selector */}
-        <div className="no-scrollbar -mx-4 mb-8 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:grid sm:grid-cols-7 sm:px-0">
+        <div className="mb-8 grid grid-cols-4 gap-2 sm:grid-cols-7">
           {weekProgram.map((p, i) => {
             const isActive = i === day;
             const isToday = i === todayIndex();
@@ -41,7 +41,7 @@ export function ProgramsSchedule() {
               <button
                 key={p.day}
                 onClick={() => setDay(i)}
-                className={`relative min-w-[86px] shrink-0 rounded-2xl border px-3 py-3 text-center transition-all duration-300 ${
+                className={`relative min-w-0 rounded-2xl border px-2 py-3 text-center transition-all duration-300 sm:px-3 ${
                   isActive
                     ? "border-transparent instagram-animated text-white shadow-xl"
                     : "border-border/70 bg-card/40 hover:-translate-y-0.5 hover:bg-card"

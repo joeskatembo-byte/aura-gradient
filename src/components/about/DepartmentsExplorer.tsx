@@ -33,7 +33,7 @@ export function DepartmentsExplorer() {
         </header>
 
         {/* Selector */}
-        <div className="no-scrollbar -mx-4 mb-8 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 lg:grid-cols-6">
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {departments.map((d) => {
             const Icon = icons[d.icon as keyof typeof icons];
             const isActive = d.slug === activeSlug;
@@ -41,7 +41,7 @@ export function DepartmentsExplorer() {
               <button
                 key={d.slug}
                 onClick={() => setActiveSlug(d.slug)}
-                className={`group flex min-w-[150px] shrink-0 snap-start flex-col items-start gap-2 rounded-2xl border p-4 text-left transition-all duration-300 sm:min-w-0 ${
+                className={`group flex min-w-0 flex-col items-start gap-2 rounded-2xl border p-4 text-left transition-all duration-300 ${
                   isActive
                     ? "border-transparent bg-card shadow-xl ring-1 ring-primary/30"
                     : "border-border/70 bg-card/40 hover:-translate-y-0.5 hover:bg-card"
