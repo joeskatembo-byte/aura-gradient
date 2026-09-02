@@ -22,7 +22,7 @@ function NewsAdmin() {
           { value: "anniversaire", label: "Anniversaire" },
           { value: "urgent", label: "Urgent" },
         ] },
-        { name: "letter", label: "Lettre du badge", placeholder: "E", hint: "Initiale affichée dans le cercle dégradé (ex : E pour Église entière)." },
+        { name: "letter", label: "Lettre du badge (initiale du département)", placeholder: "E" },
         { name: "content", label: "Contenu de l'annonce", type: "textarea", required: true, hideInTable: true },
         { name: "department_id", label: "Département concerné", type: "select", options: departments, hideInTable: true },
         { name: "published_at", label: "Date de publication", type: "date", render: (r) => new Date(String(r["published_at"])).toLocaleDateString("fr-FR") },
