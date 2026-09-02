@@ -200,6 +200,7 @@ function MembersAdmin() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </Panel>
     </div>
