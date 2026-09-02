@@ -98,6 +98,7 @@ function FinanceAdmin() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </Panel>
     </div>
