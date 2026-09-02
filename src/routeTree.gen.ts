@@ -26,6 +26,7 @@ import { Route as AdminMediathequeRouteImport } from './routes/admin.mediatheque
 import { Route as AdminFriseRouteImport } from './routes/admin.frise'
 import { Route as AdminFinancesRouteImport } from './routes/admin.finances'
 import { Route as AdminDepartementsRouteImport } from './routes/admin.departements'
+import { Route as AdminActualitesRouteImport } from './routes/admin.actualites'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
 import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
@@ -114,6 +115,11 @@ const AdminDepartementsRoute = AdminDepartementsRouteImport.update({
   path: '/departements',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminActualitesRoute = AdminActualitesRouteImport.update({
+  id: '/actualites',
+  path: '/actualites',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AProposProgrammesRoute = AProposProgrammesRouteImport.update({
   id: '/programmes',
   path: '/programmes',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/frise': typeof AdminFriseRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/frise': typeof AdminFriseRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/frise': typeof AdminFriseRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/actualites'
     | '/admin/departements'
     | '/admin/finances'
     | '/admin/frise'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/actualites'
     | '/admin/departements'
     | '/admin/finances'
     | '/admin/frise'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/actualites'
     | '/admin/departements'
     | '/admin/finances'
     | '/admin/frise'
@@ -383,6 +395,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDepartementsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/actualites': {
+      id: '/admin/actualites'
+      path: '/actualites'
+      fullPath: '/admin/actualites'
+      preLoaderRoute: typeof AdminActualitesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/a-propos/programmes': {
       id: '/a-propos/programmes'
       path: '/programmes'
@@ -416,6 +435,7 @@ const AProposRouteWithChildren =
   AProposRoute._addFileChildren(AProposRouteChildren)
 
 interface AdminRouteChildren {
+  AdminActualitesRoute: typeof AdminActualitesRoute
   AdminDepartementsRoute: typeof AdminDepartementsRoute
   AdminFinancesRoute: typeof AdminFinancesRoute
   AdminFriseRoute: typeof AdminFriseRoute
@@ -427,6 +447,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminActualitesRoute: AdminActualitesRoute,
   AdminDepartementsRoute: AdminDepartementsRoute,
   AdminFinancesRoute: AdminFinancesRoute,
   AdminFriseRoute: AdminFriseRoute,
