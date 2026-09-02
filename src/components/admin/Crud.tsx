@@ -126,7 +126,41 @@ export function CrudSection({
       ) : rows.length === 0 ? (
         <p className="py-10 text-sm text-muted-foreground">Aucun enregistrement pour l'instant.</p>
       ) : (
-        <div className="no-scrollbar -mx-2 overflow-x-auto">
+        <>
+        {/* Mobile : cartes empilées, aucune barre de défilement */}
+        <div className="grid gap-3 sm:hidden">
+          {rows.map((row) => (
+            <article key={row.id} className="rounded-2xl bg-muted/40 p-4">
+              <dl className="grid gap-2">
+                {columns.map((c) => (
+                  <div key={c.name} className="grid grid-cols-[minmax(0,7rem)_minmax(0,1fr)] items-baseline gap-2">
+                    <dt className="truncate text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">{c.label}</dt>
+                    <dd className="min-w-0 break-words text-sm font-medium">
+                      {c.render ? c.render(row) : String(row[c.name] ?? "—")}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {canWrite && (
+                <div className="mt-3 flex justify-end gap-2">
+                  <button aria-label="Modifier" onClick={() => { setCreating(false); setEditing(row); }} className="grid h-8 w-8 place-items-center rounded-full border border-border hover:bg-background">
+                    <Pencil className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    aria-label="Supprimer"
+                    onClick={() => setPendingDelete(row.id)}
+                    className="grid h-8 w-8 place-items-center rounded-full border border-border text-[color:var(--color-ig-pink)] hover:bg-background"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+
+        {/* Tablette et desktop : tableau */}
+        <div className="no-scrollbar -mx-2 hidden overflow-x-auto sm:block">
           <table className="w-full min-w-[560px] border-separate border-spacing-y-2 px-2 text-sm">
             <thead>
               <tr className="text-left text-xs uppercase tracking-widest text-muted-foreground">
