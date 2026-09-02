@@ -77,12 +77,37 @@ export function HeroBento() {
           </div>
 
           {/* Community photo */}
-          <div className="col-span-6 md:col-span-2 rounded-3xl overflow-hidden relative min-h-[220px] group">
-            <img src={communityHero} alt="Communauté en louange" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" width={1280} height={960} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 text-white">
-              <div className="text-xs font-semibold uppercase tracking-wider opacity-80">Notre communauté</div>
+          <div className="col-span-6 md:col-span-2 rounded-3xl overflow-hidden relative min-h-[220px] group border border-border shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+            <img
+              src={communityHero}
+              alt="Communauté en louange"
+              className="absolute inset-0 h-full w-full object-cover animate-kenburns group-hover:animate-none group-hover:scale-110 transition-transform duration-700"
+              width={1280}
+              height={960}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/80" />
+
+            {/* Balayage lumineux au survol */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-1000 ease-out group-hover:translate-x-full"
+            />
+
+            {/* Liseré dégradé animé en bas */}
+            <div aria-hidden className="absolute inset-x-0 bottom-0 h-1 instagram-animated opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+            {/* Halo pulsant derrière le texte */}
+            <div aria-hidden className="absolute bottom-0 left-0 h-24 w-24 rounded-full instagram-animated opacity-20 blur-2xl animate-pulse" />
+
+            <div className="absolute bottom-4 left-4 right-4 text-white transition-transform duration-500 group-hover:-translate-y-1.5">
+              <div className="text-xs font-semibold uppercase tracking-wider opacity-80 transition-opacity duration-500 group-hover:opacity-100">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent align-middle mr-2 animate-pulse" />
+                Notre communauté
+              </div>
               <div className="font-display text-xl font-bold">Une foi. Plusieurs visages.</div>
+              <div className="mt-1 max-h-0 overflow-hidden text-sm text-white/85 opacity-0 transition-all duration-500 group-hover:max-h-10 group-hover:opacity-100">
+                Chaque dimanche, une famille qui loue ensemble.
+              </div>
             </div>
           </div>
 

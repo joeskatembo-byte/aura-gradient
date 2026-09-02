@@ -196,6 +196,17 @@
   animation: marquee-x 40s linear infinite;
 }
 
+/* Effet Ken Burns : zoom lent aller-retour sur les images */
+@keyframes kenburns {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.12) translate(-1.5%, -1.5%); }
+  100% { transform: scale(1) translate(0, 0); }
+}
+@utility animate-kenburns {
+  animation: kenburns 14s ease-in-out infinite;
+  will-change: transform;
+}
+
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
