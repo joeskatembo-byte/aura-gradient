@@ -110,7 +110,46 @@ function MembersAdmin() {
         {filtered.length === 0 ? (
           <p className="py-10 text-sm text-muted-foreground">Aucun fidèle enregistré pour l'instant.</p>
         ) : (
-          <div className="no-scrollbar -mx-2 overflow-x-auto">
+          <>
+          {/* Mobile : cartes empilées */}
+          <div className="grid gap-3 sm:hidden">
+            {filtered.map((p) => {
+              const role = (roles.find((r) => r.user_id === p.id)?.role ?? "fidele") as RoleValue;
+              return (
+                <article key={p.id} className="grid gap-3 rounded-2xl bg-muted/40 p-4">
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold">{p.last_name} {p.first_name}</p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {p.phone ?? "—"} · {[p.commune, p.avenue, p.parcelle].filter(Boolean).join(" · ") || "—"}
+                    </p>
+                    <p className="mt-0.5 text-[11px] uppercase tracking-widest text-muted-foreground">Inscrit le {formatDate(p.created_at)}</p>
+                  </div>
+                  <div className="grid gap-2">
+                    <FancySelect
+                      size="sm"
+                      ariaLabel="Département"
+                      placeholder="Aucun département"
+                      value={p.department_id ?? ""}
+                      options={departments}
+                      onChange={(v) => setDepartment.mutate({ id: p.id, departmentId: v || null })}
+                    />
+                    <FancySelect
+                      size="sm"
+                      ariaLabel="Rôle"
+                      placeholder=""
+                      disabled={!isAdmin}
+                      value={role}
+                      options={(Object.keys(roleLabels) as RoleValue[]).map((r) => ({ value: r, label: roleLabels[r] }))}
+                      onChange={(v) => setRole.mutate({ userId: p.id, role: v as RoleValue, departmentId: p.department_id })}
+                    />
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          {/* Tablette et desktop : tableau */}
+          <div className="no-scrollbar -mx-2 hidden overflow-x-auto sm:block">
             <table className="w-full min-w-[820px] border-separate border-spacing-y-2 px-2 text-sm">
               <thead>
                 <tr className="text-left text-xs uppercase tracking-widest text-muted-foreground">
