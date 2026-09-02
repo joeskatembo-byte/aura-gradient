@@ -197,6 +197,7 @@ export function CrudSection({
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       {open && (
