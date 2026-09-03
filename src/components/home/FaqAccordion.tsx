@@ -1,9 +1,29 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
-import { faq } from "@/data/mock";
+import { useQuery } from "@tanstack/react-query";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
+import { faq as mockFaq } from "@/data/mock";
+
+const db = supabase as unknown as SupabaseClient;
 
 export function FaqAccordion() {
   const [open, setOpen] = useState<number | null>(0);
+
+  const { data } = useQuery({
+    queryKey: ["faq_items", "home"],
+    queryFn: async () => {
+      const { data, error } = await db
+        .from("faq_items")
+        .select("*")
+        .eq("active", true)
+        .order("position", { ascending: true });
+      if (error) throw error;
+      return (data ?? []).map((r) => ({ q: String((r as Record<string, unknown>)["question"]), a: String((r as Record<string, unknown>)["answer"]) }));
+    },
+  });
+
+  const faq = data && data.length > 0 ? data : mockFaq;
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">

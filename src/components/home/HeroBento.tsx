@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Users, Calendar, Sparkles, Play } from "lucide-react";
-import { verses, communityHero } from "@/data/mock";
+import { useQuery } from "@tanstack/react-query";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
+import { verses as mockVerses, communityHero } from "@/data/mock";
 import { Typed } from "@/components/shared/Typed";
 
 export function HeroBento() {
@@ -8,10 +11,26 @@ export function HeroBento() {
   const [count, setCount] = useState(0);
   const target = 2847;
 
+  const { data: dbVerses } = useQuery({
+    queryKey: ["bible_verses", "home"],
+    queryFn: async () => {
+      const db = supabase as unknown as SupabaseClient;
+      const { data, error } = await db
+        .from("bible_verses")
+        .select("*")
+        .eq("active", true)
+        .order("position", { ascending: true });
+      if (error) throw error;
+      return (data ?? []).map((r) => ({ ref: String((r as Record<string, unknown>)["reference"]), text: String((r as Record<string, unknown>)["text"]) }));
+    },
+  });
+
+  const verses = dbVerses && dbVerses.length > 0 ? dbVerses : mockVerses;
+
   useEffect(() => {
     const t = setInterval(() => setIdx((i) => (i + 1) % verses.length), 5000);
     return () => clearInterval(t);
-  }, []);
+  }, [verses.length]);
 
   useEffect(() => {
     let n = 0;
@@ -24,7 +43,7 @@ export function HeroBento() {
     return () => clearInterval(t);
   }, []);
 
-  const v = verses[idx];
+  const v = verses[idx % verses.length];
 
   return (
     <section className="relative overflow-hidden">
