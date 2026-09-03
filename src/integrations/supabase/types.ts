@@ -94,6 +94,36 @@ export type Database = {
         }
         Relationships: []
       }
+      bible_verses: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          position: number
+          reference: string
+          text: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          position?: number
+          reference: string
+          text: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          position?: number
+          reference?: string
+          text?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           anonymous: boolean
@@ -218,6 +248,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      faq_items: {
+        Row: {
+          active: boolean
+          answer: string
+          created_at: string
+          id: string
+          position: number
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          answer: string
+          created_at?: string
+          id?: string
+          position?: number
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          answer?: string
+          created_at?: string
+          id?: string
+          position?: number
+          question?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       finance_projects: {
         Row: {
@@ -576,6 +636,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      site_settings: {
+        Row: {
+          address: string
+          church_name: string
+          created_at: string
+          email: string
+          facebook_url: string
+          id: string
+          instagram_url: string
+          phone: string
+          schedule_main: string
+          tagline: string
+          twitter_url: string
+          updated_at: string
+          whatsapp_url: string
+          youtube_url: string
+        }
+        Insert: {
+          address?: string
+          church_name?: string
+          created_at?: string
+          email?: string
+          facebook_url?: string
+          id?: string
+          instagram_url?: string
+          phone?: string
+          schedule_main?: string
+          tagline?: string
+          twitter_url?: string
+          updated_at?: string
+          whatsapp_url?: string
+          youtube_url?: string
+        }
+        Update: {
+          address?: string
+          church_name?: string
+          created_at?: string
+          email?: string
+          facebook_url?: string
+          id?: string
+          instagram_url?: string
+          phone?: string
+          schedule_main?: string
+          tagline?: string
+          twitter_url?: string
+          updated_at?: string
+          whatsapp_url?: string
+          youtube_url?: string
+        }
+        Relationships: []
       }
       testimonies: {
         Row: {
