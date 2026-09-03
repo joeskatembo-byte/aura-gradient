@@ -38,7 +38,7 @@ export function NewsStories() {
     },
   });
 
-  const items: NewsItem[] = data && data.length > 0 ? data : mockNews;
+  const items: NewsItem[] = data && data.length > 0 ? data : mockNews.map((m) => ({ ...m, id: String(m.id) }));
   const safeI = i % items.length;
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export function NewsStories() {
       <div className="relative overflow-hidden rounded-3xl border border-border bg-card">
         {/* progress bars */}
         <div className="flex gap-1 p-3">
-          {news.map((_, k) => (
+          {items.map((_, k) => (
             <div key={k} className="h-1 flex-1 overflow-hidden rounded-full bg-muted">
               <div
                 key={`${k}-${key}`}
@@ -98,7 +98,7 @@ export function NewsStories() {
             <h3 className="font-display text-2xl font-bold sm:text-3xl">{item.title}</h3>
             <p className="mt-3 text-base leading-relaxed text-muted-foreground">{item.content}</p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {news.map((n, k) => (
+              {items.map((n, k) => (
                 <button key={n.id} onClick={() => { setI(k); setKey(x => x + 1); }}
                   className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${k === i ? "instagram-animated text-white" : "border border-border hover:bg-muted"}`}>
                   {n.title}
