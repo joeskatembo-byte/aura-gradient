@@ -33,8 +33,9 @@ export function VisionMission() {
   const visionSteps = useVisionSteps();
 
   const isRevealed = revealed.includes(step);
-  const current = visionSteps[step];
-  const Icon = icons[current.icon as keyof typeof icons];
+  const safeStep = Math.min(step, visionSteps.length - 1);
+  const current = visionSteps[safeStep];
+  const Icon = icons[current.icon as keyof typeof icons] ?? Flame;
 
   return (
     <section id="vision" className="relative py-20 sm:py-28">
