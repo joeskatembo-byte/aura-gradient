@@ -19,15 +19,18 @@ import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
+import { Route as AdminVisionRouteImport } from './routes/admin.vision'
 import { Route as AdminVersetsRouteImport } from './routes/admin.versets'
 import { Route as AdminProgrammesRouteImport } from './routes/admin.programmes'
 import { Route as AdminParametresRouteImport } from './routes/admin.parametres'
 import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
 import { Route as AdminMeditationsRouteImport } from './routes/admin.meditations'
 import { Route as AdminMediathequeRouteImport } from './routes/admin.mediatheque'
+import { Route as AdminLeadershipRouteImport } from './routes/admin.leadership'
 import { Route as AdminFriseRouteImport } from './routes/admin.frise'
 import { Route as AdminFinancesRouteImport } from './routes/admin.finances'
 import { Route as AdminFaqRouteImport } from './routes/admin.faq'
+import { Route as AdminEvenementsRouteImport } from './routes/admin.evenements'
 import { Route as AdminDepartementsRouteImport } from './routes/admin.departements'
 import { Route as AdminActualitesRouteImport } from './routes/admin.actualites'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
@@ -83,6 +86,11 @@ const AProposIndexRoute = AProposIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AProposRoute,
 } as any)
+const AdminVisionRoute = AdminVisionRouteImport.update({
+  id: '/vision',
+  path: '/vision',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminVersetsRoute = AdminVersetsRouteImport.update({
   id: '/versets',
   path: '/versets',
@@ -113,6 +121,11 @@ const AdminMediathequeRoute = AdminMediathequeRouteImport.update({
   path: '/mediatheque',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminLeadershipRoute = AdminLeadershipRouteImport.update({
+  id: '/leadership',
+  path: '/leadership',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminFriseRoute = AdminFriseRouteImport.update({
   id: '/frise',
   path: '/frise',
@@ -126,6 +139,11 @@ const AdminFinancesRoute = AdminFinancesRouteImport.update({
 const AdminFaqRoute = AdminFaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEvenementsRoute = AdminEvenementsRouteImport.update({
+  id: '/evenements',
+  path: '/evenements',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDepartementsRoute = AdminDepartementsRouteImport.update({
@@ -162,15 +180,18 @@ export interface FileRoutesByFullPath {
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
+  '/admin/evenements': typeof AdminEvenementsRoute
   '/admin/faq': typeof AdminFaqRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/frise': typeof AdminFriseRoute
+  '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/admin/versets': typeof AdminVersetsRoute
+  '/admin/vision': typeof AdminVisionRoute
   '/a-propos/': typeof AProposIndexRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -185,15 +206,18 @@ export interface FileRoutesByTo {
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
+  '/admin/evenements': typeof AdminEvenementsRoute
   '/admin/faq': typeof AdminFaqRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/frise': typeof AdminFriseRoute
+  '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/admin/versets': typeof AdminVersetsRoute
+  '/admin/vision': typeof AdminVisionRoute
   '/a-propos': typeof AProposIndexRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -211,15 +235,18 @@ export interface FileRoutesById {
   '/a-propos/programmes': typeof AProposProgrammesRoute
   '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
+  '/admin/evenements': typeof AdminEvenementsRoute
   '/admin/faq': typeof AdminFaqRoute
   '/admin/finances': typeof AdminFinancesRoute
   '/admin/frise': typeof AdminFriseRoute
+  '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
   '/admin/meditations': typeof AdminMeditationsRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
   '/admin/versets': typeof AdminVersetsRoute
+  '/admin/vision': typeof AdminVisionRoute
   '/a-propos/': typeof AProposIndexRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -238,15 +265,18 @@ export interface FileRouteTypes {
     | '/a-propos/programmes'
     | '/admin/actualites'
     | '/admin/departements'
+    | '/admin/evenements'
     | '/admin/faq'
     | '/admin/finances'
     | '/admin/frise'
+    | '/admin/leadership'
     | '/admin/mediatheque'
     | '/admin/meditations'
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
     | '/admin/versets'
+    | '/admin/vision'
     | '/a-propos/'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -261,15 +291,18 @@ export interface FileRouteTypes {
     | '/a-propos/programmes'
     | '/admin/actualites'
     | '/admin/departements'
+    | '/admin/evenements'
     | '/admin/faq'
     | '/admin/finances'
     | '/admin/frise'
+    | '/admin/leadership'
     | '/admin/mediatheque'
     | '/admin/meditations'
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
     | '/admin/versets'
+    | '/admin/vision'
     | '/a-propos'
     | '/admin'
   id:
@@ -286,15 +319,18 @@ export interface FileRouteTypes {
     | '/a-propos/programmes'
     | '/admin/actualites'
     | '/admin/departements'
+    | '/admin/evenements'
     | '/admin/faq'
     | '/admin/finances'
     | '/admin/frise'
+    | '/admin/leadership'
     | '/admin/mediatheque'
     | '/admin/meditations'
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
     | '/admin/versets'
+    | '/admin/vision'
     | '/a-propos/'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -382,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AProposIndexRouteImport
       parentRoute: typeof AProposRoute
     }
+    '/admin/vision': {
+      id: '/admin/vision'
+      path: '/vision'
+      fullPath: '/admin/vision'
+      preLoaderRoute: typeof AdminVisionRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/versets': {
       id: '/admin/versets'
       path: '/versets'
@@ -424,6 +467,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMediathequeRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/leadership': {
+      id: '/admin/leadership'
+      path: '/leadership'
+      fullPath: '/admin/leadership'
+      preLoaderRoute: typeof AdminLeadershipRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/frise': {
       id: '/admin/frise'
       path: '/frise'
@@ -443,6 +493,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/admin/faq'
       preLoaderRoute: typeof AdminFaqRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/evenements': {
+      id: '/admin/evenements'
+      path: '/evenements'
+      fullPath: '/admin/evenements'
+      preLoaderRoute: typeof AdminEvenementsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/departements': {
@@ -494,30 +551,36 @@ const AProposRouteWithChildren =
 interface AdminRouteChildren {
   AdminActualitesRoute: typeof AdminActualitesRoute
   AdminDepartementsRoute: typeof AdminDepartementsRoute
+  AdminEvenementsRoute: typeof AdminEvenementsRoute
   AdminFaqRoute: typeof AdminFaqRoute
   AdminFinancesRoute: typeof AdminFinancesRoute
   AdminFriseRoute: typeof AdminFriseRoute
+  AdminLeadershipRoute: typeof AdminLeadershipRoute
   AdminMediathequeRoute: typeof AdminMediathequeRoute
   AdminMeditationsRoute: typeof AdminMeditationsRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
   AdminParametresRoute: typeof AdminParametresRoute
   AdminProgrammesRoute: typeof AdminProgrammesRoute
   AdminVersetsRoute: typeof AdminVersetsRoute
+  AdminVisionRoute: typeof AdminVisionRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminActualitesRoute: AdminActualitesRoute,
   AdminDepartementsRoute: AdminDepartementsRoute,
+  AdminEvenementsRoute: AdminEvenementsRoute,
   AdminFaqRoute: AdminFaqRoute,
   AdminFinancesRoute: AdminFinancesRoute,
   AdminFriseRoute: AdminFriseRoute,
+  AdminLeadershipRoute: AdminLeadershipRoute,
   AdminMediathequeRoute: AdminMediathequeRoute,
   AdminMeditationsRoute: AdminMeditationsRoute,
   AdminMessagesRoute: AdminMessagesRoute,
   AdminParametresRoute: AdminParametresRoute,
   AdminProgrammesRoute: AdminProgrammesRoute,
   AdminVersetsRoute: AdminVersetsRoute,
+  AdminVisionRoute: AdminVisionRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
