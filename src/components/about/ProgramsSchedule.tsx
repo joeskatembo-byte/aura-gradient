@@ -129,6 +129,7 @@ export function ProgramsSchedule() {
 
 function UpcomingWeeks() {
   const { ref, visible } = useReveal<HTMLDivElement>(0.15);
+  const weeks = useUpcomingEvents();
 
   return (
     <div ref={ref} className="mt-16">
