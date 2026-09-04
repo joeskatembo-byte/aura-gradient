@@ -1,8 +1,34 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { weekProgram, upcomingWeeks } from "@/data/about";
 import { useReveal } from "@/hooks/useReveal";
+import { supabase } from "@/integrations/supabase/client";
 import { Clock, MapPin, CalendarRange, Sparkles } from "lucide-react";
 import { Typed } from "@/components/shared/Typed";
+
+const db = supabase as unknown as SupabaseClient;
+
+type UpcomingEvent = { id: string; date_label: string; title: string; detail: string; tone: string };
+
+function useUpcomingEvents(): { date: string; title: string; detail: string; tone: string }[] {
+  const { data } = useQuery({
+    queryKey: ["upcoming_events"],
+    queryFn: async () => {
+      const { data, error } = await db
+        .from("upcoming_events")
+        .select("id, date_label, title, detail, tone")
+        .eq("active", true)
+        .order("position");
+      if (error) throw error;
+      return (data ?? []) as unknown as UpcomingEvent[];
+    },
+  });
+  if (data && data.length > 0) {
+    return data.map((e) => ({ date: e.date_label, title: e.title, detail: e.detail, tone: e.tone }));
+  }
+  return upcomingWeeks;
+}
 
 const todayIndex = () => {
   const js = new Date().getDay(); // 0 = dimanche
