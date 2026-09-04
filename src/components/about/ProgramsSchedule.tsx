@@ -137,7 +137,7 @@ function UpcomingWeeks() {
         <CalendarRange className="h-5 w-5 text-primary" /> Les semaines à venir
       </h3>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {upcomingWeeks.map((w, i) => (
+        {weeks.map((w, i) => (
           <article
             key={w.title}
             style={{ transitionDelay: `${i * 80}ms` }}
