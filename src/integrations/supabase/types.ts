@@ -315,6 +315,54 @@ export type Database = {
         }
         Relationships: []
       }
+      leaders: {
+        Row: {
+          active: boolean
+          bio: string
+          created_at: string
+          id: string
+          initials: string
+          name: string
+          position: number
+          quote: string
+          role: string
+          short: string
+          since: string
+          tone: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          bio?: string
+          created_at?: string
+          id?: string
+          initials: string
+          name: string
+          position?: number
+          quote?: string
+          role: string
+          short?: string
+          since?: string
+          tone?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          bio?: string
+          created_at?: string
+          id?: string
+          initials?: string
+          name?: string
+          position?: number
+          quote?: string
+          role?: string
+          short?: string
+          since?: string
+          tone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       media_items: {
         Row: {
           category: string
@@ -777,6 +825,42 @@ export type Database = {
         }
         Relationships: []
       }
+      upcoming_events: {
+        Row: {
+          active: boolean
+          created_at: string
+          date_label: string
+          detail: string
+          id: string
+          position: number
+          title: string
+          tone: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          date_label: string
+          detail?: string
+          id?: string
+          position?: number
+          title: string
+          tone?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          date_label?: string
+          detail?: string
+          id?: string
+          position?: number
+          title?: string
+          tone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -808,6 +892,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      vision_steps: {
+        Row: {
+          active: boolean
+          answer: string
+          created_at: string
+          icon: string
+          id: string
+          label: string
+          position: number
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          answer: string
+          created_at?: string
+          icon?: string
+          id?: string
+          label: string
+          position?: number
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          answer?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          label?: string
+          position?: number
+          question?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {

@@ -1,16 +1,41 @@
 import { useState } from "react";
-import { visionSteps } from "@/data/about";
+import { useQuery } from "@tanstack/react-query";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { visionSteps as fallbackSteps } from "@/data/about";
+import { supabase } from "@/integrations/supabase/client";
 import { Flame, Compass, Target, Heart, ArrowRight, RotateCcw } from "lucide-react";
 
 const icons = { flame: Flame, compass: Compass, target: Target, heart: Heart };
 
+const db = supabase as unknown as SupabaseClient;
+
+type VisionStep = { question: string; label: string; answer: string; icon: string };
+
+function useVisionSteps(): readonly VisionStep[] {
+  const { data } = useQuery({
+    queryKey: ["vision_steps"],
+    queryFn: async () => {
+      const { data, error } = await db
+        .from("vision_steps")
+        .select("question, label, answer, icon")
+        .eq("active", true)
+        .order("position");
+      if (error) throw error;
+      return (data ?? []) as unknown as VisionStep[];
+    },
+  });
+  return data && data.length > 0 ? data : fallbackSteps;
+}
+
 export function VisionMission() {
   const [step, setStep] = useState(0);
   const [revealed, setRevealed] = useState<number[]>([]);
+  const visionSteps = useVisionSteps();
 
   const isRevealed = revealed.includes(step);
-  const current = visionSteps[step];
-  const Icon = icons[current.icon as keyof typeof icons];
+  const safeStep = Math.min(step, visionSteps.length - 1);
+  const current = visionSteps[safeStep];
+  const Icon = icons[current.icon as keyof typeof icons] ?? Flame;
 
   return (
     <section id="vision" className="relative py-20 sm:py-28">

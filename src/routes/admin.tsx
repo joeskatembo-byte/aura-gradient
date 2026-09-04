@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { BarChart3, BookOpenText, CalendarDays, Film, History, HelpCircle, Inbox, LogOut, Megaphone, Quote, Settings, Users, Wallet, ShieldAlert } from "lucide-react";
+import { BarChart3, BookOpenText, CalendarDays, CalendarRange, Compass, Film, History, HelpCircle, Inbox, LogOut, Megaphone, Quote, Settings, UserCog, Users, Wallet, ShieldAlert } from "lucide-react";
 
 import { Header } from "@/components/home/Header";
 import { Footer } from "@/components/home/Footer";
@@ -30,6 +30,9 @@ const tabs = [
   { to: "/admin/frise", label: "Frise", icon: History, exact: false },
   { to: "/admin/faq", label: "FAQ", icon: HelpCircle, exact: false },
   { to: "/admin/versets", label: "Versets", icon: Quote, exact: false },
+  { to: "/admin/leadership", label: "Leadership", icon: UserCog, exact: false },
+  { to: "/admin/vision", label: "Vision", icon: Compass, exact: false },
+  { to: "/admin/evenements", label: "Événements", icon: CalendarRange, exact: false },
   { to: "/admin/parametres", label: "Paramètres", icon: Settings, exact: false },
 
   { to: "/admin/messages", label: "Messages & requêtes", icon: Inbox, exact: false },
