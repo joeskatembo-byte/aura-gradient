@@ -1,10 +1,32 @@
 import { useEffect, useState } from "react";
-import { leaders, type Leader } from "@/data/about";
+import { useQuery } from "@tanstack/react-query";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { leaders as fallbackLeaders, type Leader } from "@/data/about";
 import { useReveal } from "@/hooks/useReveal";
+import { supabase } from "@/integrations/supabase/client";
 import { Quote, X, BadgeCheck } from "lucide-react";
+
+const db = supabase as unknown as SupabaseClient;
+
+function useLeaders(): Leader[] {
+  const { data } = useQuery({
+    queryKey: ["leaders"],
+    queryFn: async () => {
+      const { data, error } = await db
+        .from("leaders")
+        .select("name, role, initials, tone, short, bio, quote, since")
+        .eq("active", true)
+        .order("position");
+      if (error) throw error;
+      return (data ?? []) as unknown as Leader[];
+    },
+  });
+  return data && data.length > 0 ? data : fallbackLeaders;
+}
 
 export function LeadershipCards() {
   const [openLeader, setOpenLeader] = useState<Leader | null>(null);
+  const leaders = useLeaders();
 
   useEffect(() => {
     if (!openLeader) return;
