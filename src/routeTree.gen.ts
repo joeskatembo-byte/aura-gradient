@@ -21,6 +21,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
 import { Route as AdminVisionRouteImport } from './routes/admin.vision'
 import { Route as AdminVersetsRouteImport } from './routes/admin.versets'
+import { Route as AdminTemoignagesRouteImport } from './routes/admin.temoignages'
 import { Route as AdminProgrammesRouteImport } from './routes/admin.programmes'
 import { Route as AdminParametresRouteImport } from './routes/admin.parametres'
 import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
@@ -33,6 +34,7 @@ import { Route as AdminFaqRouteImport } from './routes/admin.faq'
 import { Route as AdminEvenementsRouteImport } from './routes/admin.evenements'
 import { Route as AdminDepartementsRouteImport } from './routes/admin.departements'
 import { Route as AdminActualitesRouteImport } from './routes/admin.actualites'
+import { Route as AdminAccueilRouteImport } from './routes/admin.accueil'
 import { Route as AProposProgrammesRouteImport } from './routes/a-propos.programmes'
 import { Route as AProposDepartementsRouteImport } from './routes/a-propos.departements'
 
@@ -96,6 +98,11 @@ const AdminVersetsRoute = AdminVersetsRouteImport.update({
   path: '/versets',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminTemoignagesRoute = AdminTemoignagesRouteImport.update({
+  id: '/temoignages',
+  path: '/temoignages',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProgrammesRoute = AdminProgrammesRouteImport.update({
   id: '/programmes',
   path: '/programmes',
@@ -156,6 +163,11 @@ const AdminActualitesRoute = AdminActualitesRouteImport.update({
   path: '/actualites',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAccueilRoute = AdminAccueilRouteImport.update({
+  id: '/accueil',
+  path: '/accueil',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AProposProgrammesRoute = AProposProgrammesRouteImport.update({
   id: '/programmes',
   path: '/programmes',
@@ -178,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/accueil': typeof AdminAccueilRoute
   '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/evenements': typeof AdminEvenementsRoute
@@ -190,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
+  '/admin/temoignages': typeof AdminTemoignagesRoute
   '/admin/versets': typeof AdminVersetsRoute
   '/admin/vision': typeof AdminVisionRoute
   '/a-propos/': typeof AProposIndexRoute
@@ -204,6 +218,7 @@ export interface FileRoutesByTo {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/accueil': typeof AdminAccueilRoute
   '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/evenements': typeof AdminEvenementsRoute
@@ -216,6 +231,7 @@ export interface FileRoutesByTo {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
+  '/admin/temoignages': typeof AdminTemoignagesRoute
   '/admin/versets': typeof AdminVersetsRoute
   '/admin/vision': typeof AdminVisionRoute
   '/a-propos': typeof AProposIndexRoute
@@ -233,6 +249,7 @@ export interface FileRoutesById {
   '/profil': typeof ProfilRoute
   '/a-propos/departements': typeof AProposDepartementsRoute
   '/a-propos/programmes': typeof AProposProgrammesRoute
+  '/admin/accueil': typeof AdminAccueilRoute
   '/admin/actualites': typeof AdminActualitesRoute
   '/admin/departements': typeof AdminDepartementsRoute
   '/admin/evenements': typeof AdminEvenementsRoute
@@ -245,6 +262,7 @@ export interface FileRoutesById {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
+  '/admin/temoignages': typeof AdminTemoignagesRoute
   '/admin/versets': typeof AdminVersetsRoute
   '/admin/vision': typeof AdminVisionRoute
   '/a-propos/': typeof AProposIndexRoute
@@ -263,6 +281,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/accueil'
     | '/admin/actualites'
     | '/admin/departements'
     | '/admin/evenements'
@@ -275,6 +294,7 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
+    | '/admin/temoignages'
     | '/admin/versets'
     | '/admin/vision'
     | '/a-propos/'
@@ -289,6 +309,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/accueil'
     | '/admin/actualites'
     | '/admin/departements'
     | '/admin/evenements'
@@ -301,6 +322,7 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
+    | '/admin/temoignages'
     | '/admin/versets'
     | '/admin/vision'
     | '/a-propos'
@@ -317,6 +339,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/a-propos/departements'
     | '/a-propos/programmes'
+    | '/admin/accueil'
     | '/admin/actualites'
     | '/admin/departements'
     | '/admin/evenements'
@@ -329,6 +352,7 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
+    | '/admin/temoignages'
     | '/admin/versets'
     | '/admin/vision'
     | '/a-propos/'
@@ -432,6 +456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminVersetsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/temoignages': {
+      id: '/admin/temoignages'
+      path: '/temoignages'
+      fullPath: '/admin/temoignages'
+      preLoaderRoute: typeof AdminTemoignagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/programmes': {
       id: '/admin/programmes'
       path: '/programmes'
@@ -516,6 +547,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActualitesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/accueil': {
+      id: '/admin/accueil'
+      path: '/accueil'
+      fullPath: '/admin/accueil'
+      preLoaderRoute: typeof AdminAccueilRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/a-propos/programmes': {
       id: '/a-propos/programmes'
       path: '/programmes'
@@ -549,6 +587,7 @@ const AProposRouteWithChildren =
   AProposRoute._addFileChildren(AProposRouteChildren)
 
 interface AdminRouteChildren {
+  AdminAccueilRoute: typeof AdminAccueilRoute
   AdminActualitesRoute: typeof AdminActualitesRoute
   AdminDepartementsRoute: typeof AdminDepartementsRoute
   AdminEvenementsRoute: typeof AdminEvenementsRoute
@@ -561,12 +600,14 @@ interface AdminRouteChildren {
   AdminMessagesRoute: typeof AdminMessagesRoute
   AdminParametresRoute: typeof AdminParametresRoute
   AdminProgrammesRoute: typeof AdminProgrammesRoute
+  AdminTemoignagesRoute: typeof AdminTemoignagesRoute
   AdminVersetsRoute: typeof AdminVersetsRoute
   AdminVisionRoute: typeof AdminVisionRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAccueilRoute: AdminAccueilRoute,
   AdminActualitesRoute: AdminActualitesRoute,
   AdminDepartementsRoute: AdminDepartementsRoute,
   AdminEvenementsRoute: AdminEvenementsRoute,
@@ -579,6 +620,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminMessagesRoute: AdminMessagesRoute,
   AdminParametresRoute: AdminParametresRoute,
   AdminProgrammesRoute: AdminProgrammesRoute,
+  AdminTemoignagesRoute: AdminTemoignagesRoute,
   AdminVersetsRoute: AdminVersetsRoute,
   AdminVisionRoute: AdminVisionRoute,
   AdminIndexRoute: AdminIndexRoute,

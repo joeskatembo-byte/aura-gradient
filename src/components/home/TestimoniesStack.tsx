@@ -7,7 +7,7 @@ import { initialsOf, formatDate } from "@/lib/slug";
 import { useAuth } from "@/hooks/useAuth";
 import { Modal } from "@/components/shared/StepForm";
 
-type Card = { id: string; name: string; initials: string; content: string; date: string; likes: number };
+type Card = { id: string; name: string; initials: string; content: string; date: string; likes: number; photo?: string | null };
 
 export function TestimoniesStack() {
   const qc = useQueryClient();
@@ -21,7 +21,7 @@ export function TestimoniesStack() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("testimonies")
-        .select("id, display_name, content, likes_count, created_at")
+        .select("id, display_name, content, likes_count, created_at, photo_url")
         .eq("published", true)
         .order("created_at", { ascending: false })
         .limit(8);
@@ -39,6 +39,7 @@ export function TestimoniesStack() {
         content: t.content,
         date: formatDate(t.created_at),
         likes: t.likes_count ?? 0,
+        photo: t.photo_url,
       }));
     }
     return mockTestimonies.map((t) => ({ ...t, id: String(t.id) }));
@@ -100,7 +101,11 @@ export function TestimoniesStack() {
                 <p className="mt-4 font-display text-lg font-semibold leading-snug sm:text-xl">« {t.content} »</p>
                 <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
                   <div className="flex items-center gap-3">
-                    <span className="grid h-10 w-10 place-items-center rounded-full instagram-animated font-bold text-white">{t.initials}</span>
+                    {t.photo ? (
+                      <img src={t.photo} alt={t.name} className="h-10 w-10 rounded-full object-cover ring-2 ring-[color:var(--color-ig-purple)]/40" />
+                    ) : (
+                      <span className="grid h-10 w-10 place-items-center rounded-full instagram-animated font-bold text-white">{t.initials}</span>
+                    )}
                     <div className="min-w-0">
                       <div className="truncate text-sm font-semibold">{t.name}</div>
                       <div className="text-xs text-muted-foreground">{t.date}</div>

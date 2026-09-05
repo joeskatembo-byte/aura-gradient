@@ -315,6 +315,72 @@ export type Database = {
         }
         Relationships: []
       }
+      hero_content: {
+        Row: {
+          active: boolean
+          badge: string
+          community_image_url: string | null
+          community_subtitle: string
+          community_title: string
+          created_at: string
+          event_detail: string
+          event_title: string
+          id: string
+          members_count: number
+          members_label: string
+          primary_href: string
+          primary_label: string
+          secondary_href: string
+          secondary_label: string
+          title_line1: string
+          title_line2: string
+          typed_phrases: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          badge?: string
+          community_image_url?: string | null
+          community_subtitle?: string
+          community_title?: string
+          created_at?: string
+          event_detail?: string
+          event_title?: string
+          id?: string
+          members_count?: number
+          members_label?: string
+          primary_href?: string
+          primary_label?: string
+          secondary_href?: string
+          secondary_label?: string
+          title_line1?: string
+          title_line2?: string
+          typed_phrases?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          badge?: string
+          community_image_url?: string | null
+          community_subtitle?: string
+          community_title?: string
+          created_at?: string
+          event_detail?: string
+          event_title?: string
+          id?: string
+          members_count?: number
+          members_label?: string
+          primary_href?: string
+          primary_label?: string
+          secondary_href?: string
+          secondary_label?: string
+          title_line1?: string
+          title_line2?: string
+          typed_phrases?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       leaders: {
         Row: {
           active: boolean

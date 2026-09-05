@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { BarChart3, BookOpenText, CalendarDays, CalendarRange, Compass, Film, History, HelpCircle, Inbox, LogOut, Megaphone, Quote, Settings, UserCog, Users, Wallet, ShieldAlert } from "lucide-react";
+import { BarChart3, BookOpenText, CalendarDays, CalendarRange, Compass, Film, History, HelpCircle, Home, Inbox, LogOut, Megaphone, MessageSquareQuote, Quote, Settings, UserCog, Users, Wallet, ShieldAlert } from "lucide-react";
 
 import { Header } from "@/components/home/Header";
 import { Footer } from "@/components/home/Footer";
@@ -22,6 +22,8 @@ export const Route = createFileRoute("/admin")({
 
 const tabs = [
   { to: "/admin", label: "Fidèles", icon: Users, exact: true },
+  { to: "/admin/accueil", label: "Accueil", icon: Home, exact: false },
+  { to: "/admin/temoignages", label: "Témoignages", icon: MessageSquareQuote, exact: false },
   { to: "/admin/actualites", label: "Actualités", icon: Megaphone, exact: false },
   { to: "/admin/departements", label: "Départements", icon: BarChart3, exact: false },
   { to: "/admin/programmes", label: "Programmes", icon: CalendarDays, exact: false },
