@@ -143,7 +143,7 @@ export function HeroBento() {
           {/* Community photo */}
           <div className="col-span-6 md:col-span-2 rounded-3xl overflow-hidden relative min-h-[220px] group border border-border shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
             <img
-              src={communityHero}
+              src={hero.community_image_url || communityHero}
               alt="Communauté en louange"
               className="absolute inset-0 h-full w-full object-cover animate-kenburns group-hover:animate-none group-hover:scale-110 transition-transform duration-700"
               width={1280}
