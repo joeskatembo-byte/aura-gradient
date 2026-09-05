@@ -6,10 +6,59 @@ import { supabase } from "@/integrations/supabase/client";
 import { verses as mockVerses, communityHero } from "@/data/mock";
 import { Typed } from "@/components/shared/Typed";
 
+type Hero = {
+  badge: string; title_line1: string; title_line2: string; typed_phrases: string;
+  primary_label: string; primary_href: string; secondary_label: string; secondary_href: string;
+  community_title: string; community_subtitle: string; community_image_url: string | null;
+  members_count: number; members_label: string; event_title: string; event_detail: string;
+};
+
+const fallbackHero: Hero = {
+  badge: "Église Nouvelle Vie · Kinshasa, RDC",
+  title_line1: "Bienvenue à",
+  title_line2: "la Maison.",
+  typed_phrases: [
+    "Une famille de foi. Une seule église, plusieurs nations.",
+    "Venez tel que vous êtes — repartez transformé.",
+    "Une maison où chacun trouve sa place et sa destinée.",
+    "Adorer, grandir, servir : ensemble, au cœur de Kinshasa.",
+  ].join("|"),
+  primary_label: "Rejoindre un culte",
+  primary_href: "#actualites",
+  secondary_label: "Voir en direct",
+  secondary_href: "#mediatheque",
+  community_title: "Une foi. Plusieurs visages.",
+  community_subtitle: "Chaque dimanche, une famille qui loue ensemble.",
+  community_image_url: null,
+  members_count: 2847,
+  members_label: "Membres actifs dans la famille",
+  event_title: "Nuit d'intercession nationale",
+  event_detail: "Vendredi 31 juillet · 20h00",
+};
+
 export function HeroBento() {
   const [idx, setIdx] = useState(0);
   const [count, setCount] = useState(0);
-  const target = 2847;
+
+  const { data: dbHero } = useQuery({
+    queryKey: ["hero_content"],
+    queryFn: async () => {
+      const db = supabase as unknown as SupabaseClient;
+      const { data, error } = await db
+        .from("hero_content")
+        .select("*")
+        .eq("active", true)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as Hero | null) ?? null;
+    },
+  });
+
+  const hero = dbHero ?? fallbackHero;
+  const target = hero.members_count || 0;
+  const phrases = hero.typed_phrases.split("|").map((s) => s.trim()).filter(Boolean);
 
   const { data: dbVerses } = useQuery({
     queryKey: ["bible_verses", "home"],
