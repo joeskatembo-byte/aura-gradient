@@ -101,7 +101,11 @@ export function TestimoniesStack() {
                 <p className="mt-4 font-display text-lg font-semibold leading-snug sm:text-xl">« {t.content} »</p>
                 <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
                   <div className="flex items-center gap-3">
-                    <span className="grid h-10 w-10 place-items-center rounded-full instagram-animated font-bold text-white">{t.initials}</span>
+                    {t.photo ? (
+                      <img src={t.photo} alt={t.name} className="h-10 w-10 rounded-full object-cover ring-2 ring-[color:var(--color-ig-purple)]/40" />
+                    ) : (
+                      <span className="grid h-10 w-10 place-items-center rounded-full instagram-animated font-bold text-white">{t.initials}</span>
+                    )}
                     <div className="min-w-0">
                       <div className="truncate text-sm font-semibold">{t.name}</div>
                       <div className="text-xs text-muted-foreground">{t.date}</div>
