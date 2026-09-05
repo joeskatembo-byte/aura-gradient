@@ -82,6 +82,7 @@ export function HeroBento() {
   }, [verses.length]);
 
   useEffect(() => {
+    if (target <= 0) { setCount(0); return; }
     let n = 0;
     const step = Math.ceil(target / 60);
     const t = setInterval(() => {
@@ -90,7 +91,7 @@ export function HeroBento() {
       if (n >= target) clearInterval(t);
     }, 30);
     return () => clearInterval(t);
-  }, []);
+  }, [target]);
 
   const v = verses[idx % verses.length];
 
