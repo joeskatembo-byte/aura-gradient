@@ -22,6 +22,8 @@ export const Route = createFileRoute("/admin")({
 
 const tabs = [
   { to: "/admin", label: "Fidèles", icon: Users, exact: true },
+  { to: "/admin/accueil", label: "Accueil", icon: Home, exact: false },
+  { to: "/admin/temoignages", label: "Témoignages", icon: MessageSquareQuote, exact: false },
   { to: "/admin/actualites", label: "Actualités", icon: Megaphone, exact: false },
   { to: "/admin/departements", label: "Départements", icon: BarChart3, exact: false },
   { to: "/admin/programmes", label: "Programmes", icon: CalendarDays, exact: false },

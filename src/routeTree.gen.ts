@@ -21,6 +21,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AProposIndexRouteImport } from './routes/a-propos.index'
 import { Route as AdminVisionRouteImport } from './routes/admin.vision'
 import { Route as AdminVersetsRouteImport } from './routes/admin.versets'
+import { Route as AdminTemoignagesRouteImport } from './routes/admin.temoignages'
 import { Route as AdminProgrammesRouteImport } from './routes/admin.programmes'
 import { Route as AdminParametresRouteImport } from './routes/admin.parametres'
 import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
@@ -95,6 +96,11 @@ const AdminVisionRoute = AdminVisionRouteImport.update({
 const AdminVersetsRoute = AdminVersetsRouteImport.update({
   id: '/versets',
   path: '/versets',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTemoignagesRoute = AdminTemoignagesRouteImport.update({
+  id: '/temoignages',
+  path: '/temoignages',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminProgrammesRoute = AdminProgrammesRouteImport.update({
@@ -197,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
+  '/admin/temoignages': typeof AdminTemoignagesRoute
   '/admin/versets': typeof AdminVersetsRoute
   '/admin/vision': typeof AdminVisionRoute
   '/a-propos/': typeof AProposIndexRoute
@@ -224,6 +231,7 @@ export interface FileRoutesByTo {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
+  '/admin/temoignages': typeof AdminTemoignagesRoute
   '/admin/versets': typeof AdminVersetsRoute
   '/admin/vision': typeof AdminVisionRoute
   '/a-propos': typeof AProposIndexRoute
@@ -254,6 +262,7 @@ export interface FileRoutesById {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/parametres': typeof AdminParametresRoute
   '/admin/programmes': typeof AdminProgrammesRoute
+  '/admin/temoignages': typeof AdminTemoignagesRoute
   '/admin/versets': typeof AdminVersetsRoute
   '/admin/vision': typeof AdminVisionRoute
   '/a-propos/': typeof AProposIndexRoute
@@ -285,6 +294,7 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
+    | '/admin/temoignages'
     | '/admin/versets'
     | '/admin/vision'
     | '/a-propos/'
@@ -312,6 +322,7 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
+    | '/admin/temoignages'
     | '/admin/versets'
     | '/admin/vision'
     | '/a-propos'
@@ -341,6 +352,7 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/parametres'
     | '/admin/programmes'
+    | '/admin/temoignages'
     | '/admin/versets'
     | '/admin/vision'
     | '/a-propos/'
@@ -442,6 +454,13 @@ declare module '@tanstack/react-router' {
       path: '/versets'
       fullPath: '/admin/versets'
       preLoaderRoute: typeof AdminVersetsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/temoignages': {
+      id: '/admin/temoignages'
+      path: '/temoignages'
+      fullPath: '/admin/temoignages'
+      preLoaderRoute: typeof AdminTemoignagesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/programmes': {
@@ -581,6 +600,7 @@ interface AdminRouteChildren {
   AdminMessagesRoute: typeof AdminMessagesRoute
   AdminParametresRoute: typeof AdminParametresRoute
   AdminProgrammesRoute: typeof AdminProgrammesRoute
+  AdminTemoignagesRoute: typeof AdminTemoignagesRoute
   AdminVersetsRoute: typeof AdminVersetsRoute
   AdminVisionRoute: typeof AdminVisionRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -600,6 +620,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminMessagesRoute: AdminMessagesRoute,
   AdminParametresRoute: AdminParametresRoute,
   AdminProgrammesRoute: AdminProgrammesRoute,
+  AdminTemoignagesRoute: AdminTemoignagesRoute,
   AdminVersetsRoute: AdminVersetsRoute,
   AdminVisionRoute: AdminVisionRoute,
   AdminIndexRoute: AdminIndexRoute,
