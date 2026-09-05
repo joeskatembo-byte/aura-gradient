@@ -107,26 +107,21 @@ export function HeroBento() {
           {/* Main title tile */}
           <div className="col-span-6 md:col-span-4 md:row-span-2 card-lift rounded-3xl border border-border bg-card p-6 sm:p-10 relative overflow-hidden">
             <span className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
-              <Sparkles className="h-3 w-3" /> Église Nouvelle Vie · Kinshasa, RDC
+              <Sparkles className="h-3 w-3" /> {hero.badge}
             </span>
             <h1 className="mt-5 font-display text-4xl font-black leading-[1.05] sm:text-6xl md:text-7xl">
-              Bienvenue à<br />
-              <span className="instagram-text">la Maison.</span>
+              {hero.title_line1}<br />
+              <span className="instagram-text">{hero.title_line2}</span>
             </h1>
             <p className="mt-5 min-h-[3.5rem] max-w-lg text-base text-muted-foreground sm:text-lg">
-              <Typed items={[
-                "Une famille de foi. Une seule église, plusieurs nations.",
-                "Venez tel que vous êtes — repartez transformé.",
-                "Une maison où chacun trouve sa place et sa destinée.",
-                "Adorer, grandir, servir : ensemble, au cœur de Kinshasa.",
-              ]} />
+              <Typed items={phrases.length ? phrases : fallbackHero.typed_phrases.split("|")} />
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#actualites" className="inline-flex items-center gap-2 rounded-full instagram-animated px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-95">
-                Rejoindre un culte <ArrowRight className="h-4 w-4" />
+              <a href={hero.primary_href || "#"} className="inline-flex items-center gap-2 rounded-full instagram-animated px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-95">
+                {hero.primary_label} <ArrowRight className="h-4 w-4" />
               </a>
-              <a href="#mediatheque" className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold transition hover:bg-muted">
-                <Play className="h-4 w-4" /> Voir en direct
+              <a href={hero.secondary_href || "#"} className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold transition hover:bg-muted">
+                <Play className="h-4 w-4" /> {hero.secondary_label}
               </a>
             </div>
           </div>
