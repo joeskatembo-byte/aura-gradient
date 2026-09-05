@@ -130,7 +130,9 @@ export function HeroBento() {
           <div className="col-span-6 md:col-span-2 card-lift rounded-3xl border border-border bg-card p-6 relative overflow-hidden min-h-[180px]">
             <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Verset du jour</div>
             <div key={idx} className="mt-3 animate-fade-in">
-              <p className="font-display text-lg font-semibold leading-snug">« {v.text} »</p>
+              <p className="font-display text-lg font-semibold leading-snug">
+                « <Typed items={[v.text]} /> »
+              </p>
               <p className="mt-2 text-sm instagram-text font-bold">— {v.ref}</p>
             </div>
             <div className="absolute bottom-4 right-4 flex gap-1">
