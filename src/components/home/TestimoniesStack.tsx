@@ -7,7 +7,7 @@ import { initialsOf, formatDate } from "@/lib/slug";
 import { useAuth } from "@/hooks/useAuth";
 import { Modal } from "@/components/shared/StepForm";
 
-type Card = { id: string; name: string; initials: string; content: string; date: string; likes: number };
+type Card = { id: string; name: string; initials: string; content: string; date: string; likes: number; photo?: string | null };
 
 export function TestimoniesStack() {
   const qc = useQueryClient();
