@@ -168,9 +168,9 @@ export function HeroBento() {
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent align-middle mr-2 animate-pulse" />
                 Notre communauté
               </div>
-              <div className="font-display text-xl font-bold">Une foi. Plusieurs visages.</div>
+              <div className="font-display text-xl font-bold">{hero.community_title}</div>
               <div className="mt-1 max-h-0 overflow-hidden text-sm text-white/85 opacity-0 transition-all duration-500 group-hover:max-h-10 group-hover:opacity-100">
-                Chaque dimanche, une famille qui loue ensemble.
+                {hero.community_subtitle}
               </div>
             </div>
           </div>
