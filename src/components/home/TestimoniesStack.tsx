@@ -39,6 +39,7 @@ export function TestimoniesStack() {
         content: t.content,
         date: formatDate(t.created_at),
         likes: t.likes_count ?? 0,
+        photo: t.photo_url,
       }));
     }
     return mockTestimonies.map((t) => ({ ...t, id: String(t.id) }));
