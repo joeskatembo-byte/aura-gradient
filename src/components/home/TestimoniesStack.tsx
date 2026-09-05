@@ -21,7 +21,7 @@ export function TestimoniesStack() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("testimonies")
-        .select("id, display_name, content, likes_count, created_at")
+        .select("id, display_name, content, likes_count, created_at, photo_url")
         .eq("published", true)
         .order("created_at", { ascending: false })
         .limit(8);
