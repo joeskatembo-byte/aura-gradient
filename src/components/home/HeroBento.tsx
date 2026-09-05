@@ -179,15 +179,15 @@ export function HeroBento() {
           <div className="col-span-3 md:col-span-2 card-lift rounded-3xl border border-border p-6 instagram-gradient-soft">
             <Users className="h-5 w-5 instagram-text" />
             <div className="mt-3 font-display text-3xl font-black sm:text-4xl">{count.toLocaleString("fr-FR")}<span className="instagram-text">+</span></div>
-            <div className="mt-1 text-sm text-muted-foreground">Membres actifs dans la famille</div>
+            <div className="mt-1 text-sm text-muted-foreground">{hero.members_label}</div>
           </div>
 
           {/* Next event */}
           <div className="col-span-3 md:col-span-2 card-lift rounded-3xl border border-border bg-card p-6">
             <Calendar className="h-5 w-5 text-primary" />
             <div className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Prochain grand rendez-vous</div>
-            <div className="mt-1 font-display text-lg font-bold">Nuit d'intercession nationale</div>
-            <div className="mt-1 text-sm text-muted-foreground">Vendredi 31 juillet · 20h00</div>
+            <div className="mt-1 font-display text-lg font-bold">{hero.event_title}</div>
+            <div className="mt-1 text-sm text-muted-foreground">{hero.event_detail}</div>
           </div>
         </div>
       </div>
