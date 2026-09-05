@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 /**
  * Effet machine à écrire (style "typed.js") : écrit puis efface chaque phrase.
@@ -16,7 +16,8 @@ export function Typed({
   backSpeed?: number;
   holdTime?: number;
 }) {
-  const list = items.filter(Boolean);
+  const listKey = items.filter(Boolean).join("\u0000");
+  const list = useMemo(() => listKey.split("\u0000").filter(Boolean), [listKey]);
   const [index, setIndex] = useState(0);
   const [text, setText] = useState("");
   const [deleting, setDeleting] = useState(false);
