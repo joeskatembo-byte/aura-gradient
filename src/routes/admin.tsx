@@ -36,6 +36,7 @@ const tabs = [
   { to: "/admin/vision", label: "Vision", icon: Compass, exact: false },
   { to: "/admin/evenements", label: "Événements", icon: CalendarRange, exact: false },
   { to: "/admin/parametres", label: "Paramètres", icon: Settings, exact: false },
+  { to: "/admin/footer", label: "Pied de page", icon: PanelBottom, exact: false },
 
   { to: "/admin/messages", label: "Messages & requêtes", icon: Inbox, exact: false },
   { to: "/admin/finances", label: "Finances", icon: Wallet, exact: false },
