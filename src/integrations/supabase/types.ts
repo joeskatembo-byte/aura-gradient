@@ -315,6 +315,36 @@ export type Database = {
         }
         Relationships: []
       }
+      footer_links: {
+        Row: {
+          active: boolean
+          created_at: string
+          href: string
+          id: string
+          label: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          href: string
+          id?: string
+          label: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          href?: string
+          id?: string
+          label?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       hero_content: {
         Row: {
           active: boolean
@@ -758,6 +788,9 @@ export type Database = {
           created_at: string
           email: string
           facebook_url: string
+          footer_contact_title: string
+          footer_credit: string
+          footer_nav_title: string
           id: string
           instagram_url: string
           phone: string
@@ -774,6 +807,9 @@ export type Database = {
           created_at?: string
           email?: string
           facebook_url?: string
+          footer_contact_title?: string
+          footer_credit?: string
+          footer_nav_title?: string
           id?: string
           instagram_url?: string
           phone?: string
@@ -790,6 +826,9 @@ export type Database = {
           created_at?: string
           email?: string
           facebook_url?: string
+          footer_contact_title?: string
+          footer_credit?: string
+          footer_nav_title?: string
           id?: string
           instagram_url?: string
           phone?: string
