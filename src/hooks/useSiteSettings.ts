@@ -34,6 +34,9 @@ export const defaultSettings: SiteSettings = {
   youtube_url: "#",
   twitter_url: "#",
   schedule_main: "Dimanche 09h00 & 17h00 · Mercredi 18h30",
+  footer_nav_title: "Navigation",
+  footer_contact_title: "Contact",
+  footer_credit: "Fait avec foi en RDC 🇨🇩",
 };
 
 export function useSiteSettings(): SiteSettings {
