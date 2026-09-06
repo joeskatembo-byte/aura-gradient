@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { BarChart3, BookOpenText, CalendarDays, CalendarRange, Compass, Film, History, HelpCircle, Home, Inbox, LogOut, Megaphone, MessageSquareQuote, Quote, Settings, UserCog, Users, Wallet, ShieldAlert } from "lucide-react";
+import { BarChart3, BookOpenText, CalendarDays, CalendarRange, Compass, Film, History, HelpCircle, Home, Inbox, LogOut, Megaphone, MessageSquareQuote, PanelBottom, Quote, Settings, UserCog, Users, Wallet, ShieldAlert } from "lucide-react";
 
 import { Header } from "@/components/home/Header";
 import { Footer } from "@/components/home/Footer";
