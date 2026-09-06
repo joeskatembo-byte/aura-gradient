@@ -29,6 +29,7 @@ import { Route as AdminMeditationsRouteImport } from './routes/admin.meditations
 import { Route as AdminMediathequeRouteImport } from './routes/admin.mediatheque'
 import { Route as AdminLeadershipRouteImport } from './routes/admin.leadership'
 import { Route as AdminFriseRouteImport } from './routes/admin.frise'
+import { Route as AdminFooterRouteImport } from './routes/admin.footer'
 import { Route as AdminFinancesRouteImport } from './routes/admin.finances'
 import { Route as AdminFaqRouteImport } from './routes/admin.faq'
 import { Route as AdminEvenementsRouteImport } from './routes/admin.evenements'
@@ -138,6 +139,11 @@ const AdminFriseRoute = AdminFriseRouteImport.update({
   path: '/frise',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFooterRoute = AdminFooterRouteImport.update({
+  id: '/footer',
+  path: '/footer',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminFinancesRoute = AdminFinancesRouteImport.update({
   id: '/finances',
   path: '/finances',
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/admin/evenements': typeof AdminEvenementsRoute
   '/admin/faq': typeof AdminFaqRoute
   '/admin/finances': typeof AdminFinancesRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/frise': typeof AdminFriseRoute
   '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
@@ -224,6 +231,7 @@ export interface FileRoutesByTo {
   '/admin/evenements': typeof AdminEvenementsRoute
   '/admin/faq': typeof AdminFaqRoute
   '/admin/finances': typeof AdminFinancesRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/frise': typeof AdminFriseRoute
   '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
@@ -255,6 +263,7 @@ export interface FileRoutesById {
   '/admin/evenements': typeof AdminEvenementsRoute
   '/admin/faq': typeof AdminFaqRoute
   '/admin/finances': typeof AdminFinancesRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/frise': typeof AdminFriseRoute
   '/admin/leadership': typeof AdminLeadershipRoute
   '/admin/mediatheque': typeof AdminMediathequeRoute
@@ -287,6 +296,7 @@ export interface FileRouteTypes {
     | '/admin/evenements'
     | '/admin/faq'
     | '/admin/finances'
+    | '/admin/footer'
     | '/admin/frise'
     | '/admin/leadership'
     | '/admin/mediatheque'
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/admin/evenements'
     | '/admin/faq'
     | '/admin/finances'
+    | '/admin/footer'
     | '/admin/frise'
     | '/admin/leadership'
     | '/admin/mediatheque'
@@ -345,6 +356,7 @@ export interface FileRouteTypes {
     | '/admin/evenements'
     | '/admin/faq'
     | '/admin/finances'
+    | '/admin/footer'
     | '/admin/frise'
     | '/admin/leadership'
     | '/admin/mediatheque'
@@ -512,6 +524,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFriseRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/footer': {
+      id: '/admin/footer'
+      path: '/footer'
+      fullPath: '/admin/footer'
+      preLoaderRoute: typeof AdminFooterRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/finances': {
       id: '/admin/finances'
       path: '/finances'
@@ -593,6 +612,7 @@ interface AdminRouteChildren {
   AdminEvenementsRoute: typeof AdminEvenementsRoute
   AdminFaqRoute: typeof AdminFaqRoute
   AdminFinancesRoute: typeof AdminFinancesRoute
+  AdminFooterRoute: typeof AdminFooterRoute
   AdminFriseRoute: typeof AdminFriseRoute
   AdminLeadershipRoute: typeof AdminLeadershipRoute
   AdminMediathequeRoute: typeof AdminMediathequeRoute
@@ -613,6 +633,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminEvenementsRoute: AdminEvenementsRoute,
   AdminFaqRoute: AdminFaqRoute,
   AdminFinancesRoute: AdminFinancesRoute,
+  AdminFooterRoute: AdminFooterRoute,
   AdminFriseRoute: AdminFriseRoute,
   AdminLeadershipRoute: AdminLeadershipRoute,
   AdminMediathequeRoute: AdminMediathequeRoute,

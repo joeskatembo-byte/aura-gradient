@@ -16,6 +16,9 @@ export type SiteSettings = {
   youtube_url: string;
   twitter_url: string;
   schedule_main: string;
+  footer_nav_title: string;
+  footer_contact_title: string;
+  footer_credit: string;
 };
 
 export const defaultSettings: SiteSettings = {
