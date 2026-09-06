@@ -88,7 +88,7 @@ export function Footer() {
         <div className="mt-10 h-px instagram-animated opacity-70" />
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
           <span>© {new Date().getFullYear()} {s.church_name}. Tous droits réservés.</span>
-          <span>Fait avec foi en RDC 🇨🇩</span>
+          <span>{s.footer_credit}</span>
         </div>
       </div>
     </footer>
