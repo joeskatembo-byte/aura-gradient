@@ -1,10 +1,38 @@
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { Facebook, Instagram, Youtube, Twitter, MessageCircle, MapPin, Phone, Mail } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { supabase } from "@/integrations/supabase/client";
+
+const db = supabase as unknown as SupabaseClient;
+
+const fallbackLinks = [
+  { id: "1", label: "Accueil", href: "/" },
+  { id: "2", label: "À propos", href: "/a-propos" },
+  { id: "3", label: "Don", href: "/don" },
+  { id: "4", label: "Contact", href: "/contact" },
+  { id: "5", label: "Inscription", href: "/inscription" },
+];
 
 export function Footer() {
   const s = useSiteSettings();
   const [firstWord, ...rest] = s.church_name.split(" ");
+
+  const { data: links } = useQuery({
+    queryKey: ["footer_links"],
+    queryFn: async () => {
+      const { data, error } = await db
+        .from("footer_links")
+        .select("id,label,href")
+        .eq("active", true)
+        .order("position", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as { id: string; label: string; href: string }[];
+    },
+  });
+
+  const navLinks = links && links.length > 0 ? links : fallbackLinks;
 
   return (
     <footer className="border-t border-border bg-card">
@@ -33,18 +61,22 @@ export function Footer() {
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Navigation</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.footer_nav_title}</div>
             <ul className="mt-4 space-y-2 text-sm">
-              <li><Link to="/" className="hover:instagram-text">Accueil</Link></li>
-              <li><Link to="/a-propos" className="hover:instagram-text">À propos</Link></li>
-              <li><Link to="/don" className="hover:instagram-text">Don</Link></li>
-              <li><Link to="/contact" className="hover:instagram-text">Contact</Link></li>
-              <li><Link to="/inscription" className="hover:instagram-text">Inscription</Link></li>
+              {navLinks.map((l) => (
+                <li key={l.id}>
+                  {l.href.startsWith("/") ? (
+                    <Link to={l.href} className="hover:instagram-text">{l.label}</Link>
+                  ) : (
+                    <a href={l.href} className="hover:instagram-text">{l.label}</a>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Contact</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.footer_contact_title}</div>
             <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 instagram-text" /> {s.address}</li>
               <li className="flex items-start gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 instagram-text" /> {s.phone}</li>
@@ -56,7 +88,7 @@ export function Footer() {
         <div className="mt-10 h-px instagram-animated opacity-70" />
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
           <span>© {new Date().getFullYear()} {s.church_name}. Tous droits réservés.</span>
-          <span>Fait avec foi en RDC 🇨🇩</span>
+          <span>{s.footer_credit}</span>
         </div>
       </div>
     </footer>
