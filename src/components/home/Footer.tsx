@@ -76,7 +76,7 @@ export function Footer() {
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Contact</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.footer_contact_title}</div>
             <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 instagram-text" /> {s.address}</li>
               <li className="flex items-start gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 instagram-text" /> {s.phone}</li>
