@@ -61,13 +61,17 @@ export function Footer() {
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Navigation</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.footer_nav_title}</div>
             <ul className="mt-4 space-y-2 text-sm">
-              <li><Link to="/" className="hover:instagram-text">Accueil</Link></li>
-              <li><Link to="/a-propos" className="hover:instagram-text">À propos</Link></li>
-              <li><Link to="/don" className="hover:instagram-text">Don</Link></li>
-              <li><Link to="/contact" className="hover:instagram-text">Contact</Link></li>
-              <li><Link to="/inscription" className="hover:instagram-text">Inscription</Link></li>
+              {navLinks.map((l) => (
+                <li key={l.id}>
+                  {l.href.startsWith("/") ? (
+                    <Link to={l.href} className="hover:instagram-text">{l.label}</Link>
+                  ) : (
+                    <a href={l.href} className="hover:instagram-text">{l.label}</a>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
