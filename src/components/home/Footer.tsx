@@ -1,10 +1,38 @@
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { Facebook, Instagram, Youtube, Twitter, MessageCircle, MapPin, Phone, Mail } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { supabase } from "@/integrations/supabase/client";
+
+const db = supabase as unknown as SupabaseClient;
+
+const fallbackLinks = [
+  { id: "1", label: "Accueil", href: "/" },
+  { id: "2", label: "À propos", href: "/a-propos" },
+  { id: "3", label: "Don", href: "/don" },
+  { id: "4", label: "Contact", href: "/contact" },
+  { id: "5", label: "Inscription", href: "/inscription" },
+];
 
 export function Footer() {
   const s = useSiteSettings();
   const [firstWord, ...rest] = s.church_name.split(" ");
+
+  const { data: links } = useQuery({
+    queryKey: ["footer_links"],
+    queryFn: async () => {
+      const { data, error } = await db
+        .from("footer_links")
+        .select("id,label,href")
+        .eq("active", true)
+        .order("position", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as { id: string; label: string; href: string }[];
+    },
+  });
+
+  const navLinks = links && links.length > 0 ? links : fallbackLinks;
 
   return (
     <footer className="border-t border-border bg-card">
