@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { departments, type Department } from "@/data/about";
+import { useQuery } from "@tanstack/react-query";
+import { departments as fallbackDepartments, type Department } from "@/data/about";
 import { useReveal } from "@/hooks/useReveal";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Music, Users, HandHeart, Megaphone, Heart, Star, Clock, Phone, AlertTriangle, CalendarDays, Target, Compass,
 } from "lucide-react";
@@ -8,9 +10,64 @@ import { Typed } from "@/components/shared/Typed";
 
 const icons = { music: Music, users: Users, hands: HandHeart, megaphone: Megaphone, heart: Heart, star: Star };
 
+type DepartmentRow = {
+  name: string;
+  slug: string;
+  tagline: string | null;
+  vision: string | null;
+  mission: string | null;
+  lead_name: string | null;
+  contact_phone: string | null;
+  usual_schedule: string | null;
+  urgent_schedule: string | null;
+  news: string | null;
+  tone: string;
+  icon: string;
+};
+
+function useDepartments(): Department[] {
+  const { data } = useQuery({
+    queryKey: ["departments", "public"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("departments")
+        .select("name, slug, tagline, vision, mission, lead_name, contact_phone, usual_schedule, urgent_schedule, news, tone, icon")
+        .order("name");
+      if (error) throw error;
+      return (data ?? []) as unknown as DepartmentRow[];
+    },
+  });
+
+  if (data && data.length > 0) {
+    return data.map((d) => ({
+      slug: d.slug,
+      name: d.name,
+      tagline: d.tagline ?? "",
+      vision: d.vision ?? "",
+      mission: d.mission ?? "",
+      lead: d.lead_name ?? "",
+      contact: d.contact_phone ?? "",
+      hours: (d.usual_schedule ?? "")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => {
+          const [day = line, time = "", place = ""] = line.split("·").map((s) => s.trim());
+          return { day, time, place };
+        }),
+      urgent: d.urgent_schedule ?? undefined,
+      news: d.news ?? "",
+      tone: d.tone,
+      icon: d.icon,
+    }));
+  }
+  return fallbackDepartments;
+}
+
 export function DepartmentsExplorer() {
-  const [activeSlug, setActiveSlug] = useState(departments[0].slug);
-  const active = departments.find((d) => d.slug === activeSlug)!;
+  const departments = useDepartments();
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  const active = departments.find((d) => d.slug === activeSlug) ?? departments[0];
   const { ref, visible } = useReveal<HTMLDivElement>(0.1);
 
   return (
