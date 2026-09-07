@@ -116,7 +116,7 @@ export function ProgramsSchedule() {
 
         {/* Day selector */}
         <div className="mb-8 grid grid-cols-4 gap-2 sm:grid-cols-7">
-          {weekProgram.map((p, i) => {
+          {week.map((p, i) => {
             const isActive = i === day;
             const isToday = i === todayIndex();
             return (
