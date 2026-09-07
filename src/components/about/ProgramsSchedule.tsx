@@ -35,9 +35,65 @@ const todayIndex = () => {
   return js === 0 ? 6 : js - 1;
 };
 
+const dayNames = [
+  { day: "Lundi", short: "Lun" },
+  { day: "Mardi", short: "Mar" },
+  { day: "Mercredi", short: "Mer" },
+  { day: "Jeudi", short: "Jeu" },
+  { day: "Vendredi", short: "Ven" },
+  { day: "Samedi", short: "Sam" },
+  { day: "Dimanche", short: "Dim" },
+];
+
+// index de weekProgram (0 = lundi) -> day_of_week en base (1 = lundi ... 6 = samedi, 0 = dimanche)
+const toDbDay = (i: number) => (i === 6 ? 0 : i + 1);
+
+type ProgramRow = {
+  title: string;
+  day_of_week: number | null;
+  start_time: string | null;
+  place: string | null;
+  tag: string | null;
+  department_id: string | null;
+};
+
+function useWeekProgram() {
+  const { data } = useQuery({
+    queryKey: ["programs", "hebdomadaire"],
+    queryFn: async () => {
+      const [{ data: progs, error: e1 }, { data: depts, error: e2 }] = await Promise.all([
+        db.from("programs").select("title, day_of_week, start_time, place, tag, department_id").eq("scope", "hebdomadaire"),
+        db.from("departments").select("id, name"),
+      ]);
+      if (e1) throw e1;
+      if (e2) throw e2;
+      return { progs: (progs ?? []) as unknown as ProgramRow[], depts: (depts ?? []) as { id: string; name: string }[] };
+    },
+  });
+
+  if (data && data.progs.length > 0) {
+    const deptName = (id: string | null) => data.depts.find((d) => d.id === id)?.name ?? "Église";
+    return dayNames.map((d, i) => ({
+      ...d,
+      items: data.progs
+        .filter((p) => p.day_of_week === toDbDay(i))
+        .sort((a, b) => (a.start_time ?? "").localeCompare(b.start_time ?? ""))
+        .map((p) => ({
+          time: p.start_time ?? "—",
+          title: p.title,
+          dept: deptName(p.department_id),
+          place: p.place ?? "",
+          tag: p.tag ?? undefined,
+        })),
+    }));
+  }
+  return weekProgram;
+}
+
 export function ProgramsSchedule() {
   const [day, setDay] = useState(todayIndex);
-  const active = weekProgram[day];
+  const week = useWeekProgram();
+  const active = week[day];
 
   return (
     <section className="relative py-16 sm:py-24">

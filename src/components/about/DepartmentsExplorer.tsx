@@ -199,12 +199,14 @@ function DepartmentPanel({ dept }: { dept: Department }) {
             </div>
           )}
 
-          <div className="rounded-2xl border border-border p-5">
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              <CalendarDays className="h-4 w-4 text-primary" /> Actualité
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">{dept.news}</p>
-          </div>
+          {dept.news && (
+            <div className="rounded-2xl border border-border p-5">
+              <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <CalendarDays className="h-4 w-4 text-primary" /> Actualité
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">{dept.news}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
