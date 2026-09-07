@@ -32,6 +32,8 @@ function ProgramsAdmin() {
           ] },
           { name: "day_of_week", label: "Jour de la semaine", type: "select", options: days },
           { name: "start_time", label: "Heure de début", placeholder: "09:00" },
+          { name: "place", label: "Lieu", placeholder: "Temple principal" },
+          { name: "tag", label: "Étiquette (optionnel)", placeholder: "Culte" },
           { name: "event_date", label: "Date (événement)", type: "date", hideInTable: true },
           { name: "department_id", label: "Département", type: "select", options: departments, hideInTable: true },
           { name: "description", label: "Description", type: "textarea", hideInTable: true },
