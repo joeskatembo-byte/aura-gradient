@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { departments, type Department } from "@/data/about";
+import { useQuery } from "@tanstack/react-query";
+import { departments as fallbackDepartments, type Department } from "@/data/about";
 import { useReveal } from "@/hooks/useReveal";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Music, Users, HandHeart, Megaphone, Heart, Star, Clock, Phone, AlertTriangle, CalendarDays, Target, Compass,
 } from "lucide-react";
@@ -8,9 +10,64 @@ import { Typed } from "@/components/shared/Typed";
 
 const icons = { music: Music, users: Users, hands: HandHeart, megaphone: Megaphone, heart: Heart, star: Star };
 
+type DepartmentRow = {
+  name: string;
+  slug: string;
+  tagline: string | null;
+  vision: string | null;
+  mission: string | null;
+  lead_name: string | null;
+  contact_phone: string | null;
+  usual_schedule: string | null;
+  urgent_schedule: string | null;
+  news: string | null;
+  tone: string;
+  icon: string;
+};
+
+function useDepartments(): Department[] {
+  const { data } = useQuery({
+    queryKey: ["departments", "public"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("departments")
+        .select("name, slug, tagline, vision, mission, lead_name, contact_phone, usual_schedule, urgent_schedule, news, tone, icon")
+        .order("name");
+      if (error) throw error;
+      return (data ?? []) as unknown as DepartmentRow[];
+    },
+  });
+
+  if (data && data.length > 0) {
+    return data.map((d) => ({
+      slug: d.slug,
+      name: d.name,
+      tagline: d.tagline ?? "",
+      vision: d.vision ?? "",
+      mission: d.mission ?? "",
+      lead: d.lead_name ?? "",
+      contact: d.contact_phone ?? "",
+      hours: (d.usual_schedule ?? "")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => {
+          const [day = line, time = "", place = ""] = line.split("·").map((s) => s.trim());
+          return { day, time, place };
+        }),
+      urgent: d.urgent_schedule ?? undefined,
+      news: d.news ?? "",
+      tone: d.tone,
+      icon: d.icon,
+    }));
+  }
+  return fallbackDepartments;
+}
+
 export function DepartmentsExplorer() {
-  const [activeSlug, setActiveSlug] = useState(departments[0].slug);
-  const active = departments.find((d) => d.slug === activeSlug)!;
+  const departments = useDepartments();
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  const active = departments.find((d) => d.slug === activeSlug) ?? departments[0];
   const { ref, visible } = useReveal<HTMLDivElement>(0.1);
 
   return (
@@ -34,8 +91,8 @@ export function DepartmentsExplorer() {
 
         {/* Selector */}
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {departments.map((d) => {
-            const Icon = icons[d.icon as keyof typeof icons];
+        {departments.map((d) => {
+            const Icon = icons[d.icon as keyof typeof icons] ?? Users;
             const isActive = d.slug === activeSlug;
             return (
               <button
@@ -72,7 +129,7 @@ export function DepartmentsExplorer() {
 }
 
 function DepartmentPanel({ dept }: { dept: Department }) {
-  const Icon = icons[dept.icon as keyof typeof icons];
+  const Icon = icons[dept.icon as keyof typeof icons] ?? Users;
 
   return (
     <div className="animate-fade-in overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
@@ -94,38 +151,44 @@ function DepartmentPanel({ dept }: { dept: Department }) {
           <InfoBlock icon={Compass} title="Vision" text={dept.vision} />
           <InfoBlock icon={Target} title="Mission" text={dept.mission} />
 
-          <div className="rounded-2xl border border-border p-5">
-            <h4 className="mb-3 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-muted-foreground">
-              <Clock className="h-4 w-4 text-primary" /> Horaires habituels
-            </h4>
-            <ul className="grid gap-2 sm:grid-cols-2">
-              {dept.hours.map((h) => (
-                <li
-                  key={h.day + h.time}
-                  className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl instagram-gradient-soft px-4 py-3"
-                >
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm font-semibold">{h.day}</span>
-                    <span className="block truncate text-xs text-muted-foreground">{h.place}</span>
-                  </span>
-                  <span className="shrink-0 text-sm font-bold tabular-nums">{h.time}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {dept.hours.length > 0 && (
+            <div className="rounded-2xl border border-border p-5">
+              <h4 className="mb-3 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+                <Clock className="h-4 w-4 text-primary" /> Horaires habituels
+              </h4>
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {dept.hours.map((h) => (
+                  <li
+                    key={h.day + h.time}
+                    className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl instagram-gradient-soft px-4 py-3"
+                  >
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-semibold">{h.day}</span>
+                      {h.place && <span className="block truncate text-xs text-muted-foreground">{h.place}</span>}
+                    </span>
+                    {h.time && <span className="shrink-0 text-sm font-bold tabular-nums">{h.time}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-2xl border border-border p-5">
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Responsable</p>
-            <p className="mt-1 font-bold">{dept.lead}</p>
-            <a
-              href={`tel:${dept.contact.replace(/\s/g, "")}`}
-              className="mt-3 inline-flex items-center gap-2 rounded-full instagram-animated px-4 py-2 text-sm font-semibold text-white transition-transform hover:scale-105"
-            >
-              <Phone className="h-4 w-4" /> {dept.contact}
-            </a>
-          </div>
+          {(dept.lead || dept.contact) && (
+            <div className="rounded-2xl border border-border p-5">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Responsable</p>
+              {dept.lead && <p className="mt-1 font-bold">{dept.lead}</p>}
+              {dept.contact && (
+                <a
+                  href={`tel:${dept.contact.replace(/\s/g, "")}`}
+                  className="mt-3 inline-flex items-center gap-2 rounded-full instagram-animated px-4 py-2 text-sm font-semibold text-white transition-transform hover:scale-105"
+                >
+                  <Phone className="h-4 w-4" /> {dept.contact}
+                </a>
+              )}
+            </div>
+          )}
 
           {dept.urgent && (
             <div className="rounded-2xl border border-accent/40 bg-accent/10 p-5">
@@ -136,12 +199,14 @@ function DepartmentPanel({ dept }: { dept: Department }) {
             </div>
           )}
 
-          <div className="rounded-2xl border border-border p-5">
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              <CalendarDays className="h-4 w-4 text-primary" /> Actualité
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">{dept.news}</p>
-          </div>
+          {dept.news && (
+            <div className="rounded-2xl border border-border p-5">
+              <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <CalendarDays className="h-4 w-4 text-primary" /> Actualité
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">{dept.news}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

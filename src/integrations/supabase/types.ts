@@ -162,11 +162,16 @@ export type Database = {
           contact_email: string | null
           contact_phone: string | null
           created_at: string
+          icon: string
           id: string
+          lead_name: string | null
           letter: string
           mission: string | null
           name: string
+          news: string | null
           slug: string
+          tagline: string | null
+          tone: string
           updated_at: string
           urgent_schedule: string | null
           usual_schedule: string | null
@@ -176,11 +181,16 @@ export type Database = {
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string
+          icon?: string
           id?: string
+          lead_name?: string | null
           letter?: string
           mission?: string | null
           name: string
+          news?: string | null
           slug: string
+          tagline?: string | null
+          tone?: string
           updated_at?: string
           urgent_schedule?: string | null
           usual_schedule?: string | null
@@ -190,11 +200,16 @@ export type Database = {
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string
+          icon?: string
           id?: string
+          lead_name?: string | null
           letter?: string
           mission?: string | null
           name?: string
+          news?: string | null
           slug?: string
+          tagline?: string | null
+          tone?: string
           updated_at?: string
           urgent_schedule?: string | null
           usual_schedule?: string | null
@@ -740,8 +755,10 @@ export type Database = {
           description: string | null
           event_date: string | null
           id: string
+          place: string | null
           scope: string
           start_time: string | null
+          tag: string | null
           title: string
           updated_at: string
         }
@@ -753,8 +770,10 @@ export type Database = {
           description?: string | null
           event_date?: string | null
           id?: string
+          place?: string | null
           scope?: string
           start_time?: string | null
+          tag?: string | null
           title: string
           updated_at?: string
         }
@@ -766,8 +785,10 @@ export type Database = {
           description?: string | null
           event_date?: string | null
           id?: string
+          place?: string | null
           scope?: string
           start_time?: string | null
+          tag?: string | null
           title?: string
           updated_at?: string
         }
