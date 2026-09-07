@@ -147,6 +147,11 @@ export function ProgramsSchedule() {
 
         {/* Timeline of the selected day */}
         <div key={active.day} className="animate-fade-in grid gap-3">
+          {active.items.length === 0 && (
+            <p className="rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground">
+              Aucune activité programmée ce jour pour le moment.
+            </p>
+          )}
           {active.items.map((it, i) => (
             <article
               key={it.time + it.title}
