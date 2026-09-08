@@ -5,6 +5,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { verses as mockVerses, communityHero } from "@/data/mock";
 import { Typed } from "@/components/shared/Typed";
+import { StaggeredText } from "@/components/shared/StaggeredText";
 
 type Hero = {
   badge: string; title_line1: string; title_line2: string; typed_phrases: string;
