@@ -47,7 +47,7 @@ export function StaggeredText({
         <span key={wi} className="inline-block whitespace-nowrap">
           {word.split("").map((ch, li) => (
             <span key={li} className="inline-block overflow-hidden align-bottom">
-              <motion.span variants={letter} className="inline-block will-change-transform">
+              <motion.span variants={letter} className={`inline-block will-change-transform ${letterClassName ?? ""}`}>
                 {ch}
               </motion.span>
             </span>
