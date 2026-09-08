@@ -8,10 +8,13 @@ import { motion } from "framer-motion";
 export function StaggeredText({
   text,
   className,
+  letterClassName,
   delay = 0,
 }: {
   text: string;
   className?: string;
+  /** Classe appliquée à chaque lettre (ex. dégradé : background-clip ne traverse pas les spans imbriqués). */
+  letterClassName?: string;
   delay?: number;
 }) {
   const words = text.split(" ").filter((w) => w.length > 0);
