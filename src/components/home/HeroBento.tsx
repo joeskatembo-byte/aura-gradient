@@ -111,8 +111,14 @@ export function HeroBento() {
               <Sparkles className="h-3 w-3" /> {hero.badge}
             </span>
             <h1 className="mt-5 font-display text-4xl font-black leading-[1.05] sm:text-6xl md:text-7xl">
-              {hero.title_line1}<br />
-              <span className="instagram-text">{hero.title_line2}</span>
+              <StaggeredText key={`${hero.title_line1}|${hero.title_line2}`} text={hero.title_line1} />
+              <br />
+              <StaggeredText
+                key={`${hero.title_line2}|${hero.title_line1}`}
+                text={hero.title_line2}
+                className="instagram-text"
+                delay={0.3}
+              />
             </h1>
             <p className="mt-5 min-h-[3.5rem] max-w-lg text-base text-muted-foreground sm:text-lg">
               <Typed items={phrases.length ? phrases : fallbackHero.typed_phrases.split("|")} />
