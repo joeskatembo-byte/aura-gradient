@@ -116,7 +116,7 @@ export function HeroBento() {
               <StaggeredText
                 key={`${hero.title_line2}|${hero.title_line1}`}
                 text={hero.title_line2}
-                className="instagram-text"
+                letterClassName="instagram-text"
                 delay={0.3}
               />
             </h1>
